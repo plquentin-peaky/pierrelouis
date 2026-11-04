@@ -71,11 +71,31 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 #card .logo b{width:44px;height:44px;border-radius:10px;background:rgba(243,243,243,.15);display:grid;place-items:center;font:700 15px "Poppins"}
 #card .logo span{font:700 22px "Barlow Condensed";letter-spacing:.08em;text-transform:uppercase}
 /* bascule Aujourd'hui / Proposition */
-#ver{position:absolute;top:8px;left:calc(50% + 150px);transform:translateX(-50%);display:flex;gap:2px;background:#fff;border:1px solid #E4E4E4;border-radius:10px;padding:3px;box-shadow:0 6px 18px -10px rgba(0,0,0,.35);z-index:20;font:600 14px "Poppins",sans-serif}
+#ver{position:absolute;top:100px;right:32px;display:flex;gap:2px;background:#fff;border:1px solid #E4E4E4;border-radius:10px;padding:3px;box-shadow:0 6px 18px -10px rgba(0,0,0,.35);z-index:20;font:600 14px "Poppins",sans-serif}
 #ver span{padding:8px 14px;border-radius:7px;color:#0A0A0A;transition:background .3s,color .3s}
 #ver span.on{background:#111;color:#fff}
+/* fil d'Ariane et repère « vous êtes ici » */
+#crumb{position:absolute;left:calc(50% + 128px);top:106px;transform:translateX(-50%);z-index:25;display:flex;align-items:center;gap:8px;background:rgba(17,17,17,.84);color:#fff;font:500 15px/1 "Poppins",sans-serif;padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:opacity .3s ease;white-space:nowrap}
+#crumb.off{opacity:0}
+#crumb .who{display:inline-flex;align-items:center;gap:6px;color:#CDBDFF;font-weight:600}
+#crumb .sep{opacity:.5}
+#map{position:absolute;right:22px;bottom:34px;z-index:26;display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.94);border:1px solid #E4E4E4;border-radius:12px;padding:10px 12px;font:500 12px/1.2 "Poppins",sans-serif;color:#6E6E6E;box-shadow:0 8px 22px -14px rgba(0,0,0,.4);transition:opacity .3s ease}
+#map.off{opacity:0}
+#map .h{font:700 11px "Poppins";letter-spacing:.1em;text-transform:uppercase;color:#0A0A0A;margin-bottom:2px}
+#map .s{display:flex;align-items:center;gap:7px}
+#map .s i{width:8px;height:8px;border-radius:50%;background:#D9D9D9;flex:none}
+#map .s.done i{background:#8A4DFF}
+#map .s.cur{color:#0A0A0A;font-weight:600}
+#map .s.cur i{background:#6213FF;box-shadow:0 0 0 3px rgba(98,19,255,.2)}
+/* schéma du parcours */
+.proc{width:100%;height:100%;background:#FAFAFA;display:flex;flex-direction:column;padding:44px 48px 150px;box-sizing:border-box;font-family:"Poppins",sans-serif;color:#0A0A0A}
+.proc h2{font:700 40px/1.05 "Barlow Condensed",sans-serif;margin:0}
+.proc .sub{color:#6E6E6E;font-size:15px;margin:6px 0 18px}
+.proc .lg{display:flex;gap:10px;margin-bottom:14px}
+.proc .lg span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+.proc svg{flex:1;min-height:0;width:100%}
 /* commandes */
-#ctl{position:fixed;right:22px;bottom:20px;display:flex;align-items:center;gap:10px;z-index:60;font:500 13px "Poppins",sans-serif;color:rgba(255,255,255,.65)}
+#ctl{position:fixed;left:22px;bottom:20px;display:flex;align-items:center;gap:10px;z-index:60;font:500 13px "Poppins",sans-serif;color:rgba(255,255,255,.65)}
 #ctl button{font:600 14px "Poppins",sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(17,17,17,.6);color:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(4px)}
 #ctl button:hover{background:rgba(17,17,17,.85)}
 #ctl kbd{font:600 11px "Poppins";border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:1px 5px}
@@ -87,6 +107,8 @@ body.auto,body.auto *{cursor:none!important}
 <div id="stage">
   <div id="app"></div>
   <div id="ver" hidden><span data-v="today" class="on">Aujourd'hui</span><span data-v="prop">Proposition</span></div>
+  <div id="crumb" class="off"></div>
+  <div id="map" class="off"></div>
   <div id="cap" class="off"><span class="n"></span><span class="tx"></span></div>
   <div id="cur"></div>
   <div id="card"></div>
