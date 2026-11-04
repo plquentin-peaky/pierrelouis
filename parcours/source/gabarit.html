@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parcours facturation PSE</title>
+<style>
+/*@@FONTS@@*/
+</style>
+<style>
+/*@@MAQUETTE_CSS@@*/
+</style>
+<style>
+/* ===== Parcours animé ===== */
+html,body{margin:0;height:100%;overflow:hidden;background:#111}
+body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+#stage{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;background:#FAFAFA}
+#app{position:absolute;inset:0;transition:opacity .35s ease}
+#app.fade{opacity:0}
+/* l'application occupe tout l'écran */
+#app>.ax{width:100%;height:100%;overflow:hidden}
+#app>.ax .sb{min-height:0;height:100%}
+#app>.ax .ins{height:100%;overflow:hidden}
+#app>.ax main{overflow:hidden;min-height:0;padding-bottom:170px}
+#app>.ax.solo{overflow:hidden;padding-bottom:170px!important}
+/* les liserés « Nouveau » des maquettes sont retirés pour la vidéo */
+.ax .new{outline:none!important}
+.ax .newtag{display:none!important}
+/* apparitions */
+.hid{opacity:0!important;transform:translateY(8px)}
+.rv{transition:opacity .45s ease,transform .45s ease,background-color .6s ease}
+.slide-in{animation:slideIn .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes slideIn{from{opacity:0;transform:translate(-46px,-10px) rotate(-2deg)}to{opacity:1;transform:none}}
+.flash{animation:flash 1.6s ease}
+@keyframes flash{0%{background-color:rgba(0,184,90,.28)}100%{background-color:transparent}}
+.pflash{animation:pflash 1.8s ease}
+@keyframes pflash{0%{background-color:rgba(98,19,255,.22)}100%{background-color:transparent}}
+.ax .field.okrow{background:var(--success-10);border-radius:6px;margin:0 -8px;padding-left:8px;padding-right:8px;transition:background-color .6s ease}
+.ax .field .vok{color:#008A43;font-weight:600}
+.ax .srcf.ok{color:#008A43}
+.ax .bt.done{background:var(--success);box-shadow:0 1px 3px rgba(0,184,90,.35);color:#fff}
+.caret{display:inline-block;width:2px;height:1.05em;background:currentColor;margin-left:1px;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.ax .compose .typed{color:var(--fg)}
+.spin{display:inline-block;width:9px;height:9px;border:1.5px solid #CDBDFF;border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;margin-right:5px;vertical-align:-1px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.collapse{transition:opacity .5s ease,max-height .7s ease,margin .7s ease,padding .7s ease;overflow:hidden}
+.ax .acct .tx,.ax .acct .av{transition:opacity .35s ease}
+.ax s.strk{text-decoration:line-through;color:var(--mfg)}
+.newdate{display:inline-block;color:var(--primary);font-weight:600;border-radius:4px;padding:0 3px}
+
+/* légende */
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1180px;width:max-content;display:flex;align-items:center;gap:14px;background:rgba(17,17,17,.84);color:#fff;font:500 21px/1.35 "Poppins",sans-serif;padding:14px 26px 14px 16px;border-radius:14px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);transition:opacity .35s ease,transform .35s ease;z-index:30;backdrop-filter:blur(4px)}
+#cap.off{opacity:0;transform:translate(-50%,10px)}
+#cap .n{flex:none;font:700 15px/1 "Barlow Condensed",sans-serif;letter-spacing:.06em;background:#8A4DFF;color:#fff;border-radius:999px;padding:7px 11px}
+/* curseur */
+#cur{position:absolute;left:0;top:0;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#2B2B2B;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.45);z-index:40;pointer-events:none;transition:transform .8s cubic-bezier(.45,.05,.25,1),opacity .3s ease;opacity:0}
+#cur.on{opacity:1}
+#cur.press{scale:.82;transition:transform .8s cubic-bezier(.45,.05,.25,1),opacity .3s ease,scale .12s ease}
+.halo{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:3px solid rgba(43,43,43,.55);background:rgba(43,43,43,.12);z-index:39;pointer-events:none;animation:halo .65s ease-out forwards}
+@keyframes halo{from{transform:scale(1);opacity:1}to{transform:scale(3.4);opacity:0}}
+/* cartons */
+#card{position:absolute;inset:0;z-index:50;background:#111;color:#F3F3F3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;transition:opacity .6s ease}
+#card.off{opacity:0;pointer-events:none}
+#card .k{font:600 15px "Poppins",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(243,243,243,.55)}
+#card .t{font:700 64px/1.05 "Barlow Condensed",sans-serif;letter-spacing:-.005em;max-width:1200px}
+#card .bar{width:64px;height:4px;border-radius:9px;background:#8A4DFF}
+#card .s{font:400 24px/1.4 "Poppins",sans-serif;color:rgba(243,243,243,.8);max-width:1000px}
+#card .logo{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+#card .logo b{width:44px;height:44px;border-radius:10px;background:rgba(243,243,243,.15);display:grid;place-items:center;font:700 15px "Poppins"}
+#card .logo span{font:700 22px "Barlow Condensed";letter-spacing:.08em;text-transform:uppercase}
+/* bascule Aujourd'hui / Proposition */
+#ver{position:absolute;top:8px;left:calc(50% + 150px);transform:translateX(-50%);display:flex;gap:2px;background:#fff;border:1px solid #E4E4E4;border-radius:10px;padding:3px;box-shadow:0 6px 18px -10px rgba(0,0,0,.35);z-index:20;font:600 14px "Poppins",sans-serif}
+#ver span{padding:8px 14px;border-radius:7px;color:#0A0A0A;transition:background .3s,color .3s}
+#ver span.on{background:#111;color:#fff}
+/* commandes */
+#ctl{position:fixed;right:22px;bottom:20px;display:flex;align-items:center;gap:10px;z-index:60;font:500 13px "Poppins",sans-serif;color:rgba(255,255,255,.65)}
+#ctl button{font:600 14px "Poppins",sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(17,17,17,.6);color:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(4px)}
+#ctl button:hover{background:rgba(17,17,17,.85)}
+#ctl kbd{font:600 11px "Poppins";border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:1px 5px}
+body.auto #ctl{display:none}
+body.auto,body.auto *{cursor:none!important}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="app"></div>
+  <div id="ver" hidden><span data-v="today" class="on">Aujourd'hui</span><span data-v="prop">Proposition</span></div>
+  <div id="cap" class="off"><span class="n"></span><span class="tx"></span></div>
+  <div id="cur"></div>
+  <div id="card"></div>
+</div>
+<div id="ctl"><span><kbd>←</kbd> <kbd>→</kbd> · <kbd>A</kbd> lecture automatique</span><button type="button" id="prev" aria-label="Précédent">←</button><button type="button" id="next">Suivant →</button></div>
+<script>
+/*@@MAQUETTE_JS@@*/
+</script>
+<script>
+/*@@PARCOURS_JS@@*/
+</script>
+</body>
+</html>
