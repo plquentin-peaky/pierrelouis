@@ -1,0 +1,15 @@
+@page{size:A4;margin:18mm 16mm 18mm 16mm}
+body{font:10.5pt/1.5 "Poppins","Helvetica Neue",Arial,sans-serif;color:#15181C}
+h1{font:700 24pt/1.1 "Barlow Condensed","Arial Narrow",sans-serif;margin:0 0 6pt}
+h1+p{color:#5C6570;margin-top:0}
+h2{font:700 15pt/1.2 "Barlow Condensed","Arial Narrow",sans-serif;margin:18pt 0 6pt;border-bottom:1.5pt solid #6213FF;padding-bottom:3pt;page-break-after:avoid}
+h3{font-size:11pt;margin:12pt 0 4pt}
+table{border-collapse:collapse;width:100%;margin:6pt 0 10pt;font-size:9pt;page-break-inside:auto}
+th{background:#F1ECFF;color:#3B0E99;text-align:left;padding:5pt 6pt;border:0.5pt solid #DDD}
+td{padding:5pt 6pt;border:0.5pt solid #DDD;vertical-align:top}
+tr{page-break-inside:avoid}
+code,pre{font:8.5pt/1.4 ui-monospace,Menlo,monospace;background:#F4F5F6;border-radius:3pt}
+pre{padding:8pt;white-space:pre-wrap}
+ul,ol{padding-left:16pt}
+li{margin:2pt 0}
+strong{color:#0A0A0A}

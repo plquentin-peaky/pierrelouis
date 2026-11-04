@@ -75,7 +75,7 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 #ver span{padding:8px 14px;border-radius:7px;color:#0A0A0A;transition:background .3s,color .3s}
 #ver span.on{background:#111;color:#fff}
 /* fil d'Ariane et repère « vous êtes ici » */
-#crumb{position:absolute;left:calc(50% + 128px);top:106px;transform:translateX(-50%);z-index:25;display:flex;align-items:center;gap:8px;background:rgba(17,17,17,.84);color:#fff;font:500 15px/1 "Poppins",sans-serif;padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:opacity .3s ease;white-space:nowrap}
+#crumb{position:absolute;left:calc(50% + 128px);top:60px;transform:translateX(-50%);z-index:25;display:flex;align-items:center;gap:8px;background:rgba(17,17,17,.84);color:#fff;font:500 14px/1 "Poppins",sans-serif;padding:7px 14px;border-radius:999px;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:opacity .3s ease;white-space:nowrap}
 #crumb.off{opacity:0}
 #crumb .who{display:inline-flex;align-items:center;gap:6px;color:#CDBDFF;font-weight:600}
 #crumb .sep{opacity:.5}
@@ -153,6 +153,8 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 .pdf.big{width:auto;max-width:720px;font-size:12px;padding:32px 38px}
 .ax .pdfwrap{display:flex;justify-content:center;background:#EEF0F3;border-radius:12px;padding:22px}
 .mbtn{display:inline-block;font:700 14px Arial,Helvetica,sans-serif;border-radius:8px;padding:11px 16px}
+#band{position:absolute;left:256px;right:0;bottom:0;height:210px;background:linear-gradient(rgba(250,250,250,0),rgba(250,250,250,.97) 48%);z-index:24;pointer-events:none;transition:opacity .3s}
+#band.off{opacity:0}
 /* commandes */
 #ctl{position:fixed;left:22px;bottom:20px;display:flex;align-items:center;gap:10px;z-index:60;font:500 13px "Poppins",sans-serif;color:rgba(255,255,255,.65)}
 #ctl button{font:600 14px "Poppins",sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(17,17,17,.6);color:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(4px)}
@@ -166,6 +168,7 @@ body.auto,body.auto *{cursor:none!important}
 <div id="stage">
   <div id="app"></div>
   <div id="ver" hidden><span data-v="today" class="on">Aujourd'hui</span><span data-v="prop">Proposition</span></div>
+  <div id="band" class="off"></div>
   <div id="crumb" class="off"></div>
   <div id="map" class="off"></div>
   <div id="cap" class="off"><span class="n"></span><span class="tx"></span></div>

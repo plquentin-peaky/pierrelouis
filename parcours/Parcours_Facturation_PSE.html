@@ -363,7 +363,7 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 #ver span{padding:8px 14px;border-radius:7px;color:#0A0A0A;transition:background .3s,color .3s}
 #ver span.on{background:#111;color:#fff}
 /* fil d'Ariane et repère « vous êtes ici » */
-#crumb{position:absolute;left:calc(50% + 128px);top:106px;transform:translateX(-50%);z-index:25;display:flex;align-items:center;gap:8px;background:rgba(17,17,17,.84);color:#fff;font:500 15px/1 "Poppins",sans-serif;padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:opacity .3s ease;white-space:nowrap}
+#crumb{position:absolute;left:calc(50% + 128px);top:60px;transform:translateX(-50%);z-index:25;display:flex;align-items:center;gap:8px;background:rgba(17,17,17,.84);color:#fff;font:500 14px/1 "Poppins",sans-serif;padding:7px 14px;border-radius:999px;box-shadow:0 6px 18px -8px rgba(0,0,0,.4);transition:opacity .3s ease;white-space:nowrap}
 #crumb.off{opacity:0}
 #crumb .who{display:inline-flex;align-items:center;gap:6px;color:#CDBDFF;font-weight:600}
 #crumb .sep{opacity:.5}
@@ -441,6 +441,8 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 .pdf.big{width:auto;max-width:720px;font-size:12px;padding:32px 38px}
 .ax .pdfwrap{display:flex;justify-content:center;background:#EEF0F3;border-radius:12px;padding:22px}
 .mbtn{display:inline-block;font:700 14px Arial,Helvetica,sans-serif;border-radius:8px;padding:11px 16px}
+#band{position:absolute;left:256px;right:0;bottom:0;height:210px;background:linear-gradient(rgba(250,250,250,0),rgba(250,250,250,.97) 48%);z-index:24;pointer-events:none;transition:opacity .3s}
+#band.off{opacity:0}
 /* commandes */
 #ctl{position:fixed;left:22px;bottom:20px;display:flex;align-items:center;gap:10px;z-index:60;font:500 13px "Poppins",sans-serif;color:rgba(255,255,255,.65)}
 #ctl button{font:600 14px "Poppins",sans-serif;border:1px solid rgba(255,255,255,.25);background:rgba(17,17,17,.6);color:#fff;border-radius:999px;padding:9px 16px;cursor:pointer;backdrop-filter:blur(4px)}
@@ -454,6 +456,7 @@ body.auto,body.auto *{cursor:none!important}
 <div id="stage">
   <div id="app"></div>
   <div id="ver" hidden><span data-v="today" class="on">Aujourd'hui</span><span data-v="prop">Proposition</span></div>
+  <div id="band" class="off"></div>
   <div id="crumb" class="off"></div>
   <div id="map" class="off"></div>
   <div id="cap" class="off"><span class="n"></span><span class="tx"></span></div>
@@ -843,6 +846,7 @@ async function show(key,html){
   if(ax.classList.contains('ax') && !ax.querySelector(':scope>.sb')) ax.classList.add('solo');
   scroller().scrollTop=keep;
   app.classList.remove('fade');
+  const band=document.getElementById('band'); if(band) band.classList.toggle('off',!(ax.querySelector&&ax.querySelector(':scope>.sb')));
   return ax;
 }
 const scroller=()=>{const ax=app.firstElementChild;return ax?(ax.querySelector('main')||ax):app;};
@@ -874,17 +878,22 @@ async function scrollTopOf(el,offset=70){
 // ----- curseur -----
 function pt(el){const s=stage.getBoundingClientRect(), r=el.getBoundingClientRect();return [(r.left+r.width/2-s.left)/SC,(r.top+r.height/2-s.top)/SC];}
 function cursorAt(x,y,anim=true){if(!anim){cur.style.transition='none';}cur.style.transform=`translate(${x}px,${y}px)`;if(!anim){cur.offsetWidth;cur.style.transition='';}}
+function ptSide(el){const s=stage.getBoundingClientRect(), r=el.getBoundingClientRect();const w=r.width/SC;
+  if(w>150) return [(r.left-s.left)/SC-18,(r.top+r.height/2-s.top)/SC];
+  return pt(el);}
 async function moveTo(el,scroll=true){
   if(scroll) await ensureVisible(el);
   if(!cur.classList.contains('on')){cursorAt(VW*0.62,VH*0.62,false);cur.classList.add('on');await sleep(150);}
-  const [x,y]=pt(el); cursorAt(x,y); await sleep(950);
+  const [x,y]=ptSide(el); cursorAt(x,y); await sleep(950);
 }
 async function click(el,scroll=true){
-  await moveTo(el,scroll);
-  const [x,y]=pt(el);
+  if(scroll) await ensureVisible(el);
+  if(!cur.classList.contains('on')){cursorAt(VW*0.62,VH*0.62,false);cur.classList.add('on');await sleep(150);}
+  const [x,y]=pt(el); cursorAt(x,y); await sleep(950);
   cur.classList.add('press');
   const h=document.createElement('div');h.className='halo';h.style.left=x+'px';h.style.top=y+'px';stage.appendChild(h);setTimeout(()=>h.remove(),800);
-  await sleep(160); cur.classList.remove('press'); await sleep(380);
+  await sleep(160); cur.classList.remove('press'); await sleep(260);
+  cursorAt(x+30,y+36); await sleep(200);
 }
 
 // ----- légende, fil d'Ariane, repère -----
@@ -969,7 +978,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .ax .amt .v{font-family:"Barlow Condensed",sans-serif;font-size:30px;font-weight:700;margin-top:4px}
 .ax .amt .h{font-size:12.5px;color:var(--mfg);margin-top:2px}
 .ax .file{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;background:#fff}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:26px;width:100%;height:100%;background:#E9EBEF;padding:34px 34px 150px;box-sizing:border-box}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:26px;width:100%;height:100%;background:#E9EBEF;padding:104px 34px 150px;box-sizing:border-box}
 .split .pane{display:flex;flex-direction:column;gap:10px;min-height:0}
 .split .pl{font:700 13px "Poppins",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#4A4F57}
 .split .frame{flex:1;min-height:0;overflow:hidden;border-radius:12px;box-shadow:0 18px 40px -22px rgba(0,0,0,.45);background:#fff;position:relative}
@@ -997,6 +1006,12 @@ USERS.lucas=['Lucas Bernard','Consultant','LB'];
 const NAV_TODAY=JSON.parse(JSON.stringify(NAV));
 function navToday(){NAV[2][1]=JSON.parse(JSON.stringify(NAV_TODAY[2][1]));}
 function navTarget(){NAV[2][1]=[['receipt','Facturation'],['scissors','Clôture du mois']];}
+const shell0=shell;
+shell=function(a,u,inner,o={}){let h=shell0(a,u,inner,o);
+  h=h.replace(/<div class="sec">Intégrations<\/div>[\s\S]*?Connecter MCP<\/span><\/div>/,'');
+  if(u==='cp'||u==='steve'||u==='lucas') h=h.replace(/<div class="it[^"]*">(?:(?!<\/div>)[\s\S])*?<span>Clôture du mois<\/span>(?:(?!<\/div>)[\s\S])*?<\/div>/,'');
+  if(u==='lucas') h=h.replace(/<span class="bdg">\d+<\/span>/,'');
+  return h;};
 const ST=(k,t)=>`<span class="st ${k}">${t}</span>`;
 
 // --- Fiche chantier, onglet Facturation (cible) : Documents · Informations · Échéancier · Factures ---
@@ -1016,13 +1031,13 @@ const FI=[
  ['cpv','Code postal + Ville','69007 Lyon','Devis, p. 1'],
  ['contact','Contact facturation','',''],
  ['envoi','Mode d\'envoi','Portail (dépôt en ligne)','Devis, p. 3'],
- ['site','Adresse site dépose factures','Portail fournisseurs Varenne','Devis, p. 3'],
+ ['site','Adresse du portail de dépôt','Portail fournisseurs Varenne','Devis, p. 3'],
 ];
 function infosCard4(mode){
   const ed=mode==='edit';
   const field=([k,l,v,s,full])=>{
     const style=full?' style="grid-column:1/-1"':'';
-    if(!ed){const val=mode==='saved'?(k==='contact'?'Nadia Lemoine, comptabilité fournisseurs':v):'—';
+    if(!ed){const val=mode==='saved'?(k==='contact'?'Nadia Lemoine, comptabilité fournisseurs':v):'Non renseigné';
       return `<div${style}><div class="lbl">${l}</div><div class="val">${val}</div></div>`;}
     const need=k==='contact';
     const chip=need?'<span class="src miss">À compléter</span>':`<span class="src">${I('file','s2')}${s}</span>`;
@@ -1032,7 +1047,7 @@ function infosCard4(mode){
   const ent=ed?`<div class="ent" id="entBox" style="grid-column:1/-1">${I('users')}<span class="t"><b>Varenne Services SAS</b>, déjà utilisée sur 2 chantiers de Groupe Varenne Services : VARENNE_Baro2026, VARENNE_Form2026.</span><span class="bt pr xs" id="useEnt">Utiliser cette entité</span><span class="bt ol xs">C'est une autre entité</span></div>`:'';
   return `<div class="box" id="infos"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div style="font-weight:600;font-size:15px">Informations de facturation</div><div class="xs mut" style="margin-top:2px">Entité facturée, bon de commande et mode d'envoi, repris sur chaque facture.</div></div>${head}</div>
   <div style="margin-top:16px;display:flex;flex-direction:column;gap:18px"><div class="g2">${ent}${FI.map(field).join('')}</div>
-  <div><div class="h4">Frais de mission</div>${ed?`<div class="rad"><span><i></i>A facturer en sus</span><span><i></i>À facturer en débours</span><span><i class="on"></i>Inclus</span><span class="src">${I('file','s2')}Devis, p. 2</span></div>`:`<div class="val">${mode==='saved'?'Inclus':'—'}</div>`}</div>
+  <div><div class="h4">Frais de mission</div>${ed?`<div class="rad"><span><i></i>À facturer en sus</span><span><i></i>À facturer en débours</span><span><i class="on"></i>Inclus</span><span class="src">${I('file','s2')}Devis, p. 2</span></div>`:`<div class="val">${mode==='saved'?'Inclus':'Non renseigné'}</div>`}</div>
   ${ed?`<div style="display:flex;justify-content:flex-end;gap:8px" id="infoBtns"><span class="bt gh sm">Annuler</span><span class="bt pr sm">${I('check','s3')}Valider ces informations</span></div>`:''}
   ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}Validé par Claire Morel le 28/10/2026. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
   </div></div>`;
@@ -1056,15 +1071,15 @@ function ficheTab(o){
 const pdf4=(num,date)=>`<div class="pdf big" id="pdf"><div style="display:flex;justify-content:space-between;gap:14px"><div style="width:130px;height:48px;border:1.5px dashed #C9C9C9;border-radius:4px;display:grid;place-items:center;font-size:9.5px;color:#8A8A8A;text-align:center;line-height:1.2">Logo Plein Sens Ethique</div><div style="border-left:1px solid #000;border-top:1px solid #000;padding:9px 12px;width:250px"><b>Varenne Services SAS</b><br>Nadia Lemoine, comptabilité fournisseurs<br>18 rue des Tanneurs<br>69007 LYON<br><span style="color:#666">SIREN 999 999 998</span></div></div>
  <div style="margin-top:18px">Commande BC-VS-2026-0187</div><div style="text-align:right">Paris, ${date}</div>
  <div style="margin-top:12px;font-size:13px">FACTURE D'ACOMPTE N° <b id="pdfNum">${num}</b></div><div style="margin-top:8px">Enquête interne suite à signalement · acompte de 50 % du devis PSE-2026-041</div>
- <div style="margin:14px 0 0 auto;width:250px"><div style="text-align:right;font-weight:700;margin-bottom:2px">EUROS</div><div style="display:flex;justify-content:space-between"><span>Montant H.T.:</span><span>9 300,00</span></div><div style="display:flex;justify-content:space-between"><span>20,00% TVA</span><span>1 860,00</span></div><div style="display:flex;justify-content:space-between;font-weight:700;border-top:1px solid #000"><span>Montant T.T.C :</span><span>11 160,00</span></div></div>
- <div style="margin-top:12px">Délai de règlement : 45 jours · Nature : prestations de services</div>
- <div style="margin-top:12px;border-top:1px solid #DDD;padding-top:6px;font-size:9px;color:#555;text-align:center">Plein Sens Ethique · SAS au capital de 1 000 € · RCS Paris 109 500 470</div></div>`;
+ <div style="margin:14px 0 0 auto;width:250px"><div style="text-align:right;font-weight:700;margin-bottom:2px">EUROS</div><div style="display:flex;justify-content:space-between"><span>Montant HT :</span><span>9 300,00</span></div><div style="display:flex;justify-content:space-between"><span>TVA 20 %</span><span>1 860,00</span></div><div style="display:flex;justify-content:space-between;font-weight:700;border-top:1px solid #000"><span>Montant TTC :</span><span>11 160,00</span></div></div>
+ <div style="margin-top:12px">Échéance : 45 jours après émission · Nature des opérations : prestations de services</div><div style="margin-top:4px;font-size:10px;color:#444">Pénalités de retard : 3 fois le taux d'intérêt légal · Indemnité forfaitaire pour frais de recouvrement : 40 €</div>
+ <div style="margin-top:12px;border-top:1px solid #DDD;padding-top:6px;font-size:9px;color:#555;text-align:center">Plein Sens Ethique · mentions légales et IBAN reprises de vos factures actuelles</div></div>`;
 const SV4=(c,cls,t,d,extra='')=>`<div class="sv"><span class="c ${cls}">${c}</span><div><div class="tt">${t}</div><div class="dd">${d}</div>${extra}</div></div>`;
 function factureTab(){
   return shell('Chantiers','cp',chantierHead('Facturation')+`
 <div class="card"><div class="card-h" style="padding-bottom:12px"><div class="t">Factures et avoirs</div><div class="d">Préparées par Alphonse à la date de chaque échéance.</div></div>
 <div class="card-b"><div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start">
- <div class="pdfwrap" style="display:flex;justify-content:center;background:#EEF0F3;border-radius:12px;padding:20px">${pdf4('attribué à l\'émission','—')}</div>
+ <div class="pdfwrap" style="display:flex;justify-content:center;background:#EEF0F3;border-radius:12px;padding:20px">${pdf4('attribué à l\'émission','à la date d\'émission')}</div>
  <div class="box"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="font-weight:600;font-size:15px">Acompte 50 %</div><span id="fStat">${ST('cp','Chez le chef de projet')}</span></div><div class="xs mut" style="margin-top:2px">9 300 € HT · 11 160 € TTC</div>
   <div class="step-v" style="margin-top:16px" id="fil">
    ${SV4(I('check','s3'),'ok','Préparée par Alphonse','02/11/2026 · à la date de l\'échéance')}
@@ -1100,24 +1115,24 @@ const fr=(id,ch,sub,fac,amt,st,info,act)=>`<tr data-c="${id}"><td><div class="mo
 // --- Facturation › Par chantier ---
 function parChantier(){
   const g=(n,l)=>`<tr class="grp"><td colspan="6">${n} · ${l}</td></tr>`;
-  const r=(id,ch,m,re,fa,ec,badge='')=>`<tr data-c="${id}"><td><span class="mono" style="font-weight:500">${ch}</span>${badge?`<div style="margin-top:4px">${badge}</div>`:''}</td><td class="r num">${m}</td><td class="r num" style="font-weight:600;color:var(--primary)">${re}</td><td class="r num">${fa}</td><td class="xs">${ec}</td><td class="xs mut">${id==='VARENNE'?'Solde 18/12/2026':id==='HALIOS'?'Solde 15/12/2026':id==='CAPELLE'?'Solde 04/11/2026':'—'}</td></tr>`;
+  const r=(id,ch,m,re,fa,ec,badge='')=>`<tr data-c="${id}"><td><span class="mono" style="font-weight:500">${ch}</span>${badge?`<div style="margin-top:4px">${badge}</div>`:''}</td><td class="r num">${m}</td><td class="r num" style="font-weight:600;color:var(--primary)">${re}</td><td class="r num">${fa}</td><td class="xs">${ec}</td><td class="xs mut">${id==='VARENNE'?'Solde 18/12/2026':id==='HALIOS'?'Solde 15/12/2026':id==='CAPELLE'?'Solde 04/11/2026':'Aucune'}</td></tr>`;
   return shell('Facturation','steve',`
 <div class="ph"><div><h1>Facturation</h1><div class="st">Au 20/11/2026 · groupé par chef de projet</div></div></div>
 <div class="tabs"><span>À faire (6)</span><span class="on">Par chantier</span><span>Registre</span></div>
 <div class="tw"><table class="t"><thead><tr><th>Chantier</th><th class="r">Montant</th><th class="r">Réalisé à fin octobre</th><th class="r">Facturé</th><th>Écart</th><th>Prochaine échéance</th></tr></thead><tbody>
 ${g('Claire Morel','2 chantiers')}${r('VARENNE','VARENNE_EnqSig','18 600','1 860','9 300','<span class="sbd info sm">facturé d\'avance 7 440</span>')}${r('BRENNE','BRENNE_Enq','15 000','6 000','7 500','<span class="sbd info sm">facturé d\'avance 1 500</span>')}
 ${g('Julien Petit','2 chantiers')}${r('HALIOS','HALIOS_EnqSig','24 000','16 800','12 000','<span class="sbd warn sm">à facturer 4 800</span>')}${r('CAPELLE','CAPELLE_Enq','12 400','12 400','6 200','<span class="sbd warn sm">à facturer 6 200</span>',ST('cp','Solde chez le chef de projet depuis le 04/11'))}
-${g('Sophie Martin','3 chantiers')}${r('ORLAN','ORLAN_EnqHar','32 000','9 600','16 000','<span class="sbd info sm">facturé d\'avance 6 400</span>')}${r('MERIDIA','MERIDIA_EnqRPS','21 000','10 500','10 500','<span class="sbd neu sm">aligné</span>')}${r('TALMONT','TALMONT_Enq','9 800','4 900','4 900','<span class="sbd neu sm">aligné</span>')}
+${g('Sophie Martin','3 chantiers')}${r('ORLAN','ORLAN_EnqHar','32 000','9 600','16 000','<span class="sbd info sm">facturé d\'avance 6 400</span>')}${r('MERIDIA','MERIDIA_EnqRPS','21 000','10 500','10 500','<span class="sbd neu sm">aligné</span>')}${r('TALMONT','TALMONT_Enq','9 800','9 800','9 800','<span class="sbd neu sm">aligné</span>')}
 </tbody></table></div>`,{count:6,bell:2});
 }
 
 // --- Mail de fin de mission (gabarit Alphonse, trois réponses et une phrase) ---
 const mail4=()=>`<div class="ax mailv"><div class="mtb">${I('mail')}Messagerie · Claire Morel</div>
-<div class="mhd"><div class="s">[Alphonse] VARENNE_EnqSig se termine aujourd'hui</div><div><b>De</b> Alphonse Plein Sens &lt;alphonse@mail.pleinsens.fr&gt;</div><div><b>À</b> Claire Morel &nbsp; <b>Cc</b> Steve</div><div class="mut">Vendredi 18 décembre 2026, 08:00</div></div>
+<div class="mhd"><div class="s">[Alphonse] VARENNE_EnqSig se termine aujourd'hui</div><div><b>De</b> Alphonse · Plein Sens Ethique</div><div><b>À</b> Claire Morel &nbsp; <b>Cc</b> Steve</div><div class="mut">Vendredi 18 décembre 2026, 08:00</div></div>
 <div class="mbd"><div class="mcard" id="mcard" style="padding:24px 30px">
  <div style="text-align:center;font:700 20px 'Barlow Condensed',sans-serif;letter-spacing:.06em">PLEIN SENS ETHIQUE</div>
  <h1 style="font-size:19px;color:#1f2430;margin:16px 0 10px">VARENNE_EnqSig se termine aujourd'hui</h1>
- <p style="font-size:15px;margin:0 0 12px">Bonjour Claire, on prépare le solde de 9 300 € HT ? 21 j saisis sur 25 prévus.</p>
+ <p style="font-size:15px;margin:0 0 12px">Bonjour Claire, on prépare le solde de 9 300 € HT ? 21 jours saisis sur 25 prévus.</p>
  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><span class="mbtn" style="background:#1d4ed8;color:#fff">Oui, préparer le solde</span><span class="mbtn" style="background:#fff;color:#1d4ed8;box-shadow:inset 0 0 0 1.5px #1d4ed8">Pas encore</span><span class="mbtn" style="background:#fff;color:#1d4ed8;box-shadow:inset 0 0 0 1.5px #1d4ed8">Un complément est à prévoir</span></div>
  <div style="margin-top:14px;font-size:13px;color:#5b6472">Ou répondez en une phrase :</div>
  <div id="reply" style="margin-top:6px;border:1.5px solid #CBD5E1;border-radius:8px;padding:10px 12px;font-size:15px;min-height:44px;color:#1f2430"></div>
@@ -1146,12 +1161,22 @@ function cloture4(){
 }
 
 // --- Aujourd'hui : l'onglet vide et l'Excel ---
+const xlFacturier4=()=>`<div class="xl"><div class="xt">PLS_facturier.xlsx <span>Excel</span></div><div class="rib"><span>Fichier</span><span>Accueil</span><span>Insertion</span><span>Mise en page</span><span>Formules</span><span>Données</span><span>Révision</span></div><div class="fx"><b>N108</b><i>?</i></div>
+<table><colgroup><col style="width:42px"><col style="width:150px"><col style="width:170px"><col style="width:150px"><col><col style="width:96px"><col style="width:62px"><col style="width:92px"><col style="width:86px"><col style="width:84px"><col style="width:50px"><col style="width:96px"><col style="width:96px"></colgroup>
+<tr><th></th><th>A</th><th>B</th><th>G</th><th>I</th><th>J</th><th>K</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>U</th></tr>
+<tr class="h"><td class="rn">1</td><td>Client</td><td>organisme</td><td>Alphonse</td><td>nom chantier</td><td>hono sans fr…</td><td>exo tva</td><td>date facture</td><td>n° facture</td><td>ttc</td><td>Payé</td><td>Date de paie…</td><td>RM</td></tr>
+${[['103','CAPELLE','Capelle SA','CAPELLE_Enq','Enquête signalement · acompte','6 200','-','10/09/2026','2026002','7 440','oui','08/10/2026','Julien',0],['104','TALMONT','Talmont Industrie','TALMONT_Enq','Enquête · acompte','4 900','-','15/09/2026','2026003','5 880','oui','14/10/2026','Sophie',0],['105','HALIOS','Halios Groupe','HALIOS_EnqSig','Enquête interne · acompte','12 000','-','20/09/2026','2026004','14 400','non','','Julien',0],['106','MERIDIA','Meridia','MERIDIA_EnqRPS','Enquête RPS · acompte','10 500','-','25/09/2026','2026005','12 600','non','','Sophie',0],['107','ORLAN','Orlan','ORLAN_EnqHar','Enquête harcèlement · acompte','16 000','-','30/10/2026','2026006','19 200','non','','Sophie',0],['108','VARENNE','Varenne Services','VARENNE_EnqSig','Enquête interne · acompte','9 300','-','04/11/2026','?','11 160','non','','Claire',1]].map(r=>`<tr${r[13]?' class="y"':''}><td class="rn">${r[0]}</td>${r.slice(1,13).map((c,i)=>`<td${[5,9].includes(i+1)?' style="text-align:right"':''}>${c}</td>`).join('')}</tr>`).join('')}
+${Array.from({length:9},(_,k)=>`<tr><td class="rn">${109+k}</td>${'<td></td>'.repeat(12)}</tr>`).join('')}
+</table>
+<div class="note">Pour savoir quoi relancer, Steve croise ce fichier, ses mails et les fiches chantier.</div>
+<div class="sheets"><span>Non payé plus de 2 mois</span><span>Non payé moins de 2 mois</span><span class="on">Facturier</span><span>modele facture standard</span><span>Fichier Client</span><span>FAE</span></div></div>`;
 function todaySplit(){
   navToday();
   const left=shell('Chantiers','cp',chantierHead('Facturation')+schedCard(`<tr><td colspan="5" class="mut" style="text-align:center;padding:18px">Aucun jalon renseigné.</td></tr>`,'0 €',' · L\'échéancier ne couvre pas le CA (écart : 18 600 €)')+billingInfoToday(false));
-  const right=xlFacturier();
+  let right=xlFacturier4();
   navTarget();
-  return `<div class="split"><div class="pane"><div class="pl">Alphonse · onglet Facturation du chantier</div><div class="frame" id="fl"><div>${left}</div></div></div><div class="pane"><div class="pl">Le facturier Excel de Steve</div><div class="frame" id="fr"><div>${right}</div></div></div></div>`;
+  const left2=left.replace(/>—</g,'>Non renseigné<').replace(' — repris',' : repris').replace(' — renseignées',', renseignées');
+  return `<div class="split"><div class="pane"><div class="pl">Alphonse · onglet Facturation du chantier</div><div class="frame" id="fl"><div>${left2}</div></div></div><div class="pane"><div class="pl">Le facturier Excel de Steve</div><div class="frame" id="fr"><div>${right}</div></div></div></div>`;
 }
 function fitSplit(){$$('.split .frame').forEach(f=>{const c=f.firstElementChild;const s=f.clientWidth/1360;c.style.transform=`scale(${s})`;});}
 
@@ -1162,7 +1187,7 @@ const cmpScreen=()=>`<div class="cmp"><h2>La section Finance, aujourd'hui et dem
 ${CMP.map(([a,b,w])=>`<div class="o rw">${a}</div><div class="ar rw">→</div><div class="n rw">${b}</div><div class="w rw">${w}</div>`).join('')}</div></div>`;
 
 // --- Synthèse ---
-const SYN=[['Claire Morel','cheffe de projet','Dépose le devis, vérifie la facture, répond en une phrase.'],['Steve','facturation et relances','Une liste au lieu d\'un Excel : quoi déposer, qui relancer.'],['Fabrice Ducellier','finance','Émet ce qui est vérifié et clôt le mois en un clic.'],['Lucas Bernard','consultant','Voit qui suit la facturation, pas les montants.'],['Associé de référence','','Lit la facturation de ses chantiers.'],['Le comptable','','Reçoit 3 fichiers par mois, aux chiffres figés.']];
+const SYN=[['Claire Morel','cheffe de projet','Dépose le devis, vérifie la facture, répond en une phrase.'],['Steve','facturation et relances','Une liste au lieu d\'un Excel : quoi déposer, qui relancer.'],['Fabrice Ducellier','finance','Émet ce qui est vérifié et clôt le mois après trois vérifications.'],['Lucas Bernard','consultant','Voit qui suit la facturation, pas les montants.'],['Associé de référence','','Lit la facturation de ses chantiers.'],['Le comptable','','Reçoit 3 fichiers par mois, aux chiffres figés.']];
 const synScreen=()=>`<div class="cards6"><h2>Ce qui change pour chacun</h2><div class="g">${SYN.map(([p,r,d])=>`<div class="c"><div class="bar"></div><div class="p">${p}</div><div class="r">${r||'&nbsp;'}</div><div class="d">${d}</div></div>`).join('')}</div></div>`;
 
 // ===================================================================
@@ -1218,8 +1243,8 @@ const STEPS=[
    await ensureVisible($('#mailDoc',ax)); await moveTo($('#mailDoc',ax),false); await sleep(1100);
    $('#mailDoc .xxs',ax).textContent='Lu · mail du 28/10, signature';
    const cf=$('#infos [data-f="contact"]',ax); await scrollTopOf($('#infos',ax),70); await sleep(300);
-   const inp=$('.inp',cf); inp.className='inp ed focus'; await type(inp,'Nadia Lemoine, comptabilité fournisseurs, n.lemoine@varenne-services.example',22);
-   inp.className='inp ed ai'; const ch=$('.src',cf); ch.className='src'; ch.innerHTML=`${I('file','s2')}Signature du mail du 28/10`; flash(cf);
+   const inp=$('.inp',cf); inp.className='inp ed focus'; await type(inp,'Nadia Lemoine, comptabilité fournisseurs',30);
+   inp.className='inp ed ai'; const ch=$('.src',cf); ch.className='src'; ch.innerHTML=`${I('file','s2')}Mail du client, signature`; flash(cf);
    reveal(btns); await sleep(900);
    await click(btn(btns,'Valider ces informations'));
    const sc=scroller().scrollTop; app.innerHTML=ficheTab({docs:'mail',infos:'saved',sched:'empty'}); current='fiche'; scroller().scrollTop=sc; flash($('#infos',app));
@@ -1268,7 +1293,9 @@ const STEPS=[
    await sleep(1600);
    const nums={V:'F2026-00007',T:'F2026-00008'};
    for(const id of ['V','T']){const r=$(`tr[data-c="${id}"]`,ax); await click($('.em',r),false);
-     $('.fcell',r).innerHTML=`${r.querySelector('.fcell').textContent} <b>${nums[id]}</b>`; $('.scell',r).innerHTML=ST('env','À envoyer'); $('.icell',r).textContent='Émise le 04/11, numéro attribué'; $('.em',r).remove(); flash(r,'pflash'); await sleep(900);}
+     $('.fcell',r).innerHTML=`${r.querySelector('.fcell').textContent} <b>${nums[id]}</b>`; $('.scell',r).innerHTML=ST('env','À envoyer'); $('.icell',r).textContent='Émise le 04/11, numéro attribué'; $('.em',r).remove(); flash(r,'pflash');
+     { const cs=$$('.cnt b',ax); cs[2].textContent=String(+cs[2].textContent-1); cs[3].textContent=String(+cs[3].textContent+1); flash(cs[2].parentElement,'pflash'); }
+     await sleep(900);}
    await sleep(2400);
  }},
  {name:'8. Steve envoie et relance',async run(){
@@ -1278,17 +1305,17 @@ const STEPS=[
      fr('H','HALIOS_EnqSig','Julien Petit','F2026-00004','12 000',ST('enc','À encaisser')+' <span class="late">En retard de 16 j</span>','Échéance du 20/10',`<span class="bt ol xs rap">${I('mail','s3')}Préparer le rappel</span>`)+
      fr('M','MERIDIA_EnqRPS','Sophie Martin','F2026-00005','10 500',ST('con','Contestée'),'Montant contesté, relances suspendues','');
    const alert=`<div class="alertb" id="al">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande manquant, chantier créé il y a 7 jours. La facture reste « À préparer ».</span></div>`;
-   const ax=await show('afaire-s',aFaire('steve','05/11/2026',rows,{alert,cnt:[['À préparer',1],['Chez le chef de projet',1],['À émettre',0],['À envoyer',3],['À encaisser',2],['Contestée',1]]})); scroller().scrollTop=0;
+   const ax=await show('afaire-s',aFaire('steve','05/11/2026',rows,{alert,cnt:[['À préparer',1],['Chez le chef de projet',1],['À émettre',0],['À envoyer',3],['À encaisser',1],['Contestée',1]]})); scroller().scrollTop=0;
    crumb(ST_,['Facturation','À faire']); where(5);
    await caption(N(8),'Steve n\'a plus d\'Excel à remplir : il voit quoi déposer, quoi relancer et qui appeler.');
    flash($('#al',ax)); await moveTo($('#al',ax),false); await sleep(2400);
    const v=$('tr[data-c="V"]',ax); await click($('.dep',v),false);
    $('.scell',v).innerHTML=ST('enc','À encaisser'); $('.icell',v).textContent='Déposée le 05/11'; $('.dep',v).remove(); flash(v,'pflash');
-   { const cs=$$('.cnt b',ax); cs[3].textContent='2'; cs[4].textContent='3'; flash(cs[3].parentElement,'pflash'); flash(cs[4].parentElement,'pflash'); }
+   { const cs=$$('.cnt b',ax); cs[3].textContent='2'; cs[4].textContent='2'; flash(cs[3].parentElement,'pflash'); flash(cs[4].parentElement,'pflash'); }
    await sleep(1400);
    const h=$('tr[data-c="H"]',ax); await click($('.rap',h),false);
-   const d=document.createElement('div'); d.className='draft'; d.style.cssText='position:absolute;right:40px;top:420px;width:460px;z-index:5';
-   d.innerHTML=`<div class="lbl" style="margin-bottom:8px">Rappel préparé, à envoyer depuis votre messagerie</div>Bonjour, sauf erreur de notre part, la facture F2026-00004 du 20/09/2026 (12 000 € HT, 14 400 € TTC) arrivait à échéance le 20/10. Pourriez-vous nous indiquer sa date de règlement ? Merci beaucoup.<div style="display:flex;justify-content:flex-end;margin-top:10px"><span class="bt pr xs">Copier</span></div>`;
+   const d=document.createElement('div'); d.className='draft'; d.style.cssText='position:absolute;right:40px;top:478px;width:460px;z-index:5';
+   d.innerHTML=`<div class="lbl" style="margin-bottom:8px">Rappel préparé, à envoyer depuis votre messagerie</div>Bonjour, sauf erreur de notre part, la facture F2026-00004 du 20/09/2026 (12 000 € HT, 14 400 € TTC) est arrivée à échéance le 20/10. Pourriez-vous nous indiquer sa date de règlement ? Merci beaucoup.<div style="display:flex;justify-content:flex-end;margin-top:10px"><span class="bt pr xs">Copier</span></div>`;
    app.firstElementChild.style.position='relative'; app.firstElementChild.appendChild(d); popIn(d);
    await sleep(4200);
  }},
@@ -1303,7 +1330,7 @@ const STEPS=[
  }},
  {name:'10. Fin de mission',async run(){
    cur.classList.remove('on'); capEl.classList.add('off'); crumbEl.classList.add('off'); where(6);
-   showCard(`<div class="k">Sept semaines plus tard</div><div class="t">18 décembre 2026</div><div class="bar"></div><div class="s">Fin prévue au devis</div>`);
+   showCard(`<div class="k">Six semaines plus tard</div><div class="t">18 décembre 2026</div><div class="bar"></div><div class="s">Fin prévue au devis</div>`);
    await sleep(300); const ax=await show('mail',mail4()); await sleep(2000); hideCard();
    crumb(CL,['Messagerie','Mail d\'Alphonse, Steve en copie']);
    await caption(N(10),'Un seul mail, trois réponses possibles. Claire peut aussi répondre en une phrase.');
@@ -1346,7 +1373,7 @@ const STEPS=[
  }},
  {name:'Fin',async run(){
    cur.classList.remove('on'); capEl.classList.add('off'); ver.hidden=true; crumbEl.classList.add('off'); where(-1);
-   showCard(`${LOGO}<div class="t">Maquette : données fictives, rien n'est développé à ce stade</div><div class="bar"></div><div class="s">Écrans conçus à partir du code d'Alphonse au 4 novembre 2026</div>`);
+   showCard(`${LOGO}<div class="t">Maquette : données fictives, rien n'est développé à&nbsp;ce stade</div><div class="bar"></div><div class="s">Écrans conçus à partir du code d'Alphonse au 4 novembre 2026</div>`);
    await sleep(4500);
  }}
 ];
