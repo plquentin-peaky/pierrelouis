@@ -102,7 +102,7 @@ function render(){
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode())){if(n.nodeValue.includes('—'))n.nodeValue=n.nodeValue.replace(/\s?—\s?/g,(m)=>m.trim()===m?'Non renseigné':', ').replace(/^, |, $/g,'');}
   qs('#scrWho').textContent=s.who; qs('#scrTitle').textContent=s.title;
   qsa('#scrNav button').forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
-  qs('#btnToday').disabled=!s.today;
+  qs('#btnToday').disabled=!s.today; qs('#segVer').hidden=!s.today;
   qsa('#segVer button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));
   const caps=v==='today'?[[ 'Ce que montre l\'écran',[s.todayLabel?`${s.todayLabel}, tel qu'il est utilisé aujourd'hui (données fictives).`:'Ce qui existe aujourd\'hui (données fictives).']],['À comparer',['Basculez sur « Demain » pour voir ce que la proposition change.']]]:s.caps;
   qs('#caption').innerHTML=caps.map(([h,items])=>`<div><span class="eyebrow">${h}</span><ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');

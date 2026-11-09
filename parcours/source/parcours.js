@@ -482,22 +482,13 @@ const STEPS=[
    $('.c',sv[2]).className='c cur'; $('.c',sv[2]).textContent='3'; $('#fStat',ax).innerHTML=ST('em','À émettre');
    await sleep(2800);
  }},
- {name:'6. Ce que voit un consultant',async run(){
-   const ax=await show('consultant',consultantView()); scroller().scrollTop=0;
-   $$('.sb .it',ax).forEach(it=>{if(['Facturation','Clôture du mois','Clients','Consultants','Suivi feuilles de temps','Exports','Paramètres'].includes(it.textContent.trim().replace(/\d+$/,'').trim()))it.remove();});
-   $$('.sb .sec',ax).forEach(sc=>{if(['Finance','Administration'].includes(sc.textContent.trim()))sc.remove();});
-   crumb('Lucas Bernard · consultant',['Chantiers','VARENNE_EnqSig','Facturation']); where(-1);
-   await caption(N(6),'Un consultant du chantier voit la facturation en lecture seule : échéancier, entité, factures et leur statut.');
-   await sleep(1200); const l=$('#consLine',ax); flash(l,'pflash'); await moveTo(l,false);
-   await sleep(2000); const f=$('#consFac',ax); if(f){await ensureVisible(f); flash(f,'pflash'); await moveTo(f,false);} await sleep(3000);
- }},
- {name:'7. Stive émet',async run(){
+ {name:'6. Stive émet',async run(){
    const rows=fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt pr xs em">${I('send','s3')}Émettre</span>`)+
               fr('T','TALMONT_Enq','Sophie Martin','Solde','4 900',ST('em','À émettre'),'Vérifiée le 03/11 par Sophie Martin',`<span class="bt pr xs em">${I('send','s3')}Émettre</span>`);
    const side=`<div class="box" style="padding:14px 16px"><div class="lbl" style="margin-bottom:8px">Contrôles avant émission</div><div style="display:flex;gap:8px;align-items:center;font-size:13px">${I('okc','s3')}Aucun doublon détecté</div><div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:6px">${I('okc','s3')}Montants conformes aux devis</div></div>`;
    const ax=await show('afaire-f',aFaire('steve','04/11/2026',rows,{side})); scroller().scrollTop=0;
    crumb(ST_,['Facturation','À faire']); where(4);
-   await caption(N(7),'Stive émet ce que Claire a vérifié : chaque facture est validée par deux personnes.');
+   await caption(N(6),'Stive émet ce que Claire a vérifié : chaque facture est validée par deux personnes.');
    await sleep(1600);
    const nums={V:'F2026-00007',T:'F2026-00008'};
    for(const id of ['V','T']){const r=$(`tr[data-c="${id}"]`,ax); await click($('.em',r),false);
@@ -506,7 +497,7 @@ const STEPS=[
      await sleep(900);}
    await sleep(2400);
  }},
- {name:'8. Stive envoie et relance',async run(){
+ {name:'7. Stive envoie et relance',async run(){
    const rows=fr('V','VARENNE_EnqSig','Claire Morel','F2026-00007','9 300',ST('env','À envoyer'),'Portail fournisseurs Varenne',`<span class="bt pr xs dep">${I('send','s3')}Déposer sur le portail</span>`)+
      fr('T','TALMONT_Enq','Sophie Martin','F2026-00008','4 900',ST('env','À envoyer'),'Envoi par mail',`<span class="bt ol xs">Envoyer</span>`)+
      fr('O','ORLAN_EnqHar','Sophie Martin','F2026-00006','16 000',ST('env','À envoyer'),'Émise le 30/10',`<span class="bt ol xs">Envoyer</span>`)+
@@ -515,7 +506,7 @@ const STEPS=[
    const alert=`<div class="alertb" id="al">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande manquant, chantier créé il y a 7 jours. La facture reste « À préparer ».</span></div>`;
    const ax=await show('afaire-s',aFaire('steve','05/11/2026',rows,{alert,cnt:[['À préparer',1],['Chez le chef de projet',1],['À émettre',0],['À envoyer',3],['À encaisser',1],['Contestée',1]]})); scroller().scrollTop=0;
    crumb(ST_,['Facturation','À faire']); where(5);
-   await caption(N(8),'Stive n\'a plus d\'Excel à remplir : il voit quoi déposer, quoi relancer et qui appeler.');
+   await caption(N(7),'Stive n\'a plus d\'Excel à remplir : il voit quoi déposer, quoi relancer et qui appeler.');
    flash($('#al',ax)); await moveTo($('#al',ax),false); await sleep(2400);
    const v=$('tr[data-c="V"]',ax); await click($('.dep',v),false);
    $('.scell',v).innerHTML=ST('enc','À encaisser'); $('.icell',v).textContent='Déposée le 05/11'; $('.dep',v).remove(); flash(v,'pflash');
@@ -526,6 +517,15 @@ const STEPS=[
    d.innerHTML=`<div class="lbl" style="margin-bottom:8px">Rappel préparé, à envoyer depuis votre messagerie</div>Bonjour, sauf erreur de notre part, la facture F2026-00004 du 20/09/2026 (12 000 € HT, 14 400 € TTC) est arrivée à échéance le 20/10. Pourriez-vous nous indiquer sa date de règlement ? Merci beaucoup.<div style="display:flex;justify-content:flex-end;margin-top:10px"><span class="bt pr xs">Copier</span></div>`;
    app.firstElementChild.style.position='relative'; app.firstElementChild.appendChild(d); popIn(d);
    await sleep(4200);
+ }},
+ {name:'8. Ce que voit un consultant',async run(){
+   const ax=await show('consultant',consultantView()); scroller().scrollTop=0;
+   $$('.sb .it',ax).forEach(it=>{if(['Facturation','Clôture du mois','Clients','Consultants','Suivi feuilles de temps','Exports','Paramètres'].includes(it.textContent.trim().replace(/\d+$/,'').trim()))it.remove();});
+   $$('.sb .sec',ax).forEach(sc=>{if(['Finance','Administration'].includes(sc.textContent.trim()))sc.remove();});
+   crumb('Lucas Bernard · consultant',['Chantiers','VARENNE_EnqSig','Facturation']); where(-1);
+   await caption(N(8),'Un consultant du chantier voit la facturation en lecture seule : échéancier, entité, factures et leur statut.');
+   await sleep(1200); const l=$('#consLine',ax); flash(l,'pflash'); await moveTo(l,false);
+   await sleep(2000); const f=$('#consFac',ax); if(f){await ensureVisible(f); flash(f,'pflash'); await moveTo(f,false);} await sleep(3000);
  }},
  {name:'9. Par chantier',async run(){
    const ax=await show('parch',parChantier()); scroller().scrollTop=0;

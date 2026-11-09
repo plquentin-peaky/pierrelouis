@@ -2,12 +2,12 @@
 // S'appuie sur les gabarits de parcours.js (ficheTab, factureTab, aFaire, parChantier, mail4, cloture4, todaySplit, cmpScreen).
 
 // --- Liste des écrans ---
-const ETAPES=['Aujourd\'hui','Dépôt du devis','Échéancier','Vérification','Consultant','Émission','Envoi et suivi','Par chantier','Fin de mission','Clôture','Section Finance'];
+const ETAPES=['Aujourd\'hui','Dépôt du devis','Échéancier','Vérification','Émission','Envoi et suivi','Consultant','Par chantier','Fin de mission','Clôture','Section Finance'];
 
 const SCREENS=[
  {id:'today',etape:0,who:'Aujourd\'hui',title:'Aujourd\'hui : un onglet Facturation vide et le facturier Excel de Stive',
   html:()=>todaySplit(),solo:true,
-  caps:[['Ce que montre l\'écran',['À gauche, l\'onglet Facturation d\'un chantier dans Alphonse, tel qu\'il existe : un formulaire à remplir champ par champ et un échéancier vide.','À droite, le facturier Excel tenu par Stive, une ligne par facture.']],
+  caps:[['Ce que montre l\'écran',['En haut, l\'onglet Facturation d\'un chantier dans Alphonse, tel qu\'il existe : un échéancier vide et, plus bas, un formulaire à remplir champ par champ.','En bas, le facturier Excel tenu par Stive, une ligne par facture.']],
         ['Ce qui coince',['Le chef de projet ressaisit ce qui figure déjà dans son devis.','Stive recopie, numérote et relance de mémoire ; « facturé » dépend d\'une case cochée.','Pour savoir quoi facturer, il faut faire la tournée des chefs de projet.']]]},
  {id:'depot',etape:1,who:'Claire Morel · cheffe de projet',title:'Claire dépose le devis : Alphonse préremplit les informations de facturation et cite ses sources',
   html:()=>ficheTab({docs:'two',infos:'edit',sched:'empty'}),
@@ -24,18 +24,14 @@ const SCREENS=[
   today:()=>S.acompte.today(),todayLabel:'Le modèle de facture Excel',
   caps:[['Ce que montre l\'écran',['La facture d\'acompte en brouillon, préparée par Alphonse le jour de l\'échéance, et son fil : préparée, vérifiée par la cheffe de projet, émise par la finance (Stive), déposée.','Deux boutons pour Claire : « C\'est bon » ou « À corriger », avec un motif.']],
         ['Ce qui change',['Personne ne recopie la facture : elle reprend la fiche validée.','Le numéro définitif n\'est attribué qu\'à l\'émission, par la finance.','À chaque instant, on sait qui doit agir.']]]},
- {id:'consultant',etape:4,who:'Lucas Bernard · consultant du chantier',title:'Un consultant du chantier voit sa facturation en lecture seule',
-  html:()=>consultantFacturation(window.__consMode||'complet'),dyn:true,
-  caps:[['Ce que montre l\'écran',['Lucas, consultant de l\'équipe, ouvre l\'onglet Facturation : échéancier, informations de facturation et factures émises avec leur statut.','Aucun bouton : tout est en lecture seule. Le bandeau dit qui suit la facturation.']],
-        ['Ce qui change',['Le consultant sait où en est la facturation de son chantier sans demander.','Les montants affichés dépendent de l\'arbitrage n° 2, plus bas : l\'écran suit votre choix.']]]},
- {id:'emettre',etape:5,who:'Stive · facturation et relances',title:'Stive émet ce que la cheffe de projet a vérifié',
+ {id:'emettre',etape:4,who:'Stive · facturation et relances',title:'Stive émet ce que la cheffe de projet a vérifié',
   html:()=>aFaire('steve','04/11/2026',
      fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt pr xs">${I('send','s3')}Émettre</span>`)+
      fr('T','TALMONT_Enq','Sophie Martin','Solde','4 900',ST('em','À émettre'),'Vérifiée le 03/11 par Sophie Martin',`<span class="bt pr xs">${I('send','s3')}Émettre</span>`),
      {side:`<div class="box" style="padding:14px 16px"><div class="lbl" style="margin-bottom:8px">Contrôles avant émission</div><div style="display:flex;gap:8px;align-items:center;font-size:13px">${I('okc','s3')}Aucun doublon détecté</div><div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:6px">${I('okc','s3')}Montants conformes aux devis</div></div>`}),
   caps:[['Ce que montre l\'écran',['La liste « À faire » de Stive, filtrée sur « Chez moi » : les factures vérifiées par les chefs de projet, prêtes à émettre.','Les compteurs du haut montrent où en sont toutes les factures, étape par étape.']],
         ['Ce qui change',['Chaque facture est validée par deux personnes avant de partir.','« Émettre » attribue le numéro définitif et la date du jour : la facture ne se modifie plus, elle s\'annule par un avoir.']]]},
- {id:'steve',etape:6,who:'Stive · facturation et relances',title:'Le lendemain, Stive voit quoi déposer, quoi relancer et qui appeler, sans Excel',
+ {id:'steve',etape:5,who:'Stive · facturation et relances',title:'Le lendemain, Stive voit quoi déposer, quoi relancer et qui appeler, sans Excel',
   html:()=>aFaire('steve','05/11/2026',
      fr('V','VARENNE_EnqSig','Claire Morel','F2026-00007','9 300',ST('env','À envoyer'),'Portail fournisseurs Varenne',`<span class="bt pr xs">${I('send','s3')}Déposer sur le portail</span>`)+
      fr('T','TALMONT_Enq','Sophie Martin','F2026-00008','4 900',ST('env','À envoyer'),'Envoi par mail',`<span class="bt ol xs">Envoyer</span>`)+
@@ -49,6 +45,10 @@ const SCREENS=[
   today:()=>xlFacturier4(),todayLabel:'Le facturier Excel',
   caps:[['Ce que montre l\'écran',['La même liste « À faire », côté Stive : les factures à envoyer, une facture en retard, une contestée, et l\'alerte d\'un chantier démarré sans bon de commande.','Pour une relance, Alphonse prépare le texte ; Stive l\'envoie depuis sa messagerie.']],
         ['Ce qui change',['Plus de facturier à tenir : le registre se remplit tout seul, l\'export au format du facturier reste disponible.','Stive passe du temps sur ce qui bloque : appeler le bon interlocuteur.','Écran à construire avec Stive : nous le lui présenterons avant de le figer.']]]},
+ {id:'consultant',etape:6,who:'Lucas Bernard · consultant du chantier',title:'Un consultant du chantier voit sa facturation en lecture seule',
+  html:()=>consultantFacturation(window.__consMode||'complet'),dyn:true,
+  caps:[['Ce que montre l\'écran',['Lucas, consultant de l\'équipe, ouvre l\'onglet Facturation : échéancier, informations de facturation et factures émises avec leur statut.','Aucun bouton : tout est en lecture seule. Le bandeau dit qui suit la facturation.']],
+        ['Ce qui change',['Le consultant sait où en est la facturation de son chantier sans demander.','Les montants affichés dépendent de l\'arbitrage n° 2, plus bas : l\'écran suit votre choix.']]]},
  {id:'parchantier',etape:7,who:'Stive, Fabrice, chefs de projet',title:'Par chantier : production, déjà facturé et écart, l\'état de la facturation tenu à jour chaque jour',
   html:()=>parChantier(),
   caps:[['Ce que montre l\'écran',['Chaque chantier, groupé par chef de projet : montant, production à fin octobre, déjà facturé, écart et prochaine échéance.','Un solde qui attend chez le chef de projet depuis le 4 novembre ressort.']],
