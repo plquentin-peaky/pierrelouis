@@ -4,16 +4,16 @@ Parcours facturation PSE : chapitres de la vidéo
 00:03  1. Aujourd'hui
 00:12  2. Claire dépose le devis
 00:20  3. Informations préremplies
-00:41  4. Échéancier proposé
-00:51  5. Claire vérifie la facture
-01:01  6. Stive émet
-01:11  7. Stive envoie et relance
-01:24  8. Ce que voit un consultant
-01:33  9. Par chantier
-01:44  10. Fin de mission
-02:02  11. Clôture du mois
-02:17  12. La section Finance demain
-02:32  Synthèse
-02:43  Fin
+00:38  4. Échéancier proposé
+00:48  5. Claire vérifie la facture
+00:59  6. Stive émet
+01:08  7. Stive envoie et relance
+01:21  8. Ce que voit un consultant
+01:31  9. Par chantier
+01:41  10. Fin de mission
+01:59  11. Clôture du mois
+02:14  12. La section Finance demain
+02:29  Synthèse
+02:40  Fin
 
-Durée totale : 02:48
+Durée totale : 02:45
