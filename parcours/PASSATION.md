@@ -204,3 +204,19 @@ Fichiers à relire dans Lovable :
 > 1. Vérifie dans le code l'état actuel : qui voit et qui peut modifier l'onglet Facturation de la fiche chantier, le menu Finance et les factures. Profils : consultant contributeur, manager, chef de projet, associé de référence, associé, finance, admin.
 > 2. Ma cible : les consultants voient la facturation de leurs chantiers en lecture seule ; le chef de projet voit l'onglet Facturation avec les informations, notamment l'échéancier et l'entité de facturation. Propose la matrice cible (profil × élément × voir / modifier), avec les écarts par rapport à aujourd'hui, les fichiers à changer, la taille de chaque changement et les questions à trancher (montants visibles ou non pour le consultant, factures visibles ou non, droits de modification du chef de projet).
 > 3. Ensuite, on mettra à jour la proposition client et la vidéo (scène 6, tableau « Ce que voit chacun », synthèse).
+
+---
+
+## 8. Mise à jour du 9 novembre au soir : support de préparation du 12 novembre
+
+- **Livrable :** `parcours/support/Support_Facturation_PSE_12-11.html` (3,6 Mo, moins de 5 Mo pour adopt.aiorigin.io), page autonome : l'essentiel, vidéo intégrée (2 min 45, chapitres cliquables), 11 écrans cliquables avec « Aujourd'hui / Demain » et badge d'étape, statuts, qui voit quoi (suit les choix), IA, facture électronique, planning en 4 étapes, 9 arbitrages au format des ateliers Promologis (aperçu visuel par option, conseillé / actuel), informations attendues, récapitulatif copiable.
+- **Régénérer :** `node parcours/construire.mjs`, `CHROME=/usr/bin/google-chrome node parcours/enregistrer.mjs`, puis `node parcours/support/construire_support.mjs`. Contrôle : `node parcours/support/capturer.mjs <dossier>`.
+- **Changements par rapport à la v4 :**
+  - le prénom s'écrit **Stive** (PG l'écrit ainsi dans son mail du 12/10) ;
+  - **Stive émet** (Fabrice en relais, avoirs et clôture à Fabrice), avec un profil « facturation » dédié : plus de liste nominative d'émetteurs (8 à 10 j en moins) ;
+  - consultants : facturation de leurs chantiers en **lecture seule**, montants visibles (conseillé), arbitrage n° 2 ;
+  - une seule validation « informations et échéancier » pour le chef de projet ; Stive complète ce qui manque ;
+  - « Par chantier » : production, déjà facturé, écart (pas de « à facturer ») ;
+  - planning en **4 étapes** : 22 à 36 j, 18 à 28 j, 12 à 21 j, 9 à 12 j, soit 61 à 97 j ; prix en euros à présenter par Pierre-Louis.
+- **Relectures « PG et Fabrice » :** `travaux_internes/V1` à `V4` ; brief des réunions `A4_brief_relecteur_PG_Fabrice.md` ; droits dans le code `A5_droits_facturation_09-11.md`.
+- **À vérifier avant ou pendant jeudi :** l'écran des droits (matrice `role_permissions`) de Plein Sens Ethique pour le rôle Consultant (budget visible ? modification des chantiers ?).
