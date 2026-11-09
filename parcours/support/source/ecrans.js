@@ -1,6 +1,21 @@
 // ===== Écrans du support : états figés des scènes du parcours v4 =====
 // S'appuie sur les gabarits de parcours.js (ficheTab, factureTab, aFaire, parChantier, mail4, cloture4, todaySplit, cmpScreen).
 
+// --- Aujourd'hui : l'onglet FAE du classeur, fin octobre (chiffres alignés sur le facturier et sur « Par chantier ») ---
+function faeToday(){
+  const rows=[['VARENNE_EnqSig','Enquête interne','18 600','1 860','0','1 860'],['BRENNE_Enq','Enquête signalement','15 000','6 000','0','6 000'],['HALIOS_EnqSig','Enquête interne','24 000','16 800','12 000','4 800'],['CAPELLE_Enq','Enquête signalement','12 400','12 400','6 200','6 200'],['ORLAN_EnqHar','Enquête harcèlement','32 000','9 600','16 000','-6 400'],['MERIDIA_EnqRPS','Enquête RPS','21 000','10 500','10 500','0'],['TALMONT_Enq','Enquête','9 800','9 800','4 900','4 900']];
+  return `<div class="xl"><div class="xt">PLS_facturier.xlsx <span>Excel</span></div><div class="rib"><span>Fichier</span><span>Accueil</span><span>Insertion</span><span>Mise en page</span><span>Formules</span><span>Données</span></div><div class="fx"><b>F9</b><i>=D9-E9</i></div>
+<table><colgroup><col style="width:42px"><col style="width:200px"><col><col style="width:150px"><col style="width:150px"><col style="width:150px"><col style="width:150px"></colgroup>
+<tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+<tr class="h"><td class="rn">1</td><td>Alphonse</td><td>nom chantier</td><td>CA chantier</td><td>production à date</td><td>facturé à date</td><td>FAE</td></tr>
+${rows.map((r,i)=>`<tr><td class="rn">${i+2}</td>${r.map((c,j)=>`<td${j>1?' style="text-align:right"':''}>${c}</td>`).join('')}</tr>`).join('')}
+<tr><td class="rn">9</td><td style="font-weight:700">TOTAL</td><td></td><td style="text-align:right;font-weight:700">132 800</td><td style="text-align:right;font-weight:700">66 960</td><td style="text-align:right;font-weight:700">49 600</td><td style="text-align:right;font-weight:700">17 360</td></tr>
+${Array.from({length:7},(_,k)=>`<tr><td class="rn">${10+k}</td>${'<td></td>'.repeat(6)}</tr>`).join('')}
+</table>
+<div class="note">Production reprise d'Alphonse, facturé repris du facturier. Une seule colonne mélange le produit non facturé et le facturé d'avance (ORLAN). L'onglet part chez le comptable chaque fin de mois, avec le facturier.</div>
+<div class="sheets"><span>Non payé plus de 2 mois</span><span>Non payé moins de 2 mois</span><span>Facturier</span><span>modele facture standard</span><span>Fichier Client</span><span class="on">FAE</span></div></div>`;
+}
+
 // --- Liste des écrans ---
 const ETAPES=['Aujourd\'hui','Dépôt du devis','Échéancier','Vérification','Émission','Envoi et suivi','Consultant','Par chantier','Fin de mission','Clôture','Section Finance'];
 
@@ -13,7 +28,7 @@ const SCREENS=[
   html:()=>ficheTab({docs:'two',infos:'edit',sched:'empty'}),
   today:()=>{navToday();const h=S.depot.today();navTarget();return h.replace(/>—</g,'>Non renseigné<');},
   after:(r)=>{const u=r.querySelector('#useEnt');if(u)u.outerHTML='<span class="sbd ok sm"><span class="d"></span>Entité existante utilisée</span>';},
-  caps:[['Ce que montre l\'écran',['Le devis signé et le bon de commande, déposés dans la fiche du chantier.','Le formulaire existant, prérempli : chaque champ indique sa source (« Devis, p. 1 »). L\'entité déjà connue est retrouvée.','Le seul manque, le contact facturation, est signalé. Claire glisse le mail du client : le contact est lu dans la signature.']],
+  caps:[['Ce que montre l\'écran',['Le devis signé et le bon de commande, déposés dans la fiche du chantier.','Le formulaire existant, prérempli : chaque champ indique sa source (« Devis, p. 1 »). L\'entité déjà connue est retrouvée.','Le seul manque, le contact facturation, est signalé : il part dans la liste de Stive. Si Claire a un mail du client, elle peut le glisser : le contact est lu dans la signature.']],
         ['Ce qui change',['Claire relit et valide au lieu de ressaisir.','Rien n\'est enregistré tant qu\'elle n\'a pas cliqué « Valider ces informations ».','Sans devis, « Remplir à la main » garde le formulaire d\'aujourd\'hui.']]]},
  {id:'echeancier',etape:2,who:'Claire Morel · cheffe de projet',title:'L\'échéancier 50/50 est proposé et rapproché du montant du chantier',
   html:()=>ficheTab({docs:'mail',infos:'saved',sched:'prop'}),
@@ -52,20 +67,20 @@ const SCREENS=[
  {id:'parchantier',etape:7,who:'Stive, Fabrice, chefs de projet',title:'Par chantier : production, déjà facturé et écart, l\'état de la facturation tenu à jour chaque jour',
   html:()=>parChantier(),
   caps:[['Ce que montre l\'écran',['Chaque chantier, groupé par chef de projet : montant, production à fin octobre, déjà facturé, écart et prochaine échéance.','Un solde qui attend chez le chef de projet depuis le 4 novembre ressort.']],
-        ['Ce qui change',['C\'est l\'état de la facturation de Fabrice, sans retraitement Excel : les trois colonnes production, déjà facturé, écart, exportables à tout moment.','Le facturé vient des factures émises, et seulement d\'elles. La production est un calcul : jours saisis ÷ jours prévus × montant du chantier.','Le point de Stive avec chaque chef de projet part de cette vue (arbitrage n° 7).']]]},
+        ['Ce qui change',['C\'est l\'état de la facturation de Fabrice, sans retraitement Excel : les trois colonnes production, déjà facturé, écart, exportables à tout moment.','Le facturé vient des factures émises, et seulement d\'elles. La production reprend le calcul de la valorisation qui existe déjà dans Alphonse (jours passés rapportés aux jours passés et restant à faire), figé à la fin de chaque mois. Aucune IA n\'intervient.','Le point de Stive avec chaque chef de projet part de cette vue (arbitrage n° 7).']]]},
  {id:'fin',etape:8,who:'Claire Morel · cheffe de projet',title:'À la fin prévue, un seul mail : Claire répond en un clic ou en une phrase',
   html:()=>mail4(),solo:true,
   after:(r)=>{const rp=r.querySelector('#reply');if(rp){rp.textContent='Pas encore, la restitution est reportée au 8 janvier.';rp.style.borderColor='#1d4ed8';}const p=r.querySelector('#propo');if(p)p.style.display='';},
-  today:()=>S.solde.today(),todayLabel:'Aujourd\'hui',
+  today:()=>S.solde.today().replace('<span class="sbd ok"><span class="d"></span>Réglé</span>','<span class="sbd info"><span class="d"></span>Facturé</span>'),todayLabel:'Aujourd\'hui',
   caps:[['Ce que montre l\'écran',['Le mail reçu le jour de la fin prévue au devis, Stive en copie, avec les jours saisis et prévus.','Trois réponses en un clic, ou une phrase : Alphonse propose la nouvelle date, Claire confirme.']],
         ['Ce qui change',['Personne n\'a à se souvenir de facturer le solde.','Le report est tracé, Stive le voit dans sa liste. Un complément se déclare au même endroit.']]]},
  {id:'cloture',etape:9,who:'Fabrice Ducellier · finance',title:'Fabrice clôt le mois : les chiffres sont figés et le comptable reçoit trois fichiers',
   html:()=>cloture4(),
   after:(r)=>{r.querySelectorAll('.ck').forEach(k=>{k.className='sbd ok sm ck';k.textContent='✓';});r.querySelectorAll('#pack .file').forEach(f=>f.style.display='');},
-  today:()=>S.compta.today(),todayLabel:'L\'onglet FAE de l\'Excel',
-  caps:[['Ce que montre l\'écran',['Trois vérifications au vert : temps saisis, factures dues émises, brouillons traités.','Les trois montants du mois : facturé, travail réalisé non facturé, facturé d\'avance. Puis les trois fichiers pour le comptable.']],
+  today:()=>faeToday(),todayLabel:'L\'onglet FAE de l\'Excel, fin octobre',
+  caps:[['Ce que montre l\'écran',['Trois vérifications au vert : temps saisis, factures dues émises, brouillons traités.','Les trois montants du mois : facturé, travail réalisé non facturé, facturé d\'avance. Puis les trois fichiers pour le comptable, dont un fichier d\'écritures au format convenu avec lui.']],
         ['Ce qui change',['Les montants sont calculés par des formules et figés à la clôture : ils ne bougent plus.','Le comptable n\'a pas de compte : Fabrice lui transmet les trois fichiers.']]]},
- {id:'finance',etape:10,who:'La section Finance',title:'La section Finance : sept pages deviennent six, rangées par ce que chacun a à faire',
+ {id:'finance',etape:10,who:'Pour Fabrice',title:'Pour Fabrice : où retrouver les pages Finance d\'aujourd\'hui',
   html:()=>cmpScreen(),solo:true,
   caps:[['Ce que montre l\'écran',['À gauche, les pages Finance d\'aujourd\'hui ; à droite, ce qu\'elles deviennent, et pourquoi.']],
         ['Ce qui change',['Deux entrées : Facturation (À faire, Par chantier, Registre) et Clôture du mois (Vérifications, Travail réalisé et facturé, Mois clos).','Ces changements ne concernent que Plein Sens Ethique : Plein Sens ne change pas.']]]}

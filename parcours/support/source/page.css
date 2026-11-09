@@ -137,7 +137,8 @@ table.mx td:first-child span{display:block;font-weight:400;font-size:12px;color:
 .arb-h .n{font-weight:700;color:var(--pg-mute)}
 .arb-q{font-size:13.5px;color:var(--pg-mute);margin:6px 0 14px;max-width:90ch}
 .arb-q b{color:var(--pg-ink)}
-.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.opts{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.opts.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .opt{position:relative;background:var(--pg-paper);border:1.5px solid var(--pg-line);border-radius:12px;padding:13px 15px 14px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-width:0;text-align:left;font:inherit;color:inherit}
 .opt:hover{border-color:#9AA3AD}
 .opt[aria-checked="true"]{border-color:var(--pg-ink);box-shadow:0 0 0 1px var(--pg-ink)}
@@ -196,3 +197,24 @@ footer{padding-block:28px;font-size:11.5px;color:var(--pg-mute);background:var(-
 /* écran « Aujourd'hui » : les deux volets l'un sous l'autre, lisibles */
 #scaler>.split{grid-template-columns:minmax(0,1fr);height:auto;gap:18px}
 #scaler>.split .frame{height:600px;flex:none}
+
+.gest{margin:16px 0 0;font-size:14px;color:#2E343B;background:var(--pg-paper);border:1px solid var(--pg-line);border-left:3px solid var(--pg-vi);border-radius:8px;padding:12px 16px}
+.swipe,.swipe-i{display:none}
+.swipe{font-size:12px;color:var(--pg-mute);margin:6px 0 0;text-align:right}
+@media (max-width:760px){.swipe,.swipe-i{display:block}.swipe-i{display:inline}}
+section{scroll-margin-top:50px}
+
+/* aperçus des options, à la manière des ateliers : le composant Alphonse tel qu'il serait */
+.opt{padding:0;overflow:hidden;gap:0}
+.opt-top{padding:12px 14px;border-bottom:1px solid var(--pg-line);background:var(--pg-paper)}
+.opt-prev{display:block;background:#ECEEF1;padding:16px}
+.mini-w{display:block;position:relative;overflow:hidden}
+.mini-in{display:block;width:560px;transform-origin:0 0;position:absolute;left:0;top:0}
+.opt-desc{padding:12px 14px 4px}
+.opt-imp{margin:6px 14px 14px}
+.opt>.opt-desc:last-child{padding-bottom:14px}
+.ax.axm{width:auto;display:block;background:transparent;min-height:0;font-size:13px}
+.ax.axm .box,.ax.axm .tw{background:#fff}
+.arb-h .ital{font-family:var(--f-serif);font-style:italic;color:var(--pg-mute);font-size:14px}
+@media (max-width:1000px){.opts.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.opts,.opts.three{grid-template-columns:minmax(0,1fr)}}

@@ -5,17 +5,17 @@ const esc=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 // ---------- Données ----------
 const LIFE=[
- ['À venir','av','Personne','L\'échéancier est validé.','<b>La date prévue arrive</b> : contrôle automatique chaque nuit.'],
- ['À préparer','prep','Stive','La date est arrivée, mais une mention obligatoire manque (bon de commande, par exemple).','<b>La mention est complétée.</b>'],
- ['Chez le chef de projet','cp','Claire, cheffe de projet','La facture en brouillon est complète.','<b>« C\'est bon »</b>, ou « À corriger » avec un motif.'],
- ['À émettre','em','Stive, Fabrice en relais','Claire a vérifié.','<b>« Émettre »</b> : numéro définitif et date du jour.'],
- ['À envoyer','env','Stive','La facture est émise.','<b>Stive note le dépôt</b> sur le portail ou l\'envoi par mail.'],
- ['À encaisser','enc','Stive','La facture est envoyée ; « En retard » s\'affiche après l\'échéance.','<b>Le paiement est enregistré.</b>'],
- ['Réglée','reg','Personne','Le paiement est complet.','']
+ ['À venir','av','Personne','attend la date prévue'],
+ ['À préparer','prep','Stive','complète une mention manquante'],
+ ['Chez le chef de projet','cp','Claire','vérifie'],
+ ['À émettre','em','Stive','émet ; Fabrice en relais'],
+ ['À envoyer','env','Stive','dépose ou envoie'],
+ ['À encaisser','enc','Stive','suit le paiement, relance'],
+ ['Réglée','reg','Personne','']
 ];
 const LIFE_SIDE=[
- ['Contestée','con','Stive','Le client refuse la facture : Stive choisit un motif, les relances s\'arrêtent. Retour à « À encaisser », ou avoir.'],
- ['Annulée par un avoir','av','Fabrice','Seul Fabrice crée un avoir. L\'échéance revient « À préparer ».']
+ ['Contestée','con','Stive','Le client refuse la facture : Stive note le motif, les relances s\'arrêtent.'],
+ ['Annulée par un avoir','av','Fabrice','Seul Fabrice crée un avoir ; l\'échéance revient « À préparer ».']
 ];
 const PILL={av:'background:#F3F3F3;color:#555',prep:'background:#FEF3C7;color:#7A5410',cp:'background:#EDE9FE;color:#5B21B6',em:'background:#DBEAFE;color:#1E40AF',env:'background:#E0F2FE;color:#075985',enc:'background:#F1F5F9;color:#334155',reg:'background:#D1FAE5;color:#065F46',con:'background:#FFE4E6;color:#9F1239'};
 
@@ -31,7 +31,7 @@ window.__consMode=state.a2;
 
 // ---------- Vie d'une facture ----------
 const pill=(t,k)=>`<span class="pill" style="${PILL[k]}">${t}</span>`;
-qs('#life').innerHTML=LIFE.map(([t,k,w,i,o])=>`<div class="lf">${pill(t,k)}<div class="who">${w}</div><div class="in">${i}</div>${o?`<div class="lfo">${o}</div>`:''}</div>`).join('');
+qs('#life').innerHTML=LIFE.map(([t,k,w,a])=>`<div class="lf">${pill(t,k)}<div class="who">${w}</div>${a?`<div class="in">${a}</div>`:''}</div>`).join('');
 qs('#life').insertAdjacentHTML('afterend',`<div class="life-side">${LIFE_SIDE.map(([t,k,w,d])=>`<div class="lf">${pill(t,k)}<div class="who">${w}</div><div class="in" style="flex:1;min-width:220px">${d}</div></div>`).join('')}</div>`);
 
 // ---------- Matrice des droits ----------
@@ -50,13 +50,19 @@ qs('#hyp').innerHTML=HYP.map(h=>`<div>${h}</div>`).join('');
 
 // ---------- Arbitrages ----------
 function renderArb(){
-  qs('#arb').innerHTML=ARB.map((a,i)=>`<div class="arb" id="arb-${a.k}"><div class="arb-h"><span class="n">${i+1}.</span><h3>${a.t}</h3></div><p class="arb-q">${a.q}</p>
-  <div class="opts" role="radiogroup" aria-label="${esc(a.t).replace(/"/g,'')}">${a.o.map(o=>`<button type="button" class="opt" role="radio" data-k="${a.k}" data-v="${o.v}" aria-checked="${state[a.k]===o.v}"><span class="opt-top"><span class="radio"></span><span class="opt-name">${o.n}</span>${o.rec?'<span class="tag rec">CONSEILLÉ</span>':o.cur?'<span class="tag">ACTUEL</span>':''}</span><span class="opt-desc">${o.d}</span>${o.i?`<span class="opt-imp">${o.i}</span>`:''}</button>`).join('')}</div>
-  ${a.why?`<div class="arb-why"><b>Pourquoi nous conseillons cette option.</b> ${a.why}</div>`:''}${a.screen?`<div class="arb-link"><a href="#ecrans" data-go="${a.screen}">Voir l'écran concerné</a></div>`:''}</div>`).join('');
+  qs('#arb').innerHTML=ARB.map((a,i)=>`<div class="arb" id="arb-${a.k}"><div class="arb-h"><span class="n">${i+1}.</span><h3>${a.t}</h3>${a.w?`<span class="ital">${a.w}</span>`:''}</div><p class="arb-q">${a.q}</p>
+  <div class="opts${a.o.length>2?' three':''}" role="radiogroup" aria-label="${esc(a.t).replace(/"/g,'')}">${a.o.map(o=>`<button type="button" class="opt" role="radio" data-k="${a.k}" data-v="${o.v}" aria-checked="${state[a.k]===o.v}"><span class="opt-top"><span class="radio"></span><span class="opt-name">${o.n}</span>${o.rec?'<span class="tag rec">CONSEILLÉ</span>':o.cur?'<span class="tag">ACTUEL</span>':''}</span>${o.m?`<span class="opt-prev"><span class="mini-w"><span class="mini-in">${o.m}</span></span></span>`:''}<span class="opt-desc">${o.d}</span>${o.i?`<span class="opt-imp">${o.i}</span>`:''}</button>`).join('')}</div>
+  ${a.why?`<div class="arb-why"><b>Pourquoi nous conseillons cette option.</b> ${a.why}</div>`:''}${a.screen?`<div class="arb-link"><a href="#ecrans" data-go="${a.screen}">Voir l'écran concerné dans le parcours</a></div>`:''}</div>`).join('');
   qsa('#arb .opt').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.k]=b.dataset.v;save();sync();}));
   qsa('#arb [data-go]').forEach(l=>l.addEventListener('click',()=>{go(SCREENS.findIndex(s=>s.id===l.dataset.go),'prop');}));
   qs('#infosG').innerHTML=INFOS.map(([t,d])=>`<div><b>${t}</b><span>${d}</span></div>`).join('');
+  requestAnimationFrame(fitMini);
 }
+function fitMini(){
+  qsa('.mini-w').forEach(w=>{const inr=w.firstElementChild;const W=w.closest('.opts.three')&&!w.closest('#arb-a2')?460:640;inr.style.width=W+'px';const s=Math.min(1,w.clientWidth/W);inr.style.transform=`scale(${s})`;w.style.height=Math.ceil(inr.offsetHeight*s)+'px';});
+}
+addEventListener('resize',()=>fitMini());
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitMini());
 function sync(){
   qsa('#arb .opt').forEach(b=>b.setAttribute('aria-checked',state[b.dataset.k]===b.dataset.v));
   qs('#recapT').innerHTML=ARB.map((a,i)=>{const o=a.o.find(x=>x.v===state[a.k]);return `<tr><td>${i+1}. ${a.t}</td><td>${o.n}${o.rec?' <span class="tag rec" style="font-size:8.5px">CONSEILLÉ</span>':''}</td></tr>`;}).join('');

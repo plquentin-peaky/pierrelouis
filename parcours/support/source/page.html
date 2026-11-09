@@ -21,7 +21,7 @@
 
 <nav class="toc" aria-label="Sommaire"><div class="wrap toc-in">
   <span class="toc-brand">Facturation PSE · point du 12/11</span>
-  <a href="#minute">L'essentiel</a><a href="#video">Vidéo</a><a href="#ecrans">Les écrans</a><a href="#processus">Les statuts</a><a href="#droits">Qui voit quoi</a><a href="#ia">L'IA</a><a href="#effort">Planning</a><a href="#arbitrages" class="hot">Arbitrages</a>
+  <a href="#minute">L'essentiel</a><a href="#video">Vidéo</a><a href="#ecrans">Les écrans</a><a href="#processus">Où en est une facture</a><a href="#droits">Qui voit quoi</a><a href="#ia">L'IA</a><a href="#effort">Planning</a><a href="#arbitrages" class="hot">Arbitrages</a>
 </div></nav>
 
 <header class="band white" id="top">
@@ -29,12 +29,12 @@
     <div class="eyebrow">Plein Sens Ethique · Alphonse · Facturation des enquêtes</div>
     <h1>Facturer une enquête depuis la fiche chantier, sans Excel ni ressaisie</h1>
     <div class="rule" aria-hidden="true"></div>
-    <p class="lead">Le 4 novembre, Pierre-Guillaume nous a demandé de repartir d'une page blanche plutôt que d'automatiser le processus actuel : une facture d'acompte, une facture de solde, un rappel quand on aurait dû facturer, un suivi des encaissements, un état simple pour le comptable, avec le moins de saisie possible et un contrôle humain avant chaque facture. Ce document montre ce que nous proposons pour Plein Sens Ethique, écran par écran, et liste les choix à trancher ensemble jeudi.</p>
+    <p class="lead">Le 4 novembre, Pierre-Guillaume nous a demandé de repartir d'une page blanche plutôt que d'automatiser le processus actuel. Il faut sortir une facture d'acompte et une facture de solde, être rappelé quand on aurait dû facturer, suivre les encaissements et donner au comptable un état simple, avec le moins de saisie possible et un contrôle humain avant chaque facture. Ce document montre ce que nous proposons pour Plein Sens Ethique, écran par écran, et liste les choix à trancher ensemble jeudi.</p>
     <div class="src">
       <span><b>Pour</b> Pierre-Guillaume Ferré et Fabrice Ducellier</span>
       <span><b>Séance</b> jeudi 12 novembre 2026, 14 h</span>
       <span><b>Périmètre</b> les enquêtes de Plein Sens Ethique ; Plein Sens ne change pas</span>
-      <span><b>Statut</b> maquettes : rien n'est développé, les données sont fictives</span>
+      <span><b>Statut</b> maquettes et données fictives ; une partie des briques existe déjà dans Alphonse</span>
     </div>
     <div class="howto">
       <div class="eyebrow">Comment lire ce document (15 minutes)</div>
@@ -49,16 +49,17 @@
 
 <section class="band soft" id="minute">
   <div class="wrap">
-    <h2>L'essentiel : chaque facture a un responsable, et personne ne ressaisit ni ne coche</h2>
+    <h2>L'essentiel : Alphonse prépare chaque facture à partir du devis, il ne reste que deux contrôles humains</h2>
     <div class="five">
       <div><span class="num-b">1</span><p><b>Le devis devient la source.</b> La cheffe de projet le dépose dans la fiche du chantier ; Alphonse préremplit les informations de facturation et l'échéancier 50/50, en citant ses sources. Elle valide.</p></div>
       <div><span class="num-b">2</span><p><b>Deux validations humaines.</b> À la date prévue, la facture est prête. La cheffe de projet la vérifie ; Stive l'émet, l'envoie et suit le paiement.</p></div>
       <div><span class="num-b">3</span><p><b>Un statut calculé, jamais coché.</b> « Émise », « envoyée », « réglée » se déduisent de ce qui s'est passé. Chacun voit ce qui l'attend dans une liste « Chez moi ».</p></div>
       <div><span class="num-b">4</span><p><b>Peu de messages, au bon moment.</b> Pour une enquête, la cheffe de projet reçoit au plus trois messages : l'acompte à vérifier, la fin prévue de la mission, le solde à vérifier. On répond en un clic ou en une phrase.</p></div>
-      <div><span class="num-b">5</span><p><b>Un mois clos ne bouge plus.</b> Fabrice clôt le mois après trois vérifications ; les montants sont figés et le comptable reçoit trois fichiers.</p></div>
+      <div><span class="num-b">5</span><p><b>Le comptable reçoit un état figé.</b> Chaque mois, le facturé et le travail réalisé non facturé sont calculés par formules puis figés ; Fabrice les transmet en un clic.</p></div>
     </div>
+    <p class="gest"><b>Pour une enquête, la cheffe de projet fait quatre choses en tout :</b> déposer le devis et valider ce qu'Alphonse a préparé, vérifier l'acompte, répondre au mail de fin de mission, vérifier le solde. Le reste est fait par Alphonse ou par Stive.</p>
     <div class="trio">
-      <div class="gone"><div class="eyebrow">Ce qui disparaît</div><ul><li>Le facturier Excel tenu à la main</li><li>La ressaisie de ce qui est déjà dans le devis</li><li>La case « facturé » cochée par quelqu'un</li><li>La tournée mensuelle pour savoir quoi facturer</li><li>Les relances faites de mémoire</li></ul></div>
+      <div class="gone"><div class="eyebrow">Ce qui disparaît</div><ul><li>Le facturier Excel tenu à la main</li><li>La ressaisie de ce qui est déjà dans le devis</li><li>La case « facturé » cochée par quelqu'un</li><li>La tournée de tous les chantiers pour savoir quoi facturer</li><li>Les relances faites de mémoire</li></ul></div>
       <div class="ai"><div class="eyebrow">Ce que fait Alphonse</div><ul><li>Lire le devis, le bon de commande et les mails</li><li>Retrouver l'entité facturée déjà connue</li><li>Préparer la facture à la date prévue</li><li>Signaler un oubli, un écart, un doublon</li><li>Rédiger la relance ou le mail d'accompagnement</li></ul></div>
       <div class="hum"><div class="eyebrow">Ce qui reste humain</div><ul><li>Valider les informations et l'échéancier</li><li>Vérifier puis émettre chaque facture</li><li>Décider d'un report ou d'un complément</li><li>Appeler le client quand ça bloque</li><li>Clore le mois</li></ul></div>
     </div>
@@ -79,7 +80,7 @@
 <section class="band soft" id="ecrans">
   <div class="wrap">
     <h2>Les écrans, un par un</h2>
-    <p class="sub">Reproduction d'Alphonse avec ses libellés, ses couleurs et ses composants. Pour certains écrans, le bouton « Aujourd'hui » montre ce qui existe à la place.</p>
+    <p class="sub">Reproduction d'Alphonse avec ses libellés, ses couleurs et ses composants. Pour certains écrans, le bouton « Aujourd'hui » montre ce qui existe à la place. <span class="swipe-i">Sur téléphone, utilisez « Plein écran ».</span></p>
     <div class="scr-nav" id="scrNav" role="tablist" aria-label="Écrans"></div>
     <div class="scr-head">
       <div><div class="eyebrow" id="scrWho"></div><h3 id="scrTitle"></h3></div>
@@ -97,7 +98,7 @@
 <section class="band white" id="processus">
   <div class="wrap">
     <h2>Où en est chaque facture : Alphonse le déduit des faits, personne ne coche rien</h2>
-    <p class="sub">Derrière les écrans, une règle simple : à chaque instant, une seule personne doit agir sur une facture, et elle la trouve dans sa liste « Chez moi ». Le statut se déduit de ce qui s'est passé (vérifiée, émise, déposée, payée). C'est ce qui permet de supprimer le facturier et la tournée mensuelle.</p>
+    <p class="sub">Personne ne coche un statut : Alphonse le déduit de ce qui s'est passé (vérifiée, émise, déposée, payée). À chaque instant, une seule personne doit agir sur une facture, et elle la trouve dans sa liste « Chez moi ». C'est ce qui permet de supprimer le facturier.</p>
     <div class="life" id="life"></div>
     <div class="cases">
       <div class="eyebrow">Les cas particuliers</div>
@@ -118,7 +119,7 @@
   <div class="wrap">
     <h2>Qui voit quoi : la facturation reste visible de toute l'équipe du chantier</h2>
     <p class="sub">Chacun voit la facturation des chantiers sur lesquels il travaille. Seules les personnes qui ont une étape à faire ont des boutons.</p>
-    <div class="tbl-wrap"><table class="mx" id="mx"></table></div>
+    <div class="tbl-wrap"><table class="mx" id="mx"></table></div><p class="swipe">Faites glisser le tableau vers la gauche pour voir toutes les colonnes →</p>
     <p class="note" id="mxNote"></p>
   </div>
 </section>
@@ -138,7 +139,7 @@
         <tr><td>Fin de mission</td><td>Comprend une réponse en une phrase (« pas encore, restitution le 8 janvier ») et propose la nouvelle date, que Claire confirme</td><td>Trois boutons et un champ date</td></tr>
         <tr><td>Relance</td><td>Rédige le rappel, que Stive envoie depuis sa messagerie</td><td>Modèle fixe</td></tr>
         <tr><td>Clôture du mois</td><td>Aucune : jours saisis, travail réalisé et montants figés sont des calculs</td><td>Identique</td></tr>
-      </tbody></table></div>
+      </tbody></table></div><p class="swipe">Faites glisser le tableau vers la gauche pour voir toutes les colonnes →</p>
   </div>
 </section>
 
@@ -148,19 +149,19 @@
     <p class="sub">Pour une PME comme Plein Sens Ethique, la réception des factures électroniques est obligatoire depuis le 1er septembre 2026 et l'émission le sera au 1er septembre 2027, par une plateforme agréée. Calendrier à confirmer avec votre expert-comptable.</p>
     <div class="five five-s">
       <div><span class="num-b">1</span><p><b>SIREN.</b> Ajouté sur le client et sur l'entité facturée ; il devient obligatoire sur la facture et fiabilise la recherche de doublons.</p></div>
-      <div><span class="num-b">2</span><p><b>Type d'échéance.</b> Acompte, solde ou complément donne le code normé de la facture ; la facture de solde cite l'acompte déduit.</p></div>
+      <div><span class="num-b">2</span><p><b>Type d'échéance.</b> Acompte, solde ou complément : c'est le type exigé par la facture électronique ; la facture de solde cite l'acompte déduit.</p></div>
       <div><span class="num-b">3</span><p><b>Numérotation.</b> Une séquence continue par année, propre à Plein Sens Ethique.</p></div>
       <div><span class="num-b">4</span><p><b>Statuts.</b> Ceux de la plateforme agréée se branchent sur les nôtres : déposée, rejetée, refusée, encaissée.</p></div>
-      <div><span class="num-b">5</span><p><b>Transmission.</b> Alphonse envoie la facture à la plateforme, par connexion directe si elle le permet, sinon par fichier. La plateforme reste à choisir avec Fabrice.</p></div>
+      <div><span class="num-b">5</span><p><b>Transmission.</b> Alphonse envoie la facture à la plateforme, par connexion directe si elle le permet, sinon par fichier. La plateforme reste à choisir avec Fabrice ; si Plein Sens Ethique reçoit déjà ses factures par une plateforme (Dext a été cité le 4 novembre, à confirmer), nous vérifierons qu'elle permet aussi l'émission.</p></div>
     </div>
   </div>
 </section>
 
 <section class="band white" id="effort">
   <div class="wrap">
-    <h2>Planning et effort : une première facture d'acompte de bout en bout, puis le suivi et la clôture</h2>
+    <h2>Planning : une vraie facture d'acompte d'abord, puis la suite étape par étape</h2>
     <p class="sub" id="effortSub"></p>
-    <div class="tbl-wrap"><table class="std lots" id="lots"></table></div>
+    <div class="tbl-wrap"><table class="std lots" id="lots"></table></div><p class="swipe">Faites glisser le tableau vers la gauche pour voir l'effort →</p>
     <div class="hyp" id="hyp"></div>
   </div>
 </section>
