@@ -1,12 +1,12 @@
  {k:'a2',t:'Que voit un consultant du chantier dans l\'onglet Facturation ?',w:'un membre de l\'équipe, ni chef de projet ni associé',screen:'consultant',
-  q:'Un consultant de l\'équipe n\'a aucune étape à faire : il voit la facturation de ses chantiers en lecture seule, sans pouvoir rien y changer. Reste à décider s\'il voit les montants. Si vous préférez que chacun voie la facturation de tous les chantiers, comme pour le budget, c\'est un simple réglage.',
+  q:'Un consultant de l\'équipe n\'a aucune étape à faire : il voit la facturation de ses chantiers en lecture seule, sans pouvoir rien y changer. Reste à décider s\'il voit les montants. Si vous préférez que chacun voie la facturation de tous les chantiers, c\'est un simple réglage.',
   o:[{v:'complet',n:'Tout, en lecture seule',d:'Échéancier avec les montants, informations de facturation, factures émises avec leur numéro et leur statut. Aucun bouton, pas d\'entrée Finance dans le menu.',i:'Compris dans l\'étape 1.',rec:true,
       m:echL(el('Acompte 50 %','9 300,00',pv('À encaisser','enc'))+el('Solde 50 %','9 300,00',pv('À venir','av')),'18 600 €')},
      {v:'sans',n:'Tout, sans les montants',d:'Les échéances, leurs dates et leurs statuts, l\'entité facturée et les factures, sans aucun montant.',i:'1 à 2 jours de plus : masquer les montants à l\'écran et dans les règles d\'accès.',
       m:echL(el('Acompte 50 %','<span class="mut">masqué</span>',pv('À encaisser','enc'))+el('Solde 50 %','<span class="mut">masqué</span>',pv('À venir','av')),'<span class="mut">masqué</span>')},
      {v:'masque',n:'Seulement qui suit la facturation',d:'L\'onglet Facturation est masqué. Une ligne dans « Informations » indique qui suit la facturation du chantier.',i:'Compris dans l\'étape 1.',
       m:MX(`<div class="tabs" style="margin-bottom:10px"><span>Pilotage</span><span class="on">Informations</span><span>Frais</span></div><div class="infob">${I('receipt','s3')}<span>La facturation de ce chantier est suivie par Claire Morel (cheffe de projet) et Stive (facturation et relances).</span></div>`)}],
-  why:'Le budget et le chiffre d\'affaires des chantiers sont déjà visibles de l\'équipe (arbitrage du 11 octobre) : masquer les montants ici n\'apporterait rien. Le consultant sait où en est la facturation de son chantier, sans pouvoir rien y changer.'},
+  why:'L\'arbitrage du 11 octobre ouvre le budget et le chiffre d\'affaires des chantiers à l\'équipe : masquer les montants ici n\'apporterait rien. Le consultant sait où en est la facturation de son chantier, sans pouvoir rien y changer.'},
  {k:'a3',t:'Qui complète les informations de facturation ?',w:'entité, bon de commande, contact, mode d\'envoi',screen:'depot',
   q:'Depuis un an, c\'est l\'équipe administrative qui va chercher les informations de facturation, pas le chef de projet. Le 4 novembre, Pierre-Guillaume a décrit un chef de projet qui dépose le devis, et une alerte à Stive si quelque chose manque.',
   o:[{v:'cp',n:'Le chef de projet dépose et valide ; Stive complète ce qui manque',d:'Le chef de projet dépose le devis, relit ce qu\'Alphonse a prérempli et valide. Ce qui manque arrive dans la liste de Stive, qui le complète.',rec:true,
@@ -37,7 +37,7 @@ const MATRIX=(st)=>{
   const fabEm=st.a1==='fab'?'Il émet et crée les avoirs':'Il crée les avoirs ; il peut émettre en relais';
   return [
    ['Consultant du chantier<span>membre de l\'équipe</span>',cons,['no','Pas d\'entrée Finance dans le menu'],['no',''],T('Aucun')],
-   ['Claire, cheffe de projet<span>chef de projet du chantier</span>',cp,['read','« Par chantier », pour ses chantiers'],['no',''],T(msgCp)],
+   ['Claire, cheffe de projet<span>chef de projet du chantier</span>',cp,['read','« Chez moi » pour ce qu\'elle doit vérifier, « Par chantier » pour ses chantiers'],['no',''],T(msgCp)],
    ['Associé de référence',ass,['read','« Par chantier », pour ses chantiers'],['no',''],T('Aucun')],
    ['Stive<span>facturation et relances</span>',['edit',(st.a3==='stive'?'Relit et complète les informations, ':'Complète ce qui manque, ')+'émet, note l\'envoi et le paiement'],['edit','À faire, Par chantier, Registre ; '+steveEm],['no',''],T(msgSt)],
    ['Fabrice<span>finance</span>',['edit','Tout'],['edit',fabEm],['edit','Il clôt le mois'],T(msgFa)],
@@ -61,5 +61,5 @@ const HYP=[
  '<b>À la fin de l\'étape 1</b>, Claire dépose le devis et valide ; quand l\'acompte est prêt, elle le vérifie dans la fiche du chantier ; Stive l\'émet depuis la page Facturation actuelle, et le registre remplace le facturier. Jusqu\'aux étapes suivantes, Stive prévient lui-même Claire qu\'un acompte l\'attend, repère les relances dans le registre, et pense au solde comme aujourd\'hui. Les messages à Claire et la liste « Chez moi » arrivent à l\'étape 2, le mail de fin de mission à l\'étape 3.',
  '<b>Dès l\'étape 1</b>, le registre des factures émises dans Alphonse s\'exporte au format du facturier : c\'est lui qui part chez le comptable jusqu\'à l\'étape 4, et Stive n\'a plus de facturier à tenir.',
  '<b>Ce que vos choix font varier.</b> Montants masqués aux consultants : 1 à 2 jours de plus. Associé qui vérifie : 1 à 2 jours. Accès du comptable : quelques jours.',
- '<b>Ce qui existe déjà</b> et sera réutilisé : la génération des factures en brouillon, la numérotation à l\'émission, le PDF, les avoirs, les encaissements et la clôture du mois. Objectif : tout terminé, plateforme agréée comprise, avant l\'été 2027.'
+ '<b>Ce qui existe déjà</b> et sera réutilisé : la génération des factures en brouillon, la numérotation à l\'émission, le PDF, les avoirs, les encaissements et la clôture du mois. Objectif, si les quatre étapes sont décidées d\'ici fin janvier : tout terminé, plateforme agréée comprise, avant l\'été 2027.'
 ];

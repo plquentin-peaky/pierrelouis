@@ -38,7 +38,7 @@ const ARB=[
   why:'Le seul message individuel est celui où la décision du chef de projet est indispensable. Aucun mail n\'est envoyé au consultant ni à l\'associé.'},
  {k:'a7',t:'Que devient le point mensuel de Stive avec les chefs de projet ?',w:'aujourd\'hui, une revue de tous les chantiers',screen:'parchantier',
   q:'Avec des statuts calculés, la tournée de tous les chantiers pour savoir quoi facturer devient inutile. Reste l\'échange sur ce qui bloque.',
-  o:[{v:'cible',n:'Plus de tournée : Stive appelle seulement quand un chantier ressort',d:'Un écart ou un solde en attente dans « Par chantier » : Stive appelle le chef de projet concerné. À voir avec Stive.',rec:true,
+  o:[{v:'cible',n:'Plus de tournée : Stive appelle seulement quand un chantier ressort',d:'Un écart ou un solde en attente dans « Par chantier » : Stive appelle le chef de projet concerné. Option à valider avec Stive.',rec:true,
       m:MX(`<div class="tw"><table class="t" style="font-size:12.5px"><thead><tr><th>Chantier</th><th class="r">Production</th><th class="r">Déjà facturé</th><th>Écart</th><th></th></tr></thead><tbody><tr><td class="mono">HALIOS_EnqSig</td><td class="r num">16 800</td><td class="r num">12 000</td><td><span class="sbd warn sm">produit non facturé 4 800</span></td><td class="r"><span class="bt ol xs">${I('phone','s3')}Julien</span></td></tr><tr><td class="mono">TALMONT_Enq</td><td class="r num">9 800</td><td class="r num">9 800</td><td><span class="sbd neu sm">aligné</span></td><td></td></tr></tbody></table></div>`)},
      {v:'garder',n:'Garder un point mensuel avec chaque chef de projet',d:'Un point court chaque mois, appuyé sur la vue « Par chantier ».',
       m:MX(`<div class="box" style="padding:12px 14px;font-size:12.5px;display:grid;gap:8px">${['Claire Morel · 2 chantiers','Julien Petit · 2 chantiers','Sophie Martin · 3 chantiers'].map(x=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="display:flex;align-items:center;gap:6px">${I('cal','s3')}${x}</span><span class="sbd neu sm">point du 20</span></div>`).join('')}</div>`)}],
@@ -65,7 +65,7 @@ const INFOS=[
  ['Les mentions légales, l\'IBAN, le logo et le délai de paiement','De Plein Sens Ethique, tels qu\'ils figurent sur vos factures actuelles (« à réception de facture » sur le modèle actuel ; 30 jours dans nos maquettes).'],
  ['L\'outil comptable','Celui dans lequel le comptable importe aujourd\'hui le facturier.'],
  ['La plateforme agréée envisagée','Pour la facture électronique de 2027 ; si vous utilisez déjà un outil, nous vérifierons qu\'il est agréé.'],
- ['L\'accès de Stive à Plein Sens Ethique','Stive est salarié de Plein Sens. Il facturerait pour Plein Sens Ethique dans le cadre de la convention de prestations support, avec un compte limité à la facturation de Plein Sens Ethique : rien n\'est copié côté Plein Sens. Êtes-vous d\'accord ?'],
+ ['L\'accès de Stive à Plein Sens Ethique','Stive est salarié de Plein Sens. Il facturerait pour Plein Sens Ethique au titre de la convention de prestations support, à compléter si la facturation n\'y figure pas, avec un compte limité à la facturation de Plein Sens Ethique : rien n\'est copié côté Plein Sens. Êtes-vous d\'accord ?'],
  ['Un devis et un bon de commande réels','Anonymisés si vous le souhaitez, pour tester la lecture des documents.']
 ];
 
