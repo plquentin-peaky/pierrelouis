@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facturation des enquêtes dans Alphonse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Poppins:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/*@@PAGE_CSS@@*/
+</style>
+<style>
+/*@@MAQ_CSS@@*/
+</style>
+<style>
+/*@@V4_CSS@@*/
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="Sommaire"><div class="wrap toc-in">
+  <span class="toc-brand">Facturation PSE · point du 12/11</span>
+  <a href="#minute">L'essentiel</a><a href="#video">Vidéo</a><a href="#ecrans">Les écrans</a><a href="#processus">Les statuts</a><a href="#droits">Qui voit quoi</a><a href="#ia">L'IA</a><a href="#effort">Planning</a><a href="#arbitrages" class="hot">Arbitrages</a>
+</div></nav>
+
+<header class="band white" id="top">
+  <div class="wrap">
+    <div class="eyebrow">Plein Sens Ethique · Alphonse · Facturation des enquêtes</div>
+    <h1>Facturer une enquête depuis la fiche chantier, sans Excel ni ressaisie</h1>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="lead">Le 4 novembre, Pierre-Guillaume nous a demandé de repartir d'une page blanche plutôt que d'automatiser le processus actuel : une facture d'acompte, une facture de solde, un rappel quand on aurait dû facturer, un suivi des encaissements, un état simple pour le comptable, avec le moins de saisie possible et un contrôle humain avant chaque facture. Ce document montre ce que nous proposons pour Plein Sens Ethique, écran par écran, et liste les choix à trancher ensemble jeudi.</p>
+    <div class="src">
+      <span><b>Pour</b> Pierre-Guillaume Ferré et Fabrice Ducellier</span>
+      <span><b>Séance</b> jeudi 12 novembre 2026, 14 h</span>
+      <span><b>Périmètre</b> les enquêtes de Plein Sens Ethique ; Plein Sens ne change pas</span>
+      <span><b>Statut</b> maquettes : rien n'est développé, les données sont fictives</span>
+    </div>
+    <div class="howto">
+      <div class="eyebrow">Comment lire ce document (15 minutes)</div>
+      <ol>
+        <li><b>L'essentiel</b> en une minute, puis la <b>vidéo</b> de trois minutes qui déroule une enquête du devis au comptable.</li>
+        <li>Les <b>écrans</b> un par un, avec ce qui change par rapport à aujourd'hui. Les touches <kbd>←</kbd> <kbd>→</kbd> font défiler.</li>
+        <li>Les <b>arbitrages</b> en fin de page : cochez votre préférence. « Copier mes réponses » les met dans le presse-papiers si vous voulez nous les envoyer avant jeudi.</li>
+      </ol>
+    </div>
+  </div>
+</header>
+
+<section class="band soft" id="minute">
+  <div class="wrap">
+    <h2>L'essentiel : chaque facture a un responsable, et personne ne ressaisit ni ne coche</h2>
+    <div class="five">
+      <div><span class="num-b">1</span><p><b>Le devis devient la source.</b> La cheffe de projet le dépose dans la fiche du chantier ; Alphonse préremplit les informations de facturation et l'échéancier 50/50, en citant ses sources. Elle valide.</p></div>
+      <div><span class="num-b">2</span><p><b>Deux validations humaines.</b> À la date prévue, la facture est prête. La cheffe de projet la vérifie ; Stive l'émet, l'envoie et suit le paiement.</p></div>
+      <div><span class="num-b">3</span><p><b>Un statut calculé, jamais coché.</b> « Émise », « envoyée », « réglée » se déduisent de ce qui s'est passé. Chacun voit ce qui l'attend dans une liste « Chez moi ».</p></div>
+      <div><span class="num-b">4</span><p><b>Peu de messages, au bon moment.</b> Pour une enquête, la cheffe de projet reçoit au plus trois messages : l'acompte à vérifier, la fin prévue de la mission, le solde à vérifier. On répond en un clic ou en une phrase.</p></div>
+      <div><span class="num-b">5</span><p><b>Un mois clos ne bouge plus.</b> Fabrice clôt le mois après trois vérifications ; les montants sont figés et le comptable reçoit trois fichiers.</p></div>
+    </div>
+    <div class="trio">
+      <div class="gone"><div class="eyebrow">Ce qui disparaît</div><ul><li>Le facturier Excel tenu à la main</li><li>La ressaisie de ce qui est déjà dans le devis</li><li>La case « facturé » cochée par quelqu'un</li><li>La tournée mensuelle pour savoir quoi facturer</li><li>Les relances faites de mémoire</li></ul></div>
+      <div class="ai"><div class="eyebrow">Ce que fait Alphonse</div><ul><li>Lire le devis, le bon de commande et les mails</li><li>Retrouver l'entité facturée déjà connue</li><li>Préparer la facture à la date prévue</li><li>Signaler un oubli, un écart, un doublon</li><li>Rédiger la relance ou le mail d'accompagnement</li></ul></div>
+      <div class="hum"><div class="eyebrow">Ce qui reste humain</div><ul><li>Valider les informations et l'échéancier</li><li>Vérifier puis émettre chaque facture</li><li>Décider d'un report ou d'un complément</li><li>Appeler le client quand ça bloque</li><li>Clore le mois</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="band white" id="video">
+  <div class="wrap">
+    <h2>La vidéo : une enquête suivie du devis au comptable, en trois minutes</h2>
+    <p class="sub">Une enquête fictive pour Varenne Services, chantier VARENNE_EnqSig de 18 600 € HT. Claire Morel en est la cheffe de projet, Lucas Bernard le consultant. La vidéo montre les options que nous conseillons ; cliquez sur un chapitre pour y aller.</p>
+    <div class="vid">
+      <div class="vid-player"><video id="vid" controls playsinline preload="metadata" src="@@VIDEO@@"></video></div>
+      <ol class="chap" id="chap">@@CHAPITRES@@</ol>
+    </div>
+  </div>
+</section>
+
+<section class="band soft" id="ecrans">
+  <div class="wrap">
+    <h2>Les écrans, un par un</h2>
+    <p class="sub">Reproduction d'Alphonse avec ses libellés, ses couleurs et ses composants. Pour certains écrans, le bouton « Aujourd'hui » montre ce qui existe à la place.</p>
+    <div class="scr-nav" id="scrNav" role="tablist" aria-label="Écrans"></div>
+    <div class="scr-head">
+      <div><div class="eyebrow" id="scrWho"></div><h3 id="scrTitle"></h3></div>
+      <div class="scr-ctl">
+        <div class="seg" id="segVer" role="group" aria-label="Version"><button type="button" data-v="prop" aria-pressed="true">Demain</button><button type="button" data-v="today" aria-pressed="false" id="btnToday">Aujourd'hui</button></div>
+        <button type="button" class="btn" id="prevS" aria-label="Écran précédent">←</button><button type="button" class="btn dark" id="nextS">Écran suivant →</button>
+        <button type="button" class="btn" id="btnFull">Plein écran</button>
+      </div>
+    </div>
+    <div class="stage" id="stage"><div id="stageInner"><div id="scaler"></div></div></div>
+    <div class="caption" id="caption"></div>
+  </div>
+</section>
+
+<section class="band white" id="processus">
+  <div class="wrap">
+    <h2>Où en est chaque facture : Alphonse le déduit des faits, personne ne coche rien</h2>
+    <p class="sub">Derrière les écrans, une règle simple : à chaque instant, une seule personne doit agir sur une facture, et elle la trouve dans sa liste « Chez moi ». Le statut se déduit de ce qui s'est passé (vérifiée, émise, déposée, payée). C'est ce qui permet de supprimer le facturier et la tournée mensuelle.</p>
+    <div class="life" id="life"></div>
+    <div class="cases">
+      <div class="eyebrow">Les cas particuliers</div>
+      <div class="cases-g">
+        <div><b>Bon de commande reçu tard.</b> La facture reste « À préparer » chez Stive, qui voit pourquoi.</div>
+        <div><b>Facture contestée.</b> Stive note le motif ; les relances s'arrêtent. Retour à « À encaisser », ou avoir.</div>
+        <div><b>Avoir.</b> Seul Fabrice le crée. La facture apparaît barrée dans la fiche et l'échéance revient « À préparer ».</div>
+        <div><b>Complément.</b> Une facture séparée, avec l'accord du client joint ; le montant du chantier est augmenté et la modification tracée.</div>
+        <div><b>Chantier sans devis.</b> « Remplir à la main » : le 50/50 s'applique au montant saisi à la création.</div>
+        <div><b>Informations manquantes une semaine après la création.</b> Stive est alerté dans sa liste et dans son récapitulatif de la semaine.</div>
+        <div><b>Mois déjà clos.</b> Une facture porte toujours la date de son émission, sans antidater. Un paiement garde sa date réelle ; si son mois est clos, il reçoit en plus une date comptable.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band soft" id="droits">
+  <div class="wrap">
+    <h2>Qui voit quoi : la facturation reste visible de toute l'équipe du chantier</h2>
+    <p class="sub">Chacun voit la facturation des chantiers sur lesquels il travaille. Seules les personnes qui ont une étape à faire ont des boutons.</p>
+    <div class="tbl-wrap"><table class="mx" id="mx"></table></div>
+    <p class="note" id="mxNote"></p>
+  </div>
+</section>
+
+<section class="band white" id="ia">
+  <div class="wrap">
+    <h2>Où l'IA aide, et comment tout fonctionne sans elle</h2>
+    <p class="sub">L'IA lit et propose ; elle ne valide rien et ne calcule aucun montant comptable. Chaque proposition affiche sa source et attend une validation. Si la lecture échoue, le parcours continue à la main.</p>
+    <div class="tbl-wrap"><table class="std">
+      <thead><tr><th>Étape</th><th>Ce que fait l'IA</th><th>Sans IA</th></tr></thead>
+      <tbody>
+        <tr><td>Dépôt du devis, du bon de commande, d'un mail</td><td>Lit les documents, préremplit le formulaire existant et indique la source de chaque champ (« Devis, p. 3 », « signature du mail »)</td><td>« Remplir à la main » ; la source affichée est « saisi par Claire »</td></tr>
+        <tr><td>Entité facturée</td><td>Reconnaît les variantes d'écriture (« Varenne Services S.A.S. »)</td><td>Recherche sur le nom et le SIREN</td></tr>
+        <tr><td>Échéancier</td><td>Signale un écart entre le devis et le montant du chantier</td><td>Règle 50/50 et contrôle « couvre le montant », qui existe déjà</td></tr>
+        <tr><td>Facture en brouillon</td><td>Prépare le mail d'accompagnement et rappelle les consignes de dépôt (« portail, bon de commande obligatoire »)</td><td>Modèle fixe</td></tr>
+        <tr><td>Vérification et émission</td><td>Signale un écart avec le devis ou un doublon possible</td><td>Relecture</td></tr>
+        <tr><td>Fin de mission</td><td>Comprend une réponse en une phrase (« pas encore, restitution le 8 janvier ») et propose la nouvelle date, que Claire confirme</td><td>Trois boutons et un champ date</td></tr>
+        <tr><td>Relance</td><td>Rédige le rappel, que Stive envoie depuis sa messagerie</td><td>Modèle fixe</td></tr>
+        <tr><td>Clôture du mois</td><td>Aucune : jours saisis, travail réalisé et montants figés sont des calculs</td><td>Identique</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section class="band soft" id="efacture">
+  <div class="wrap">
+    <h2>La facture électronique de 2027 est préparée dès la première facture</h2>
+    <p class="sub">Pour une PME comme Plein Sens Ethique, la réception des factures électroniques est obligatoire depuis le 1er septembre 2026 et l'émission le sera au 1er septembre 2027, par une plateforme agréée. Calendrier à confirmer avec votre expert-comptable.</p>
+    <div class="five five-s">
+      <div><span class="num-b">1</span><p><b>SIREN.</b> Ajouté sur le client et sur l'entité facturée ; il devient obligatoire sur la facture et fiabilise la recherche de doublons.</p></div>
+      <div><span class="num-b">2</span><p><b>Type d'échéance.</b> Acompte, solde ou complément donne le code normé de la facture ; la facture de solde cite l'acompte déduit.</p></div>
+      <div><span class="num-b">3</span><p><b>Numérotation.</b> Une séquence continue par année, propre à Plein Sens Ethique.</p></div>
+      <div><span class="num-b">4</span><p><b>Statuts.</b> Ceux de la plateforme agréée se branchent sur les nôtres : déposée, rejetée, refusée, encaissée.</p></div>
+      <div><span class="num-b">5</span><p><b>Transmission.</b> Alphonse envoie la facture à la plateforme, par connexion directe si elle le permet, sinon par fichier. La plateforme reste à choisir avec Fabrice.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band white" id="effort">
+  <div class="wrap">
+    <h2>Planning et effort : une première facture d'acompte de bout en bout, puis le suivi et la clôture</h2>
+    <p class="sub" id="effortSub"></p>
+    <div class="tbl-wrap"><table class="std lots" id="lots"></table></div>
+    <div class="hyp" id="hyp"></div>
+  </div>
+</section>
+
+<section class="band soft" id="arbitrages">
+  <div class="wrap">
+    <h2>Les arbitrages à trancher jeudi</h2>
+    <p class="sub">Pour chacun, l'option que nous conseillons est marquée. Cochez la vôtre : les écrans concernés suivent votre choix, et vos réponses restent dans ce navigateur.</p>
+    <div id="arb"></div>
+    <div class="infos">
+      <h3>Les informations dont nous avons besoin</h3>
+      <div class="infos-g" id="infosG"></div>
+    </div>
+    <div class="recap">
+      <div><h3>Vos réponses</h3><table id="recapT"></table>
+        <label class="rq" for="remarques">Vos remarques ou questions pour jeudi</label>
+        <textarea id="remarques" rows="4" placeholder="Une remarque sur un écran, une question, un cas que nous avons oublié…"></textarea>
+        <div class="actions"><button type="button" class="btn" id="btnReset">Revenir aux options conseillées</button><button type="button" class="btn dark" id="btnCopy">Copier mes réponses</button><span class="toast" id="toast" aria-live="polite"></span></div>
+      </div>
+      <div><h3>Et après jeudi</h3>
+        <div class="phase"><span class="p">12 NOV.</span><div><b>Arbitrages et périmètre du lot 1</b>Nous tranchons ensemble les points ci-dessus et le périmètre de départ.</div></div>
+        <div class="phase"><span class="p">SEMAINE SUIVANTE</span><div><b>Proposition ajustée et feuille de route</b>Nous mettons à jour les écrans, l'effort et le calendrier selon vos choix.</div></div>
+        <div class="phase"><span class="p">EN PARALLÈLE</span><div><b>Avec Stive et Alice</b>Un échange avec Stive sur sa liste et ses relances, et la confirmation du schéma 50/50 avec Alice.</div></div>
+        <div class="phase"><span class="p">AVEC FABRICE</span><div><b>La chaîne comptable</b>Outil comptable, plateforme agréée, premier numéro de facture, IBAN et logo de Plein Sens Ethique.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band white" id="horschamp">
+  <div class="wrap">
+    <h2>Ce que la proposition laisse volontairement de côté</h2>
+    <div class="outs">
+      <div><b>Pas de fenêtre de discussion.</b> L'IA préremplit les écrans existants et affiche ses sources : on valide un formulaire, on ne converse pas.</div>
+      <div><b>Pas de journal des échanges avec le client.</b> Ils restent dans la messagerie, où ils sont déjà.</div>
+      <div><b>Pas de rentabilité ni de reprévision ici.</b> Ce sont des sujets de pilotage, traités à part.</div>
+      <div><b>Pas de sous-traitance vers Plein Sens</b> dans ce premier temps, ni de changement pour Plein Sens.</div>
+      <div><b>Pas d'émission ni de dépôt automatiques.</b> Chaque facture passe par deux personnes.</div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">AI Origin pour Plein Sens Ethique · Facturation des enquêtes dans Alphonse · document de préparation du point du 12 novembre 2026 · maquettes et données fictives</div></footer>
+
+<script>
+/*@@MAQ_JS@@*/
+</script>
+<script>
+/*@@V4_JS@@*/
+</script>
+<script>
+/*@@ECRANS_JS@@*/
+</script>
+<script>
+/*@@PAGE_JS@@*/
+</script>
+</body>
+</html>

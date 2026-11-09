@@ -32,5 +32,6 @@ put('/*@@MAQUETTE_CSS@@*/',css);
 put('/*@@MAQUETTE_JS@@*/',js);
 put('/*@@PARCOURS_JS@@*/',readFileSync(join(here,'source','parcours.js'),'utf8'));
 put('@@SCHEMA_MIRO@@','data:image/webp;base64,'+readFileSync(join(here,'source','schema_miro.webp')).toString('base64'));
+out=out.replace(/Steve/g,'Stive');
 writeFileSync(join(here,'Parcours_Facturation_PSE.html'),out);
 console.log('OK', (out.length/1024).toFixed(0)+' Ko,', blocks.length, 'polices');

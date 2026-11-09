@@ -12,7 +12,7 @@ const html=join(here,'Parcours_Facturation_PSE.html');
 const tmp=join(here,'.video_brute'); rmSync(tmp,{recursive:true,force:true}); mkdirSync(tmp);
 const W=1920, H=1080;
 
-const browser=await chromium.launch();
+const browser=await chromium.launch({executablePath:process.env.CHROME||undefined});
 const context=await browser.newContext({viewport:{width:W,height:H},deviceScaleFactor:1,recordVideo:{dir:tmp,size:{width:W,height:H}}});
 const page=await context.newPage();
 const t0=Date.now();
