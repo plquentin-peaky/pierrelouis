@@ -235,7 +235,7 @@ function infosCard4(mode){
   <div style="margin-top:16px;display:flex;flex-direction:column;gap:18px"><div class="g2">${ent}${FI.map(field).join('')}</div>
   <div><div class="h4">Frais de mission</div>${ed?`<div class="rad"><span><i></i>À facturer en sus</span><span><i></i>À facturer en débours</span><span><i class="on"></i>Inclus</span><span class="src">${I('file','s2')}Devis, p. 2</span></div>`:`<div class="val">${mode==='saved'?'Inclus':'Non renseigné'}</div>`}</div>
   ${ed?`<div style="display:flex;justify-content:flex-end;gap:8px;align-items:center" id="infoBtns"><span class="xs mut">${I('check','s3')} Relisez, puis validez en bas de page avec l'échéancier : un seul clic.</span></div>`:''}
-  ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}Relu par Claire Morel le 28/10/2026. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
+  ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}À valider avec l\'échéancier, en bas de page. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
   </div></div>`;
 }
 function schedRow4(id,type,lab,date,amt,st,act=''){return `<tr data-r="${id}"><td><span class="sbd neu sm">${type}</span></td><td>${lab}</td><td class="num dcell">${date}</td><td class="r num">${amt}</td><td class="scell">${st}</td><td class="r acell" style="white-space:nowrap">${act}<span class="mut" style="margin-left:8px;display:inline-flex;vertical-align:middle">${I('pen','s3')}</span></td></tr>`;}
@@ -323,12 +323,12 @@ const fr=(id,ch,sub,fac,amt,st,info,act)=>`<tr data-c="${id}"><td><div class="mo
 // --- Facturation › Par chantier ---
 function parChantier(){
   const g=(n,l)=>`<tr class="grp"><td colspan="6">${n} · ${l}</td></tr>`;
-  const r=(id,ch,m,re,fa,ec,badge='')=>`<tr data-c="${id}"><td><span class="mono" style="font-weight:500">${ch}</span>${badge?`<div style="margin-top:4px">${badge}</div>`:''}</td><td class="r num">${m}</td><td class="r num" style="font-weight:600;color:var(--primary)">${re}</td><td class="r num">${fa}</td><td class="xs">${ec}</td><td class="xs mut">${id==='VARENNE'?'Solde 18/12/2026':id==='HALIOS'?'Solde 15/12/2026':id==='CAPELLE'?'Solde 04/11/2026':'Aucune'}</td></tr>`;
+  const r=(id,ch,m,re,fa,ec,badge='')=>`<tr data-c="${id}"><td><span class="mono" style="font-weight:500">${ch}</span>${badge?`<div style="margin-top:4px">${badge}</div>`:''}</td><td class="r num">${m}</td><td class="r num" style="font-weight:600;color:var(--primary)">${re}</td><td class="r num">${fa}</td><td class="xs">${ec}</td><td class="xs mut">${id==='VARENNE'?'Solde 18/12/2026':id==='HALIOS'?'Solde 15/12/2026':id==='CAPELLE'?'Solde 04/11/2026':id==='BRENNE'?'Solde 18/12/2026':id==='ORLAN'?'Solde 15/01/2027':id==='MERIDIA'?'Solde 11/12/2026':'Aucune'}</td></tr>`;
   return shell('Facturation','steve',`
 <div class="ph"><div><h1>Facturation</h1><div class="st">Au 20/11/2026 · groupé par chef de projet</div></div></div>
 <div class="tabs"><span>À faire (6)</span><span class="on">Par chantier</span><span>Registre</span></div>
 <div class="tw"><table class="t"><thead><tr><th>Chantier</th><th class="r">Montant vendu</th><th class="r">Production à fin octobre</th><th class="r">Déjà facturé</th><th>Écart</th><th>Prochaine échéance</th></tr></thead><tbody>
-${g('Claire Morel','2 chantiers')}${r('VARENNE','VARENNE_EnqSig','18 600','1 860','9 300','<span class="sbd info sm">facturé d\'avance 7 440</span>')}${r('BRENNE','BRENNE_Enq','15 000','6 000','7 500','<span class="sbd info sm">facturé d\'avance 1 500</span>')}
+${g('Claire Morel','2 chantiers')}${r('VARENNE','VARENNE_EnqSig','18 600','2 170','9 300','<span class="sbd info sm">facturé d\'avance 7 130</span>')}${r('BRENNE','BRENNE_Enq','15 000','6 000','7 500','<span class="sbd info sm">facturé d\'avance 1 500</span>')}
 ${g('Julien Petit','2 chantiers')}${r('HALIOS','HALIOS_EnqSig','24 000','16 800','12 000','<span class="sbd warn sm">produit non facturé 4 800</span>')}${r('CAPELLE','CAPELLE_Enq','12 400','12 400','6 200','<span class="sbd warn sm">produit non facturé 6 200</span>',ST('cp','Solde chez le chef de projet depuis le 04/11'))}
 ${g('Sophie Martin','3 chantiers')}${r('ORLAN','ORLAN_EnqHar','32 000','9 600','16 000','<span class="sbd info sm">facturé d\'avance 6 400</span>')}${r('MERIDIA','MERIDIA_EnqRPS','21 000','10 500','10 500','<span class="sbd neu sm">aligné</span>')}${r('TALMONT','TALMONT_Enq','9 800','9 800','9 800','<span class="sbd neu sm">aligné</span>')}
 </tbody></table></div>`,{count:6,bell:2});

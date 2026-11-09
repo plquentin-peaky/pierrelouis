@@ -106,7 +106,7 @@ function render(){
   if(v==='today'){const t=document.createElement('div');t.className='today-tag';t.textContent='Aujourd\'hui · '+(s.todayLabel||'ce qui existe');root.style.position='relative';root.appendChild(t);}
   // aucun tiret cadratin dans les écrans
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode())){if(n.nodeValue.includes('—'))n.nodeValue=n.nodeValue.replace(/\s?—\s?/g,(m)=>m.trim()===m?'Non renseigné':', ').replace(/^, |, $/g,'');}
-  qs('#scrWho').innerHTML=esc(s.who)+(s.lot?` <span class="lot">Étape ${s.lot}</span>`:''); qs('#scrTitle').textContent=s.title;
+  qs('#scrWho').innerHTML=esc(s.who)+(s.lot?` <span class="lot">${/ et | à /.test(s.lot)?'Étapes':'Étape'} ${s.lot}</span>`:''); qs('#scrTitle').textContent=s.title;
   qsa('#scrNav button').forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
   qs('#btnToday').disabled=!s.today; qs('#segVer').hidden=!s.today;
   qsa('#segVer button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));

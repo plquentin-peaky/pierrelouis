@@ -62,7 +62,7 @@ const ARB=[
 // ---------- Informations attendues ----------
 const INFOS=[
  ['Le premier numéro de facture','Et le format de numérotation de Plein Sens Ethique : nécessaire avant la première facture.'],
- ['Les mentions légales, l\'IBAN et le logo','De Plein Sens Ethique, tels qu\'ils figurent sur vos factures actuelles.'],
+ ['Les mentions légales, l\'IBAN, le logo et le délai de paiement','De Plein Sens Ethique, tels qu\'ils figurent sur vos factures actuelles (« à réception de facture » sur le modèle actuel ; 30 jours dans nos maquettes).'],
  ['L\'outil comptable','Celui dans lequel le comptable importe aujourd\'hui le facturier.'],
  ['La plateforme agréée envisagée','Pour la facture électronique de 2027 ; si vous utilisez déjà un outil, nous vérifierons qu\'il est agréé.'],
  ['L\'accès de Stive à Plein Sens Ethique','Stive est salarié de Plein Sens. Il facturerait pour Plein Sens Ethique dans le cadre de la convention de prestations support, avec un compte limité à la facturation de Plein Sens Ethique : rien n\'est copié côté Plein Sens. Êtes-vous d\'accord ?'],
