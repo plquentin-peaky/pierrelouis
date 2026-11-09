@@ -229,6 +229,9 @@ section{scroll-margin-top:50px}
 @media (max-width:1000px){.opts.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:760px){.opts,.opts.three{grid-template-columns:minmax(0,1fr)}}
 
+.cell-t{font-size:12.5px;color:#2E343B}
+.lot{display:inline-block;margin-left:8px;font-size:10px;letter-spacing:.08em;background:var(--pg-vi-soft);color:#4A1AB8;border-radius:999px;padding:2px 8px}
+
 </style>
 <style>
 /* ===== Reproduction Alphonse V2 (tokens relevés dans src/styles.css) ===== */
@@ -566,7 +569,7 @@ section{scroll-margin-top:50px}
         <div><b>Complément.</b> Une facture séparée, avec l'accord du client joint ; le montant du chantier est augmenté et la modification tracée.</div>
         <div><b>Chantier sans devis.</b> « Remplir à la main » : le 50/50 s'applique au montant saisi à la création.</div>
         <div><b>Informations manquantes une semaine après la création.</b> Stive est alerté dans sa liste et dans son récapitulatif de la semaine.</div>
-        <div><b>Mois déjà clos.</b> Une facture porte toujours la date de son émission, sans antidater. Un paiement garde sa date réelle ; si son mois est clos, il reçoit en plus une date comptable.</div>
+        <div><b>Mois déjà clos.</b> Une facture porte toujours la date de son émission, sans antidater. Un paiement garde sa date réelle ; si son mois est clos, il est compté dans le mois ouvert.</div>
       </div>
     </div>
   </div>
@@ -584,7 +587,7 @@ section{scroll-margin-top:50px}
 <section class="band white" id="ia">
   <div class="wrap">
     <h2>Où l'IA aide, et comment tout fonctionne sans elle</h2>
-    <p class="sub">L'IA lit et propose ; elle ne valide rien et ne calcule aucun montant comptable. Chaque proposition affiche sa source et attend une validation. Si la lecture échoue, le parcours continue à la main.</p>
+    <p class="sub">L'IA lit et propose ; elle ne valide rien et ne calcule aucun montant comptable. Chaque proposition affiche sa source et attend une validation. Si la lecture échoue, le parcours continue à la main. Les modèles de mails, les mentions obligatoires et les destinataires se règlent dans Paramètres, par vous.</p>
     <div class="tbl-wrap"><table class="std">
       <thead><tr><th>Étape</th><th>Ce que fait l'IA</th><th>Sans IA</th></tr></thead>
       <tbody>
@@ -639,7 +642,7 @@ section{scroll-margin-top:50px}
         <div class="actions"><button type="button" class="btn" id="btnReset">Revenir aux options conseillées</button><button type="button" class="btn dark" id="btnCopy">Copier mes réponses</button><span class="toast" id="toast" aria-live="polite"></span></div>
       </div>
       <div><h3>Et après jeudi</h3>
-        <div class="phase"><span class="p">12 NOV.</span><div><b>Arbitrages et périmètre du lot 1</b>Nous tranchons ensemble les points ci-dessus et le périmètre de départ.</div></div>
+        <div class="phase"><span class="p">12 NOV.</span><div><b>Arbitrages et périmètre de l'étape 1</b>Nous tranchons ensemble les points ci-dessus et le périmètre de départ.</div></div>
         <div class="phase"><span class="p">SEMAINE SUIVANTE</span><div><b>Proposition ajustée et feuille de route</b>Nous mettons à jour les écrans, l'effort et le calendrier selon vos choix.</div></div>
         <div class="phase"><span class="p">EN PARALLÈLE</span><div><b>Avec Stive et Alice</b>Un échange avec Stive sur sa liste et ses relances, et la confirmation du schéma 50/50 avec Alice.</div></div>
         <div class="phase"><span class="p">AVEC FABRICE</span><div><b>La chaîne comptable</b>Outil comptable, plateforme agréée, premier numéro de facture, IBAN et logo de Plein Sens Ethique.</div></div>
@@ -1120,8 +1123,8 @@ function infosCard4(mode){
   return `<div class="box" id="infos"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div style="font-weight:600;font-size:15px">Informations de facturation</div><div class="xs mut" style="margin-top:2px">Entité facturée, bon de commande et mode d'envoi, repris sur chaque facture.</div></div>${head}</div>
   <div style="margin-top:16px;display:flex;flex-direction:column;gap:18px"><div class="g2">${ent}${FI.map(field).join('')}</div>
   <div><div class="h4">Frais de mission</div>${ed?`<div class="rad"><span><i></i>À facturer en sus</span><span><i></i>À facturer en débours</span><span><i class="on"></i>Inclus</span><span class="src">${I('file','s2')}Devis, p. 2</span></div>`:`<div class="val">${mode==='saved'?'Inclus':'Non renseigné'}</div>`}</div>
-  ${ed?`<div style="display:flex;justify-content:flex-end;gap:8px" id="infoBtns"><span class="bt gh sm">Annuler</span><span class="bt pr sm">${I('check','s3')}Valider ces informations</span></div>`:''}
-  ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}Validé par Claire Morel le 28/10/2026. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
+  ${ed?`<div style="display:flex;justify-content:flex-end;gap:8px;align-items:center" id="infoBtns"><span class="xs mut">${I('check','s3')} Relisez, puis validez en bas de page avec l'échéancier : un seul clic.</span></div>`:''}
+  ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}Relu par Claire Morel le 28/10/2026. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
   </div></div>`;
 }
 function schedRow4(id,type,lab,date,amt,st,act=''){return `<tr data-r="${id}"><td><span class="sbd neu sm">${type}</span></td><td>${lab}</td><td class="num dcell">${date}</td><td class="r num">${amt}</td><td class="scell">${st}</td><td class="r acell" style="white-space:nowrap">${act}<span class="mut" style="margin-left:8px;display:inline-flex;vertical-align:middle">${I('pen','s3')}</span></td></tr>`;}
@@ -1130,7 +1133,7 @@ function schedCard4(mode){
   if(mode==='empty'){rows=`<tr><td colspan="6" class="mut" style="text-align:center;padding:18px">Aucun jalon renseigné.</td></tr>`;total='0 €';}
   else if(mode==='fin'){rows=schedRow4('a','Acompte','Acompte 50 %','02/11/2026','9 300,00',ST('reg','Réglée'))+schedRow4('s','Solde','Solde 50 %','18/12/2026','9 300,00',ST('prep','À préparer'));}
   else {rows=schedRow4('a','Acompte','Acompte 50 %','02/11/2026','9 300,00',ST('av','À venir'))+schedRow4('s','Solde','Solde 50 %','18/12/2026','9 300,00',ST('av','À venir'));
-    if(mode==='prop') extra=`<div class="okb" id="ctrl" style="margin-top:14px">${I('okc','s3')}<span>Total 18 600 € = montant du devis PSE-2026-041 = montant du chantier</span></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px" id="schedBtns"><span class="bt ol sm">Modifier</span><span class="bt pr sm">${I('check','s3')}Valider l'échéancier</span></div>`;}
+    if(mode==='prop') extra=`<div class="okb" id="ctrl" style="margin-top:14px">${I('okc','s3')}<span>Total 18 600 € = montant du devis PSE-2026-041 = montant du chantier</span></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px" id="schedBtns"><span class="bt ol sm">Modifier</span><span class="bt pr sm">${I('check','s3')}Valider les informations et l'échéancier</span></div>`;}
   return `<div class="card" id="sched"><div class="card-h"><div class="t">Échéancier</div><div class="d">${mode==='prop'?'Proposé d\'après le devis : la moitié au lancement, la moitié à la fin prévue.':'Les échéances de facturation du chantier.'}</div></div>
 <div class="card-b"><div class="tw"><table class="t"><thead><tr><th style="width:110px">Type</th><th>Libellé</th><th style="width:140px">Date</th><th class="r" style="width:140px">Montant HT</th><th style="width:150px">Statut</th><th style="width:210px"></th></tr></thead><tbody>${rows}
 <tr class="tot"><td colspan="3" class="xs mut" style="text-transform:uppercase;font-weight:500">Total</td><td class="r num" style="font-weight:600">${total}</td><td colspan="2"></td></tr></tbody></table></div>${extra}</div></div>`;
@@ -1156,7 +1159,7 @@ function factureTab(){
   <div class="step-v" style="margin-top:16px" id="fil">
    ${SV4(I('check','s3'),'ok','Préparée par Alphonse','02/11/2026 · à la date de l\'échéance')}
    ${SV4('2','cur','Vérifiée par la cheffe de projet','Claire Morel · montant, libellé, commande',`<div style="display:flex;gap:6px;margin-top:8px" class="act"><span class="bt pr xs">${I('check','s3')}C'est bon</span><span class="bt ol xs">À corriger</span></div>`)}
-   ${SV4(I('lock','s3'),'','Émise par la finance','Stive · numéro définitif')}
+   ${SV4(I('lock','s3'),'','Émise par Stive','facturation · numéro définitif, Fabrice en relais')}
    ${SV4(I('send','s3'),'','Déposée sur le portail','Stive · portail fournisseurs Varenne')}
   </div></div>
 </div></div></div>`);
@@ -1247,8 +1250,8 @@ function cloture4(){
 </div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" id="amts">
  <div class="amt"><div class="l">Facturé en novembre</div><div class="v">27 900 €</div><div class="h">4 factures émises dans le mois</div></div>
- <div class="amt"><div class="l">Travail réalisé non facturé</div><div class="v">7 200 €</div><div class="h">fait, pas encore facturé (FAE)</div></div>
- <div class="amt"><div class="l">Facturé d'avance</div><div class="v">9 016 €</div><div class="h">facturé, travail à venir (PCA) · dont VARENNE 1 116 €</div></div>
+ <div class="amt"><div class="l">Travail réalisé non facturé</div><div class="v">7 200 €</div><div class="h">à fin novembre : fait, pas encore facturé (FAE)</div></div>
+ <div class="amt"><div class="l">Facturé d'avance</div><div class="v">9 016 €</div><div class="h">à fin novembre : facturé, travail à venir (PCA) · dont VARENNE 1 116 €</div></div>
 </div>
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" id="pack"><span class="bt ol sm" id="packBtn">${I('dl','s3')}3 fichiers pour le comptable</span>
  <span class="file" style="display:none">${I('sheet','s3')}Registre des factures (format du facturier)</span><span class="file" style="display:none">${I('sheet','s3')}État figé : réalisé et facturé</span><span class="file" style="display:none">${I('file','s3')}Écritures pour votre outil comptable</span></div>`,{count:6,bell:2});
@@ -1275,7 +1278,7 @@ function todaySplit(){
 function fitSplit(){$$('.split .frame').forEach(f=>{const c=f.firstElementChild;const s=f.clientWidth/1360;c.style.transform=`scale(${s})`;});}
 
 // --- Section Finance : aujourd'hui → demain ---
-const CMP=[['Revue mensuelle','Par chantier','Plus de tournée : chaque facture a son statut. Sert au point mensuel avec chaque chef de projet.'],['À préparer','À faire','Devient trois statuts : à préparer, chez le chef de projet, à émettre.'],['Impayés','À faire','Devient « À encaisser » et « Contestée ». L\'export Excel reste.'],['Facturier','Registre','Même contenu, au format du facturier de Stive.'],['Clôture › Checklist','Vérifications','Trois lignes : temps saisis, factures émises, brouillons traités.'],['Ajustements FAE/PCA','Travail réalisé et facturé','Figé à la clôture, au lieu d\'être recalculé à chaque affichage.'],['Valorisation production','Mois clos','Même public, une entrée de menu en moins.']];
+const CMP=[['Revue mensuelle','Par chantier','Plus de tournée : un écart ou un solde en attente ressort tout seul.'],['À préparer','À faire','Devient trois statuts : à préparer, chez le chef de projet, à émettre.'],['Impayés','À faire','Devient « À encaisser » et « Contestée ». L\'export Excel reste.'],['Facturier','Registre','Même contenu, au format du facturier de Stive.'],['Clôture › Checklist','Vérifications','Trois lignes : temps saisis, factures émises, brouillons traités.'],['Ajustements FAE/PCA','Travail réalisé et facturé','Figé à la clôture, au lieu d\'être recalculé à chaque affichage.'],['Valorisation production','Mois clos','Même public, une entrée de menu en moins.']];
 const cmpScreen=()=>`<div class="cmp"><h2>La section Finance, aujourd'hui et demain</h2><div class="sub">Organisée autour de ce que chacun a à faire, pas autour des tableaux.</div>
 <div class="rows"><div class="hd">Aujourd'hui</div><div></div><div class="hd">Demain</div><div class="hd">Pourquoi</div>
 ${CMP.map(([a,b,w])=>`<div class="o rw">${a}</div><div class="ar rw">→</div><div class="n rw">${b}</div><div class="w rw">${w}</div>`).join('')}</div></div>`;
@@ -1313,63 +1316,63 @@ const SCREENS=[
   html:()=>todaySplit(),solo:true,
   caps:[['Ce que montre l\'écran',['En haut, l\'onglet Facturation d\'un chantier dans Alphonse, tel qu\'il existe : un échéancier vide et, plus bas, un formulaire à remplir champ par champ.','En bas, le facturier Excel tenu par Stive, une ligne par facture.']],
         ['Ce qui coince',['Le chef de projet ressaisit ce qui figure déjà dans son devis.','Stive recopie, numérote et relance de mémoire ; « facturé » dépend d\'une case cochée.','Pour savoir quoi facturer, il faut faire la tournée des chefs de projet.']]]},
- {id:'depot',etape:1,who:'Claire Morel · cheffe de projet',title:'Claire dépose le devis : Alphonse préremplit les informations de facturation et cite ses sources',
+ {id:'depot',lot:1,etape:1,who:'Claire Morel · cheffe de projet',title:'Claire dépose le devis : Alphonse préremplit les informations de facturation et cite ses sources',
   html:()=>ficheTab({docs:'two',infos:'edit',sched:'empty'}),
   today:()=>{navToday();const h=S.depot.today();navTarget();return h.replace(/>—</g,'>Non renseigné<');},
   after:(r)=>{const u=r.querySelector('#useEnt');if(u)u.outerHTML='<span class="sbd ok sm"><span class="d"></span>Entité existante utilisée</span>';},
   caps:[['Ce que montre l\'écran',['Le devis signé et le bon de commande, déposés dans la fiche du chantier.','Le formulaire existant, prérempli : chaque champ indique sa source (« Devis, p. 1 »). L\'entité déjà connue est retrouvée.','Le seul manque, le contact facturation, est signalé : il part dans la liste de Stive. Si Claire a un mail du client, elle peut le glisser : le contact est lu dans la signature.']],
-        ['Ce qui change',['Claire relit et valide au lieu de ressaisir.','Rien n\'est enregistré tant qu\'elle n\'a pas cliqué « Valider ces informations ».','Sans devis, « Remplir à la main » garde le formulaire d\'aujourd\'hui.']]]},
- {id:'echeancier',etape:2,who:'Claire Morel · cheffe de projet',title:'L\'échéancier 50/50 est proposé et rapproché du montant du chantier',
+        ['Ce qui change',['Claire relit et valide au lieu de ressaisir.','Rien n\'est enregistré tant qu\'elle n\'a pas validé, en un clic, les informations et l\'échéancier.','Sans devis, « Remplir à la main » garde le formulaire d\'aujourd\'hui.']]]},
+ {id:'echeancier',lot:1,etape:2,who:'Claire Morel · cheffe de projet',title:'L\'échéancier 50/50 est proposé et rapproché du montant du chantier',
   html:()=>ficheTab({docs:'mail',infos:'saved',sched:'prop'}),
   caps:[['Ce que montre l\'écran',['Les informations validées, puis l\'échéancier proposé : acompte de 50 % au lancement, solde de 50 % à la fin prévue au devis.','Un contrôle vert : le total égale le devis et le montant du chantier.']],
         ['Ce qui change',['Le schéma des enquêtes n\'est plus ressaisi à chaque chantier.','Chaque échéance a un type (acompte, solde, complément), utile pour la facture électronique.','La date du solde sert ensuite au mail de fin de mission.']]]},
- {id:'facture',etape:3,who:'Claire Morel · cheffe de projet',title:'À la date prévue, la facture d\'acompte est prête : Claire la vérifie',
+ {id:'facture',lot:1,etape:3,who:'Claire Morel · cheffe de projet',title:'À la date prévue, la facture d\'acompte est prête : Claire la vérifie',
   html:()=>factureTab(),
   today:()=>S.acompte.today(),todayLabel:'Le modèle de facture Excel',
-  caps:[['Ce que montre l\'écran',['La facture d\'acompte en brouillon, préparée par Alphonse le jour de l\'échéance, et son fil : préparée, vérifiée par la cheffe de projet, émise par la finance (Stive), déposée.','Deux boutons pour Claire : « C\'est bon » ou « À corriger », avec un motif.']],
+  caps:[['Ce que montre l\'écran',['La facture d\'acompte en brouillon, préparée par Alphonse le jour de l\'échéance, et son fil : préparée, vérifiée par la cheffe de projet, émise par Stive, déposée.','Deux boutons pour Claire : « C\'est bon » ou « À corriger », avec un motif.']],
         ['Ce qui change',['Personne ne recopie la facture : elle reprend la fiche validée.','Le numéro définitif n\'est attribué qu\'à l\'émission, par la finance.','À chaque instant, on sait qui doit agir.']]]},
- {id:'emettre',etape:4,who:'Stive · facturation et relances',title:'Stive émet ce que la cheffe de projet a vérifié',
+ {id:'emettre',lot:2,etape:4,who:'Stive · facturation et relances',title:'Stive émet ce que la cheffe de projet a vérifié',
   html:()=>aFaire('steve','04/11/2026',
      fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt pr xs">${I('send','s3')}Émettre</span>`)+
      fr('T','TALMONT_Enq','Sophie Martin','Solde','4 900',ST('em','À émettre'),'Vérifiée le 03/11 par Sophie Martin',`<span class="bt pr xs">${I('send','s3')}Émettre</span>`),
      {side:`<div class="box" style="padding:14px 16px"><div class="lbl" style="margin-bottom:8px">Contrôles avant émission</div><div style="display:flex;gap:8px;align-items:center;font-size:13px">${I('okc','s3')}Aucun doublon détecté</div><div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:6px">${I('okc','s3')}Montants conformes aux devis</div></div>`}),
   caps:[['Ce que montre l\'écran',['La liste « À faire » de Stive, filtrée sur « Chez moi » : les factures vérifiées par les chefs de projet, prêtes à émettre.','Les compteurs du haut montrent où en sont toutes les factures, étape par étape.']],
-        ['Ce qui change',['Chaque facture est validée par deux personnes avant de partir.','« Émettre » attribue le numéro définitif et la date du jour : la facture ne se modifie plus, elle s\'annule par un avoir.']]]},
- {id:'steve',etape:5,who:'Stive · facturation et relances',title:'Le lendemain, Stive voit quoi déposer, quoi relancer et qui appeler, sans Excel',
+        ['Ce qui change',['Chaque facture est validée par deux personnes avant de partir.','« Émettre » attribue le numéro définitif et la date du jour : la facture ne se modifie plus, elle s\'annule par un avoir.','Le format des numéros est fictif : la séquence actuelle de Plein Sens Ethique sera reprise telle quelle si vous le souhaitez.']]]},
+ {id:'steve',lot:2,etape:5,who:'Stive · facturation et relances',title:'Le lendemain, Stive voit quoi déposer, quoi relancer et qui appeler, sans Excel',
   html:()=>aFaire('steve','05/11/2026',
      fr('V','VARENNE_EnqSig','Claire Morel','F2026-00007','9 300',ST('env','À envoyer'),'Portail fournisseurs Varenne',`<span class="bt pr xs">${I('send','s3')}Déposer sur le portail</span>`)+
      fr('T','TALMONT_Enq','Sophie Martin','F2026-00008','4 900',ST('env','À envoyer'),'Envoi par mail',`<span class="bt ol xs">Envoyer</span>`)+
      fr('O','ORLAN_EnqHar','Sophie Martin','F2026-00006','16 000',ST('env','À envoyer'),'Émise le 30/10',`<span class="bt ol xs">Envoyer</span>`)+
      fr('H','HALIOS_EnqSig','Julien Petit','F2026-00004','12 000',ST('enc','À encaisser')+' <span class="late">En retard de 16 j</span>','Échéance du 20/10',`<span class="bt ol xs">${I('mail','s3')}Préparer le rappel</span>`)+
      fr('M','MERIDIA_EnqRPS','Sophie Martin','F2026-00005','10 500',ST('con','Contestée'),'Montant contesté, relances suspendues',''),
-     {alert:`<div class="alertb">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande manquant, chantier créé il y a 7 jours. La facture reste « À préparer ».</span></div>`,cnt:[['À préparer',1],['Chez le chef de projet',1],['À émettre',0],['À envoyer',3],['À encaisser',1],['Contestée',1]]}),
+     {alert:`<div class="alertb">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande toujours absent, chantier démarré le 06/10. La facture reste « À préparer ».</span></div>`,cnt:[['À préparer',1],['Chez le chef de projet',1],['À émettre',0],['À envoyer',3],['À encaisser',1],['Contestée',1]]}),
   after:(r)=>{const d=document.createElement('div');d.className='draft';d.style.cssText='position:absolute;right:40px;top:520px;width:460px;z-index:5';
      d.innerHTML=`<div class="lbl" style="margin-bottom:8px">Rappel préparé pour HALIOS, à envoyer depuis votre messagerie</div>Bonjour, sauf erreur de notre part, la facture F2026-00004 du 20/09/2026 (12 000 € HT, 14 400 € TTC) est arrivée à échéance le 20/10. Pourriez-vous nous indiquer sa date de règlement ? Merci beaucoup.<div style="display:flex;justify-content:flex-end;margin-top:10px"><span class="bt pr xs">Copier</span></div>`;
      r.style.position='relative';r.appendChild(d);},
   today:()=>xlFacturier4(),todayLabel:'Le facturier Excel',
   caps:[['Ce que montre l\'écran',['La même liste « À faire », côté Stive : les factures à envoyer, une facture en retard, une contestée, et l\'alerte d\'un chantier démarré sans bon de commande.','Pour une relance, Alphonse prépare le texte ; Stive l\'envoie depuis sa messagerie.']],
         ['Ce qui change',['Plus de facturier à tenir : le registre se remplit tout seul, l\'export au format du facturier reste disponible.','Stive passe du temps sur ce qui bloque : appeler le bon interlocuteur.','Écran à construire avec Stive : nous le lui présenterons avant de le figer.']]]},
- {id:'consultant',etape:6,who:'Lucas Bernard · consultant du chantier',title:'Un consultant du chantier voit sa facturation en lecture seule',
+ {id:'consultant',lot:1,etape:6,who:'Lucas Bernard · consultant du chantier',title:'Un consultant du chantier voit sa facturation en lecture seule',
   html:()=>consultantFacturation(window.__consMode||'complet'),dyn:true,
   caps:[['Ce que montre l\'écran',['Lucas, consultant de l\'équipe, ouvre l\'onglet Facturation : échéancier, informations de facturation et factures émises avec leur statut.','Aucun bouton : tout est en lecture seule. Le bandeau dit qui suit la facturation.']],
         ['Ce qui change',['Le consultant sait où en est la facturation de son chantier sans demander.','Les montants affichés dépendent de l\'arbitrage n° 2, plus bas : l\'écran suit votre choix.']]]},
- {id:'parchantier',etape:7,who:'Stive, Fabrice, chefs de projet',title:'Par chantier : production, déjà facturé et écart, l\'état de la facturation tenu à jour chaque jour',
+ {id:'parchantier',lot:3,etape:7,who:'Stive, Fabrice, chefs de projet',title:'Par chantier : production, déjà facturé et écart, l\'état de la facturation tenu à jour chaque jour',
   html:()=>parChantier(),
   caps:[['Ce que montre l\'écran',['Chaque chantier, groupé par chef de projet : montant, production à fin octobre, déjà facturé, écart et prochaine échéance.','Un solde qui attend chez le chef de projet depuis le 4 novembre ressort.']],
-        ['Ce qui change',['C\'est l\'état de la facturation de Fabrice, sans retraitement Excel : les trois colonnes production, déjà facturé, écart, exportables à tout moment.','Le facturé vient des factures émises, et seulement d\'elles. La production reprend le calcul de la valorisation qui existe déjà dans Alphonse (jours passés rapportés aux jours passés et restant à faire), figé à la fin de chaque mois. Aucune IA n\'intervient.','Le point de Stive avec chaque chef de projet part de cette vue (arbitrage n° 7).']]]},
- {id:'fin',etape:8,who:'Claire Morel · cheffe de projet',title:'À la fin prévue, un seul mail : Claire répond en un clic ou en une phrase',
+        ['Ce qui change',['C\'est l\'état de la facturation de Fabrice, sans retraitement Excel : les trois colonnes production, déjà facturé, écart, exportables à tout moment.','Le facturé vient des factures émises, et seulement d\'elles. La production reprend le calcul de la valorisation qui existe déjà dans Alphonse (jours passés rapportés aux jours passés et restant à faire), figé à la fin de chaque mois. Aucune IA n\'intervient.','Stive part de cette vue pour appeler le chef de projet d\'un chantier qui ressort (arbitrage n° 7).']]]},
+ {id:'fin',lot:3,etape:8,who:'Claire Morel · cheffe de projet',title:'À la fin prévue, un seul mail : Claire répond en un clic ou en une phrase',
   html:()=>mail4(),solo:true,
   after:(r)=>{const rp=r.querySelector('#reply');if(rp){rp.textContent='Pas encore, la restitution est reportée au 8 janvier.';rp.style.borderColor='#1d4ed8';}const p=r.querySelector('#propo');if(p)p.style.display='';},
-  today:()=>S.solde.today().replace('<span class="sbd ok"><span class="d"></span>Réglé</span>','<span class="sbd info"><span class="d"></span>Facturé</span>'),todayLabel:'Aujourd\'hui',
+  today:()=>S.solde.today().replace('03/11/2026','04/11/2026').replace('<span class="sbd ok"><span class="d"></span>Réglé</span>','<span class="sbd info"><span class="d"></span>Facturé</span>'),todayLabel:'Aujourd\'hui',
   caps:[['Ce que montre l\'écran',['Le mail reçu le jour de la fin prévue au devis, Stive en copie, avec les jours saisis et prévus.','Trois réponses en un clic, ou une phrase : Alphonse propose la nouvelle date, Claire confirme.']],
         ['Ce qui change',['Personne n\'a à se souvenir de facturer le solde.','Le report est tracé, Stive le voit dans sa liste. Un complément se déclare au même endroit.']]]},
- {id:'cloture',etape:9,who:'Fabrice Ducellier · finance',title:'Fabrice clôt le mois : les chiffres sont figés et le comptable reçoit trois fichiers',
+ {id:'cloture',lot:4,etape:9,who:'Fabrice Ducellier · finance',title:'Fabrice clôt le mois : les chiffres sont figés et le comptable reçoit trois fichiers',
   html:()=>cloture4(),
   after:(r)=>{r.querySelectorAll('.ck').forEach(k=>{k.className='sbd ok sm ck';k.textContent='✓';});r.querySelectorAll('#pack .file').forEach(f=>f.style.display='');},
   today:()=>faeToday(),todayLabel:'L\'onglet FAE de l\'Excel, fin octobre',
   caps:[['Ce que montre l\'écran',['Trois vérifications au vert : temps saisis, factures dues émises, brouillons traités.','Les trois montants du mois : facturé, travail réalisé non facturé, facturé d\'avance. Puis les trois fichiers pour le comptable, dont un fichier d\'écritures au format convenu avec lui.']],
         ['Ce qui change',['Les montants sont calculés par des formules et figés à la clôture : ils ne bougent plus.','Le comptable n\'a pas de compte : Fabrice lui transmet les trois fichiers.']]]},
- {id:'finance',etape:10,who:'Pour Fabrice',title:'Pour Fabrice : où retrouver les pages Finance d\'aujourd\'hui',
+ {id:'finance',lot:2,etape:10,who:'Pour Fabrice',title:'Pour Fabrice : où retrouver les pages Finance d\'aujourd\'hui',
   html:()=>cmpScreen(),solo:true,
   caps:[['Ce que montre l\'écran',['À gauche, les pages Finance d\'aujourd\'hui ; à droite, ce qu\'elles deviennent, et pourquoi.']],
         ['Ce qui change',['Deux entrées : Facturation (À faire, Par chantier, Registre) et Clôture du mois (Vérifications, Travail réalisé et facturé, Mois clos).','Ces changements ne concernent que Plein Sens Ethique : Plein Sens ne change pas.']]]}
@@ -1402,26 +1405,29 @@ const PILL={av:'background:#F3F3F3;color:#555',prep:'background:#FEF3C7;color:#7
 const MX=(inner,h)=>`<div class="ax axm"${h?` style="min-height:${h}px"`:''}>${inner}</div>`;
 const pv=(t,k)=>ST(k,t);
 const svm=(c,cls,t,d)=>`<div class="sv"><span class="c ${cls}">${c}</span><div><div class="tt">${t}</div><div class="dd">${d}</div></div></div>`;
-const filM=(emis)=>MX(`<div class="box" style="padding:14px 16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:13.5px">Acompte 50 % · 9 300 € HT</b>${pv('À émettre','em')}</div><div class="step-v" style="margin-top:12px">${svm(I('check','s3'),'ok','Vérifiée par la cheffe de projet','Claire Morel, le 03/11')}${svm('3','cur','Émise par la finance',emis)}${svm(I('send','s3'),'','Envoyée au client','Stive')}</div></div>`);
+const filM=(emis,who='Émise par la finance',extra='')=>MX(`<div class="box" style="padding:14px 16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:13.5px">Acompte 50 % · 9 300 € HT</b>${pv('À émettre','em')}</div><div class="step-v" style="margin-top:12px">${svm(I('check','s3'),'ok','Vérifiée par la cheffe de projet','Claire Morel, le 03/11')}${svm('3','cur',who,emis)}${svm(I('send','s3'),'','Envoyée au client','Stive')}</div>${extra}</div>`);
 const echM=(rows,tot)=>MX(`<div class="tw"><table class="t" style="font-size:12.5px"><thead><tr><th>Type</th><th>Libellé</th><th>Date</th><th class="r">Montant HT</th><th>Statut</th></tr></thead><tbody>${rows}${tot?`<tr class="tot"><td colspan="3" class="xs mut" style="text-transform:uppercase">Total</td><td class="r num" style="font-weight:600">${tot}</td><td></td></tr>`:''}</tbody></table></div>`);
 const er=(t,l,d,a,s)=>`<tr><td><span class="sbd neu sm">${t}</span></td><td>${l}</td><td class="num">${d}</td><td class="r num">${a}</td><td>${s}</td></tr>`;
 const mailL=(items)=>MX(`<div class="box" style="padding:0;overflow:hidden"><div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11.5px;font-weight:600;color:var(--mfg);display:flex;gap:8px;align-items:center">${I('mail','s3')}Boîte de Claire · une enquête de dix semaines</div>${items.map(([d,t,s])=>`<div style="display:grid;grid-template-columns:50px 1fr;gap:8px;padding:8px 14px;border-top:1px solid var(--border);font-size:12.5px"><span class="mut num">${d}</span><span><b style="font-weight:600">${t}</b>${s?`<span class="mut"> · ${s}</span>`:''}</span></div>`).join('')}<div style="padding:8px 14px;border-top:1px solid var(--border);font-size:12px;font-weight:600">${items.length} message${items.length>1?'s':''} en dix semaines</div></div>`);
+
+const echL=(rows,tot)=>MX(`<div class="infob" style="margin-bottom:8px">${I('eye','s3')}<span><b>Lecture seule.</b> Suivie par Claire Morel et Stive.</span></div><div class="tw"><table class="t" style="font-size:13px"><thead><tr><th>Échéance</th><th class="r">Montant HT</th><th>Statut</th></tr></thead><tbody>${rows}<tr class="tot"><td class="xs mut" style="text-transform:uppercase">Total</td><td class="r num" style="font-weight:600">${tot}</td><td></td></tr></tbody></table></div>`);
+const el=(l,a,s)=>`<tr><td>${l}</td><td class="r num">${a}</td><td>${s}</td></tr>`;
 
 // ---------- Arbitrages ----------
 const ARB=[
  {k:'a1',t:'Qui émet les factures ?',w:'le moment où la facture reçoit son numéro définitif',screen:'emettre',
   q:'Émettre attribue le numéro définitif : la facture ne se modifie plus, elle s\'annule par un avoir. Aujourd\'hui, Stive prépare et émet les factures dans son Excel ; dans Alphonse, il n\'a qu\'un accès en lecture, et aucun accès à Plein Sens Ethique.',
-  o:[{v:'finance',n:'Stive, avec Fabrice en relais',d:'Stive émet ce que le chef de projet a vérifié ; Fabrice peut émettre en son absence. Les avoirs et la clôture du mois restent à Fabrice.',i:'Un profil « facturation » pour Stive : émettre, noter l\'envoi et le paiement, sans avoir ni clôture. Compris dans l\'étape 1.',rec:true,
-      m:filM('Stive · numéro définitif, Fabrice en relais')},
-     {v:'fab',n:'Fabrice seul, avec une délégation possible à Stive',d:'Fabrice émet chaque facture vérifiée ; Stive prépare, envoie et relance.',i:'Même profil pour Stive, sans le droit d\'émettre. Même effort.',
-      m:filM('Fabrice Ducellier · numéro définitif')}],
-  why:'Chaque facture reste validée par deux personnes, le chef de projet puis la finance, sans ajouter de tâche quotidienne à Fabrice : Stive garde le rôle qu\'il a déjà, avec une liste au lieu d\'un Excel.'},
+  o:[{v:'finance',n:'Stive, avec Fabrice en relais',d:'Stive émet ce que le chef de projet a vérifié ; Fabrice peut émettre en son absence. Les avoirs et la clôture du mois restent à Fabrice. Si les deux sont absents, la facture attend dans « À émettre ».',i:'Un profil « facturation » pour Stive : émettre, noter l\'envoi et le paiement, sans avoir ni clôture. Compris dans l\'étape 1.',rec:true,
+      m:filM('facturation · numéro définitif ; Fabrice en relais','<b>Émise par Stive</b>')},
+     {v:'fab',n:'Fabrice seul ; Stive prépare, envoie et relance',d:'Fabrice émet chaque facture vérifiée ; Stive prépare, envoie et relance.',i:'Même profil pour Stive, sans le droit d\'émettre. Même effort.',
+      m:filM('finance · numéro définitif','<b>Émise par Fabrice Ducellier</b>')}],
+  why:'Chaque facture reste validée par deux personnes, le chef de projet puis celle qui l\'émet, sans ajouter de tâche quotidienne à Fabrice : Stive garde le rôle qu\'il a déjà, avec une liste au lieu d\'un Excel.'},
   {k:'a2',t:'Que voit un consultant du chantier dans l\'onglet Facturation ?',w:'un membre de l\'équipe, ni chef de projet ni associé',screen:'consultant',
-  q:'Un consultant de l\'équipe n\'a aucune étape à faire : il voit la facturation de ses chantiers en lecture seule, sans pouvoir rien y changer, même s\'il peut modifier le reste du chantier. Reste à décider s\'il voit les montants.',
+  q:'Un consultant de l\'équipe n\'a aucune étape à faire : il voit la facturation de ses chantiers en lecture seule, sans pouvoir rien y changer. Reste à décider s\'il voit les montants.',
   o:[{v:'complet',n:'Tout, en lecture seule',d:'Échéancier avec les montants, informations de facturation, factures émises avec leur numéro et leur statut. Aucun bouton, pas d\'entrée Finance dans le menu.',i:'Compris dans l\'étape 2.',rec:true,
-      m:MX(`<div class="infob" style="margin-bottom:8px">${I('eye','s3')}<span><b>Lecture seule.</b> Facturation suivie par Claire Morel et Stive.</span></div>`)+echM(er('Acompte','Acompte 50 %','02/11/2026','9 300,00',pv('À encaisser','enc'))+er('Solde','Solde 50 %','18/12/2026','9 300,00',pv('À venir','av')),'18 600 €')},
+      m:echL(el('Acompte 50 %','9 300,00',pv('À encaisser','enc'))+el('Solde 50 %','9 300,00',pv('À venir','av')),'18 600 €')},
      {v:'sans',n:'Tout, sans les montants',d:'Les échéances, leurs dates et leurs statuts, l\'entité facturée et les factures, sans aucun montant.',i:'1 à 2 jours de plus : masquer les montants à l\'écran et dans les règles d\'accès.',
-      m:MX(`<div class="infob" style="margin-bottom:8px">${I('eye','s3')}<span><b>Lecture seule.</b> Facturation suivie par Claire Morel et Stive.</span></div>`)+echM(er('Acompte','Acompte 50 %','02/11/2026','<span class="mut">·</span>',pv('À encaisser','enc'))+er('Solde','Solde 50 %','18/12/2026','<span class="mut">·</span>',pv('À venir','av')),'<span class="mut">·</span>')},
+      m:echL(el('Acompte 50 %','<span class="mut">masqué</span>',pv('À encaisser','enc'))+el('Solde 50 %','<span class="mut">masqué</span>',pv('À venir','av')),'<span class="mut">masqué</span>')},
      {v:'masque',n:'Seulement qui suit la facturation',d:'L\'onglet Facturation est masqué. Une ligne dans « Informations » indique qui suit la facturation du chantier.',i:'Compris dans l\'étape 2.',
       m:MX(`<div class="tabs" style="margin-bottom:10px"><span>Pilotage</span><span class="on">Informations</span><span>Frais</span></div><div class="infob">${I('receipt','s3')}<span>La facturation de ce chantier est suivie par Claire Morel (cheffe de projet) et Stive (facturation et relances).</span></div>`)}],
   why:'Le budget et le chiffre d\'affaires de chaque chantier sont déjà visibles de l\'équipe : masquer les montants ici n\'apporterait rien. Le consultant sait où en est la facturation de son chantier, sans pouvoir rien y changer.'},
@@ -1431,23 +1437,23 @@ const ARB=[
       m:MX(`<div class="box" style="padding:6px 14px">${[['Entité','Varenne Services SAS','<span class="src">Devis, p. 1</span>'],['Bon de commande','BC-VS-2026-0187','<span class="src">Bon de commande, p. 1</span>'],['Contact facturation','<span class="miss">À compléter</span>','<span class="srcf">dans la liste de Stive</span>']].map(([k,v,s])=>`<div class="field" style="grid-template-columns:120px 1fr auto"><span class="k">${k}</span><span class="v">${v}</span>${s}</div>`).join('')}<div style="display:flex;justify-content:flex-end;padding:8px 0"><span class="bt pr xs">${I('check','s3')}Valider · Claire</span></div></div>`)},
      {v:'stive',n:'Le chef de projet dépose seulement ; Stive relit et complète tout',d:'Un seul geste pour le chef de projet : déposer le devis. Stive relit les propositions d\'Alphonse et complète.',i:'Une étape de plus pour Stive à chaque chantier.',
       m:MX(`<div class="box" style="padding:6px 14px">${[['Entité','Varenne Services SAS'],['Bon de commande','BC-VS-2026-0187'],['Contact facturation','<span class="miss">À compléter</span>']].map(([k,v])=>`<div class="field" style="grid-template-columns:120px 1fr auto"><span class="k">${k}</span><span class="v">${v}</span><span class="src">Proposé par Alphonse</span></div>`).join('')}<div style="display:flex;justify-content:flex-end;padding:8px 0"><span class="bt pr xs">${I('check','s3')}Valider · Stive</span></div></div>`)},
-     {v:'tout',n:'Le chef de projet renseigne tout lui-même',d:'Comme le formulaire d\'aujourd\'hui, avec le préremplissage en plus.',cur:true,
-      m:MX(`<div class="box" style="padding:12px 14px;display:grid;gap:8px">${['Entité','Bon de commande','Contact facturation'].map(k=>`<div><div class="lbl">${k}</div><div class="inp ph" style="height:30px;font-size:12px">à saisir par Claire</div></div>`).join('')}</div>`)}],
+     {v:'tout',n:'Le chef de projet renseigne tout lui-même',d:'Comme l\'écran d\'aujourd\'hui, avec le préremplissage en plus.',tag:'COMME L\'ÉCRAN ACTUEL',
+      m:MX(`<div class="box" style="padding:6px 14px">${[['Entité','Varenne Services SAS'],['Bon de commande','BC-VS-2026-0187'],['Contact facturation','<span class="miss">Claire le cherche</span>']].map(([k,v])=>`<div class="field" style="grid-template-columns:120px 1fr auto"><span class="k">${k}</span><span class="v">${v}</span><span class="src">Proposé par Alphonse</span></div>`).join('')}<div style="display:flex;justify-content:flex-end;padding:8px 0"><span class="bt pr xs">${I('check','s3')}Valider · Claire</span></div></div>`)}],
   why:'Le chef de projet connaît le devis et le client : sa relecture prend une minute et évite les allers-retours. Stive garde ce qu\'il fait déjà, aller chercher ce qui manque, mais sur une liste et non plus de mémoire.'},
  {k:'a4',t:'Que voit et que fait l\'associé de référence ?',w:'responsable du chantier avec le chef de projet',screen:'parchantier',
   q:'L\'associé de référence suit ses chantiers ; Pierre-Guillaume et les administrateurs voient tout.',
   o:[{v:'lecture',n:'Il lit la facturation de ses chantiers',d:'Onglet Facturation et vue « Par chantier » pour ses chantiers, en lecture. Il ne vérifie pas les factures.',rec:true,
-      m:filM('Stive · numéro définitif')},
+      m:MX(`<div class="infob" style="margin-bottom:8px">${I('eye','s3')}<span><b>Lecture seule.</b> Associé de référence : ses 3 chantiers.</span></div><div class="tw"><table class="t" style="font-size:12.5px"><thead><tr><th>Chantier</th><th class="r">Production</th><th class="r">Déjà facturé</th><th>Écart</th></tr></thead><tbody><tr><td class="mono">VARENNE_EnqSig</td><td class="r num">1 860</td><td class="r num">9 300</td><td><span class="sbd info sm">facturé d'avance 7 440</span></td></tr><tr><td class="mono">BRENNE_Enq</td><td class="r num">6 000</td><td class="r num">7 500</td><td><span class="sbd info sm">facturé d'avance 1 500</span></td></tr><tr><td class="mono">TALMONT_Enq</td><td class="r num">9 800</td><td class="r num">9 800</td><td><span class="sbd neu sm">aligné</span></td></tr></tbody></table></div>`)},
      {v:'cp',n:'Il peut vérifier une facture en l\'absence du chef de projet',d:'Mêmes droits que le chef de projet sur ses chantiers.',i:'1 à 2 jours de plus.',
-      m:filM('Stive · numéro définitif').replace('Claire Morel, le 03/11','Claire Morel ou l\'associé de référence')}],
+      m:MX(`<div class="box" style="padding:14px 16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:13.5px">Acompte 50 % · 9 300 € HT</b>${pv('Chez le chef de projet','cp')}</div><div class="infob" style="margin-top:10px">${I('users','s3')}<span>Claire Morel est absente : l'associé de référence peut vérifier.</span></div><div style="display:flex;gap:6px;margin-top:10px"><span class="bt pr xs">${I('check','s3')}C'est bon</span><span class="bt ol xs">À corriger</span></div></div>`)}],
   why:'Une seule personne vérifie chaque facture côté chantier : on sait toujours qui doit agir.'},
 
  {k:'a5',t:'Le complément fait-il toujours l\'objet d\'une facture séparée ?',w:'quand le client accepte des entretiens ou une restitution de plus',screen:'fin',
   q:'Un complément suppose l\'accord du client et arrive souvent en fin d\'enquête.',
   o:[{v:'separe',n:'Toujours une facture séparée',d:'Le chef de projet joint l\'accord du client ; le montant du chantier est augmenté et la modification tracée.',rec:true,
-      m:echM(er('Solde','Solde 50 %','18/12/2026','9 300,00',pv('À venir','av'))+er('Complément','Restitution CSE supplémentaire','08/01/2027','2 850,00',pv('À venir','av')),'21 450 €')},
+      m:echM(er('Acompte','Acompte 50 %','02/11/2026','9 300,00',pv('Réglée','reg'))+er('Solde','Solde 50 %','18/12/2026','9 300,00',pv('À venir','av'))+er('Complément','Restitution CSE supplémentaire','08/01/2027','2 850,00',pv('À venir','av')),'21 450 €')},
      {v:'solde',n:'Ajouté à la facture de solde quand c\'est possible',d:'Une ligne de plus sur le solde si l\'accord arrive avant, sinon une facture séparée.',i:'Deux cas à gérer : un peu plus d\'effort, et un solde parfois retardé par l\'accord.',
-      m:echM(er('Solde','Solde 50 % + restitution CSE supplémentaire','18/12/2026','12 150,00',pv('À venir','av')),'21 450 €')}],
+      m:echM(er('Acompte','Acompte 50 %','02/11/2026','9 300,00',pv('Réglée','reg'))+er('Solde','Solde 50 % + restitution CSE supplémentaire','18/12/2026','12 150,00',pv('À venir','av')),'21 450 €')}],
   why:'Une règle unique, simple à expliquer, qui ne retarde jamais le solde.'},
  {k:'a6',t:'Combien de messages chacun reçoit-il ?',w:'le 4 novembre, Pierre-Guillaume a écarté les rafales de mails',screen:'fin',
   q:'L\'aperçu compte les messages que reçoit la cheffe de projet sur une enquête de dix semaines.',
@@ -1456,12 +1462,12 @@ const ARB=[
      {v:'liste',n:'Le mail de fin de mission seulement',d:'Le reste se voit dans la liste « Chez moi » d\'Alphonse.',i:'Un peu moins d\'effort ; le risque est qu\'une facture attende sans que personne le voie.',
       m:mailL([['18/12','La mission se termine','le solde peut-il partir ?']])},
      {v:'tout',n:'Un mail à chaque étape',d:'Chaque passage d\'une facture d\'une personne à l\'autre envoie un mail.',i:'Simple à construire, mais c\'est la rafale que vous ne voulez pas.',
-      m:mailL([['26/10','Chantier créé','informations à compléter'],['28/10','Informations validées',''],['02/11','Acompte à vérifier',''],['04/11','Acompte émis',''],['05/11','Acompte déposé',''],['18/12','La mission se termine',''],['08/01','Solde à vérifier',''],['09/01','Solde émis',''],['10/01','Solde déposé',''],['28/01','Acompte réglé','']])}],
+      m:mailL([['26/10','Chantier créé','informations à compléter'],['28/10','Informations validées',''],['02/11','Acompte à vérifier',''],['04/11','Acompte émis',''],['05/11','Acompte déposé',''],['04/12','Acompte réglé',''],['18/12','La mission se termine',''],['08/01','Solde à vérifier',''],['09/01','Solde émis',''],['10/01','Solde déposé','']])}],
   why:'Le seul message individuel est celui où la décision du chef de projet est indispensable. Aucun mail n\'est envoyé au consultant ni à l\'associé.'},
  {k:'a7',t:'Que devient le point mensuel de Stive avec les chefs de projet ?',w:'aujourd\'hui, une revue de tous les chantiers',screen:'parchantier',
   q:'Avec des statuts calculés, la tournée de tous les chantiers pour savoir quoi facturer devient inutile. Reste l\'échange sur ce qui bloque.',
   o:[{v:'cible',n:'Plus de tournée : Stive appelle seulement quand un chantier ressort',d:'Un écart ou un solde en attente dans « Par chantier » : Stive appelle le chef de projet concerné. À voir avec Stive.',rec:true,
-      m:MX(`<div class="tw"><table class="t" style="font-size:12.5px"><thead><tr><th>Chantier</th><th class="r">Production</th><th class="r">Déjà facturé</th><th>Écart</th><th></th></tr></thead><tbody><tr><td class="mono">HALIOS_EnqSig</td><td class="r num">16 800</td><td class="r num">12 000</td><td><span class="sbd warn sm">produit non facturé 4 800</span></td><td class="r"><span class="bt ol xs">${I('phone','s3')}Julien</span></td></tr><tr><td class="mono">MERIDIA_EnqRPS</td><td class="r num">10 500</td><td class="r num">10 500</td><td><span class="sbd neu sm">aligné</span></td><td></td></tr></tbody></table></div>`)},
+      m:MX(`<div class="tw"><table class="t" style="font-size:12.5px"><thead><tr><th>Chantier</th><th class="r">Production</th><th class="r">Déjà facturé</th><th>Écart</th><th></th></tr></thead><tbody><tr><td class="mono">HALIOS_EnqSig</td><td class="r num">16 800</td><td class="r num">12 000</td><td><span class="sbd warn sm">produit non facturé 4 800</span></td><td class="r"><span class="bt ol xs">${I('phone','s3')}Julien</span></td></tr><tr><td class="mono">TALMONT_Enq</td><td class="r num">9 800</td><td class="r num">9 800</td><td><span class="sbd neu sm">aligné</span></td><td></td></tr></tbody></table></div>`)},
      {v:'garder',n:'Garder un point mensuel avec chaque chef de projet',d:'Un point court chaque mois, appuyé sur la vue « Par chantier ».',
       m:MX(`<div class="box" style="padding:12px 14px;font-size:12.5px;display:grid;gap:8px">${['Claire Morel · 2 chantiers','Julien Petit · 2 chantiers','Sophie Martin · 3 chantiers'].map(x=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="display:flex;align-items:center;gap:6px">${I('cal','s3')}${x}</span><span class="sbd neu sm">point du 20</span></div>`).join('')}</div>`)}],
   why:'Le temps de Stive va là où il apporte de la valeur : une conversation sur ce qui bloque, pas une revue de tout.'},
@@ -1477,7 +1483,8 @@ const ARB=[
   o:[{v:'oui',n:'Oui : 50 % au lancement, 50 % en fin de mission',d:'Alphonse propose ce schéma par défaut ; le chef de projet peut toujours le modifier.',rec:true,
       m:echM(er('Acompte','Acompte 50 %','02/11/2026','9 300,00',pv('À venir','av'))+er('Solde','Solde 50 %','18/12/2026','9 300,00',pv('À venir','av')),'18 600 €')},
      {v:'autre',n:'Non, il varie trop d\'une enquête à l\'autre',d:'Alphonse reprend l\'échéancier écrit dans le devis, s\'il y en a un.',i:'Lecture de l\'échéancier du devis : un peu plus d\'effort sur la lecture des documents.',
-      m:echM(er('Acompte','30 % à la commande','02/11/2026','5 580,00',pv('À venir','av'))+er('Acompte','40 % aux entretiens','27/11/2026','7 440,00',pv('À venir','av'))+er('Solde','30 % à la restitution','18/12/2026','5 580,00',pv('À venir','av')),'18 600 €')}]}
+      m:echM(er('Acompte','30 % à la commande','02/11/2026','5 580,00',pv('À venir','av'))+er('Acompte','40 % aux entretiens','27/11/2026','7 440,00',pv('À venir','av'))+er('Solde','30 % à la restitution','18/12/2026','5 580,00',pv('À venir','av')),'18 600 €')}],
+  why:'C\'est le schéma décrit le 4 novembre ; le chef de projet garde la main pour une enquête qui s\'en écarte.'}
 ];
 
 // ---------- Informations attendues ----------
@@ -1493,22 +1500,23 @@ const INFOS=[
 
 // ---------- Qui voit quoi ----------
 const MATRIX=(st)=>{
+  const T=(t)=>['txt',t];
   const cons={complet:['read','Échéancier avec montants, informations, factures et statuts'],sans:['read','Échéancier, informations, factures et statuts, sans montants'],masque:['no','Une ligne indique qui suit la facturation']}[st.a2];
   const cp={cp:['edit','Dépose le devis, valide les informations et l\'échéancier, vérifie chaque facture'],stive:['edit','Dépose le devis et vérifie chaque facture'],tout:['edit','Renseigne les informations et l\'échéancier, vérifie chaque facture']}[st.a3];
   const ass={lecture:['read','Ses chantiers'],cp:['edit','Ses chantiers ; peut vérifier une facture']}[st.a4];
-  const msgCp={recap:'Trois messages par enquête',liste:'Le mail de fin de mission',tout:'Une dizaine de messages par enquête'}[st.a6];
+  const msgCp={recap:'3 messages par enquête',liste:'Le mail de fin de mission',tout:'Une dizaine de messages par enquête'}[st.a6];
   const msgSt={recap:'Un récapitulatif par semaine ; copie des mails de fin de mission',liste:'Copie des mails de fin de mission',tout:'Un mail à chaque étape'}[st.a6];
   const msgFa={recap:'Un message par mois, quand le mois est prêt à être clos',liste:'Aucun',tout:'Un mail à chaque étape'}[st.a6];
-  const steveEm=st.a1==='fab'?'sans Émettre ni Avoir':'il émet ; sans Avoir';
+  const steveEm=st.a1==='fab'?'sans émettre ni avoir':'il émet ; sans avoir';
   const fabEm=st.a1==='fab'?'Il émet et crée les avoirs':'Il crée les avoirs ; il peut émettre en relais';
   return [
-   ['Consultant du chantier<span>membre de l\'équipe</span>',cons,['no','Pas d\'entrée Finance dans le menu'],['no',''],['no','Aucun']],
-   ['Claire, cheffe de projet<span>chef de projet du chantier</span>',cp,['read','« Par chantier », pour ses chantiers'],['no',''],['read',msgCp]],
-   ['Associé de référence',ass,['read','« Par chantier », pour ses chantiers'],['no',''],['no','Aucun']],
-   ['Stive<span>facturation et relances</span>',['edit',(st.a3==='stive'?'Relit et complète les informations, ':'Complète ce qui manque, ')+'émet, note l\'envoi et le paiement'],['edit','À faire, Par chantier, Registre ; '+steveEm],['no',''],['read',msgSt]],
-   ['Fabrice<span>finance</span>',['edit','Tout'],['edit',fabEm],['edit','Il clôt le mois'],['read',msgFa]],
-   ['Pierre-Guillaume et les administrateurs',['read','Tous les chantiers'],['read','Tout'],['read','Mois clos'],['no','Aucun']],
-   ['Le comptable',['no','Pas de compte'],['no',''],['no',''],['read','Les trois fichiers du mois, envoyés par Fabrice']]
+   ['Consultant du chantier<span>membre de l\'équipe</span>',cons,['no','Pas d\'entrée Finance dans le menu'],['no',''],T('Aucun')],
+   ['Claire, cheffe de projet<span>chef de projet du chantier</span>',cp,['read','« Par chantier », pour ses chantiers'],['no',''],T(msgCp)],
+   ['Associé de référence',ass,['read','« Par chantier », pour ses chantiers'],['no',''],T('Aucun')],
+   ['Stive<span>facturation et relances</span>',['edit',(st.a3==='stive'?'Relit et complète les informations, ':'Complète ce qui manque, ')+'émet, note l\'envoi et le paiement'],['edit','À faire, Par chantier, Registre ; '+steveEm],['no',''],T(msgSt)],
+   ['Fabrice<span>finance</span>',['edit','Tout'],['edit',fabEm],['edit','Il clôt le mois'],T(msgFa)],
+   ['Pierre-Guillaume et les administrateurs',['read','Tous les chantiers'],['read','Tout'],['read','Mois clos'],T('Aucun')],
+   ['Le comptable',['no','Pas de compte'],['no',''],['no',''],T('Les trois fichiers du mois, envoyés par Fabrice')]
   ];
 };
 const MATRIX_NOTE='Le tableau suit vos réponses aux arbitrages. « Agit » signifie que la personne a une étape à faire ; « Lecture », qu\'elle voit sans pouvoir modifier. Un consultant qui ne travaille pas sur le chantier ne voit pas sa facturation. Aucun mail n\'est envoyé au consultant ni à l\'associé.';
@@ -1516,14 +1524,15 @@ const MATRIX_NOTE='Le tableau suit vos réponses aux arbitrages. « Agit » sign
 // ---------- Planning et effort ----------
 const EFFORT_SUB='Quatre étapes, chacune utile seule et décidée séparément. En jours de développement, tests compris ; la recette avec vos équipes et le branchement de la plateforme agréée ne sont pas compris.';
 const LOTS=[
- {n:'1. Une vraie facture d\'acompte depuis le devis',d:'Dépôt et lecture du devis, du bon de commande et des mails ; informations préremplies avec leur source ; échéancier acompte, solde, complément ; facture préparée puis vérifiée par le chef de projet ; émission par Stive avec son profil « facturation » ; numérotation de Plein Sens Ethique ; registre exportable au format du facturier',e:'19 à 31 j'},
- {n:'2. Stive sans Excel',d:'Statuts calculés ; liste « À faire » et filtre « Chez moi » ; contrôle de chaque nuit ; entité retrouvée et SIREN ; lecture seule pour les consultants et les associés ; mails propres à Plein Sens Ethique et récapitulatifs',e:'21 à 33 j'},
+ {n:'1. Une vraie facture d\'acompte depuis le devis',d:'Dépôt et lecture du devis, du bon de commande et des mails ; informations préremplies avec leur source ; échéancier acompte, solde, complément ; facture préparée puis vérifiée par le chef de projet ; émission par Stive avec son profil « facturation » ; lecture seule pour les consultants et les associés ; numérotation de Plein Sens Ethique ; registre exportable au format du facturier',e:'22 à 36 j'},
+ {n:'2. Stive sans Excel',d:'Statuts calculés ; liste « À faire » et filtre « Chez moi » ; contrôle de chaque nuit ; entité retrouvée et SIREN ; mails propres à Plein Sens Ethique et récapitulatifs',e:'18 à 28 j'},
  {n:'3. Fin de mission et suivi',d:'Mail de fin de mission avec trois choix et réponse en une phrase ; vue « Par chantier » ; contestation ; complément ; textes préparés par l\'IA ; date de prise en compte des paiements dans le mois ouvert',e:'12 à 21 j'},
  {n:'4. Clôture et comptable',d:'Mois figé, chantiers terminés compris ; trois fichiers pour le comptable',e:'9 à 12 j'},
- {n:'Total',d:'Selon les options conseillées dans les arbitrages',e:'61 à 97 j',tot:true}
+ {n:'Les quatre étapes, si vous les décidez toutes',d:'Selon les options conseillées dans les arbitrages',e:'61 à 97 j',tot:true}
 ];
 const HYP=[
- '<b>L\'étape 1 sur une vraie enquête</b> quatre à six semaines après votre accord, avec un développeur qui connaît Alphonse. Chaque étape suivante est décidée séparément.',
+ '<b>L\'étape 1 sur une vraie enquête</b> cinq à sept semaines après votre accord, avec un développeur qui connaît Alphonse. Chaque étape suivante est décidée séparément ; le coût de chaque étape vous est présenté jeudi.',
+ '<b>À la fin de l\'étape 1</b>, Claire dépose le devis et valide ; elle vérifie l\'acompte dans la fiche du chantier ; Stive l\'émet depuis la page Facturation actuelle, et le registre remplace le facturier. Restent comme aujourd\'hui jusqu\'aux étapes suivantes : la liste « Chez moi » de Stive, les récapitulatifs et le mail de fin de mission.',
  '<b>Dès l\'étape 1</b>, le registre des factures émises dans Alphonse s\'exporte au format du facturier : c\'est lui qui part chez le comptable jusqu\'à l\'étape 4, et Stive n\'a plus de facturier à tenir.',
  '<b>Ce que vos choix font varier.</b> Montants masqués aux consultants : 1 à 2 jours de plus. Associé qui vérifie : 1 à 2 jours. Accès du comptable : quelques jours.',
  '<b>Ce qui existe déjà</b> et sera réutilisé : la génération des factures en brouillon, la numérotation à l\'émission, le PDF, les avoirs, les encaissements et la clôture du mois. Objectif : tout terminé, plateforme agréée comprise, avant l\'été 2027.'
@@ -1547,7 +1556,7 @@ qs('#life').insertAdjacentHTML('afterend',`<div class="life-side">${LIFE_SIDE.ma
 // ---------- Matrice des droits ----------
 function renderMatrix(){
   const C={edit:'Agit',read:'Lecture',no:'Non'};
-  const cell=([k,d])=>`<span class="cell ${k}">${C[k]}</span>${d?`<span class="cell-d">${d}</span>`:''}`;
+  const cell=([k,d])=>k==='txt'?`<span class="cell-t">${d}</span>`:`<span class="cell ${k}">${C[k]}</span>${d?`<span class="cell-d">${d}</span>`:''}`;
   const rows=MATRIX(state);
   qs('#mx').innerHTML=`<thead><tr><th>Personne</th><th>Fiche chantier, onglet Facturation</th><th>Facturation : À faire, Par chantier, Registre</th><th>Clôture du mois</th><th>Messages reçus</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(c=>`<td>${cell(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   qs('#mxNote').innerHTML=MATRIX_NOTE;
@@ -1555,13 +1564,13 @@ function renderMatrix(){
 
 // ---------- Effort ----------
 qs('#effortSub').innerHTML=EFFORT_SUB;
-qs('#lots').innerHTML=`<thead><tr><th>Lot</th><th>Ce qu'il apporte</th><th>Effort</th></tr></thead><tbody>${LOTS.map(l=>`<tr${l.tot?' class="tot"':''}><td>${l.n}</td><td>${l.d}</td><td>${l.e}</td></tr>`).join('')}</tbody>`;
+qs('#lots').innerHTML=`<thead><tr><th>Étape</th><th>Ce qu'elle apporte</th><th>Effort</th></tr></thead><tbody>${LOTS.map(l=>`<tr${l.tot?' class="tot"':''}><td>${l.n}</td><td>${l.d}</td><td>${l.e}</td></tr>`).join('')}</tbody>`;
 qs('#hyp').innerHTML=HYP.map(h=>`<div>${h}</div>`).join('');
 
 // ---------- Arbitrages ----------
 function renderArb(){
   qs('#arb').innerHTML=ARB.map((a,i)=>`<div class="arb" id="arb-${a.k}"><div class="arb-h"><span class="n">${i+1}.</span><h3>${a.t}</h3>${a.w?`<span class="ital">${a.w}</span>`:''}</div><p class="arb-q">${a.q}</p>
-  <div class="opts${a.o.length>2?' three':''}" role="radiogroup" aria-label="${esc(a.t).replace(/"/g,'')}">${a.o.map(o=>`<button type="button" class="opt" role="radio" data-k="${a.k}" data-v="${o.v}" aria-checked="${state[a.k]===o.v}"><span class="opt-top"><span class="radio"></span><span class="opt-name">${o.n}</span>${o.rec?'<span class="tag rec">CONSEILLÉ</span>':o.cur?'<span class="tag">ACTUEL</span>':''}</span>${o.m?`<span class="opt-prev"><span class="mini-w"><span class="mini-in">${o.m}</span></span></span>`:''}<span class="opt-desc">${o.d}</span>${o.i?`<span class="opt-imp">${o.i}</span>`:''}</button>`).join('')}</div>
+  <div class="opts${a.o.length>2?' three':''}" role="radiogroup" aria-label="${esc(a.t).replace(/"/g,'')}">${a.o.map(o=>`<button type="button" class="opt" role="radio" data-k="${a.k}" data-v="${o.v}" aria-checked="${state[a.k]===o.v}"><span class="opt-top"><span class="radio"></span><span class="opt-name">${o.n}</span>${o.rec?'<span class="tag rec">CONSEILLÉ</span>':o.cur?'<span class="tag">ACTUEL</span>':o.tag?`<span class="tag">${o.tag}</span>`:''}</span>${o.m?`<span class="opt-prev"><span class="mini-w"><span class="mini-in">${o.m}</span></span></span>`:''}<span class="opt-desc">${o.d}</span>${o.i?`<span class="opt-imp">${o.i}</span>`:''}</button>`).join('')}</div>
   ${a.why?`<div class="arb-why"><b>Pourquoi nous conseillons cette option.</b> ${a.why}</div>`:''}${a.screen?`<div class="arb-link"><a href="#ecrans" data-go="${a.screen}">Voir l'écran concerné dans le parcours</a></div>`:''}</div>`).join('');
   qsa('#arb .opt').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.k]=b.dataset.v;save();sync();}));
   qsa('#arb [data-go]').forEach(l=>l.addEventListener('click',()=>{go(SCREENS.findIndex(s=>s.id===l.dataset.go),'prop');}));
@@ -1569,7 +1578,7 @@ function renderArb(){
   requestAnimationFrame(fitMini);
 }
 function fitMini(){
-  qsa('.mini-w').forEach(w=>{const inr=w.firstElementChild;const W=w.closest('.opts.three')&&!w.closest('#arb-a2')?460:640;inr.style.width=W+'px';const s=Math.min(1,w.clientWidth/W);inr.style.transform=`scale(${s})`;w.style.height=Math.ceil(inr.offsetHeight*s)+'px';});
+  qsa('.mini-w').forEach(w=>{const inr=w.firstElementChild;const W=w.closest('#arb-a2')?400:w.closest('.opts.three')?460:640;inr.style.width=W+'px';const s=Math.min(1,w.clientWidth/W);inr.style.transform=`scale(${s})`;w.style.height=Math.ceil(inr.offsetHeight*s)+'px';});
 }
 addEventListener('resize',()=>fitMini());
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitMini());
@@ -1616,7 +1625,7 @@ function render(){
   if(v==='today'){const t=document.createElement('div');t.className='today-tag';t.textContent='Aujourd\'hui · '+(s.todayLabel||'ce qui existe');root.style.position='relative';root.appendChild(t);}
   // aucun tiret cadratin dans les écrans
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode())){if(n.nodeValue.includes('—'))n.nodeValue=n.nodeValue.replace(/\s?—\s?/g,(m)=>m.trim()===m?'Non renseigné':', ').replace(/^, |, $/g,'');}
-  qs('#scrWho').textContent=s.who; qs('#scrTitle').textContent=s.title;
+  qs('#scrWho').innerHTML=esc(s.who)+(s.lot?` <span class="lot">Étape ${s.lot}</span>`:''); qs('#scrTitle').textContent=s.title;
   qsa('#scrNav button').forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
   qs('#btnToday').disabled=!s.today; qs('#segVer').hidden=!s.today;
   qsa('#segVer button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));

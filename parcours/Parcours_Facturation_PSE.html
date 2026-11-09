@@ -1048,8 +1048,8 @@ function infosCard4(mode){
   return `<div class="box" id="infos"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div style="font-weight:600;font-size:15px">Informations de facturation</div><div class="xs mut" style="margin-top:2px">Entité facturée, bon de commande et mode d'envoi, repris sur chaque facture.</div></div>${head}</div>
   <div style="margin-top:16px;display:flex;flex-direction:column;gap:18px"><div class="g2">${ent}${FI.map(field).join('')}</div>
   <div><div class="h4">Frais de mission</div>${ed?`<div class="rad"><span><i></i>À facturer en sus</span><span><i></i>À facturer en débours</span><span><i class="on"></i>Inclus</span><span class="src">${I('file','s2')}Devis, p. 2</span></div>`:`<div class="val">${mode==='saved'?'Inclus':'Non renseigné'}</div>`}</div>
-  ${ed?`<div style="display:flex;justify-content:flex-end;gap:8px" id="infoBtns"><span class="bt gh sm">Annuler</span><span class="bt pr sm">${I('check','s3')}Valider ces informations</span></div>`:''}
-  ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}Validé par Claire Morel le 28/10/2026. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
+  ${ed?`<div style="display:flex;justify-content:flex-end;gap:8px;align-items:center" id="infoBtns"><span class="xs mut">${I('check','s3')} Relisez, puis validez en bas de page avec l'échéancier : un seul clic.</span></div>`:''}
+  ${mode==='saved'?`<div class="xs mut" style="display:flex;align-items:center;gap:6px">${I('okc','s3')}Relu par Claire Morel le 28/10/2026. Coordonnées partagées avec 2 autres chantiers.</div>`:''}
   </div></div>`;
 }
 function schedRow4(id,type,lab,date,amt,st,act=''){return `<tr data-r="${id}"><td><span class="sbd neu sm">${type}</span></td><td>${lab}</td><td class="num dcell">${date}</td><td class="r num">${amt}</td><td class="scell">${st}</td><td class="r acell" style="white-space:nowrap">${act}<span class="mut" style="margin-left:8px;display:inline-flex;vertical-align:middle">${I('pen','s3')}</span></td></tr>`;}
@@ -1058,7 +1058,7 @@ function schedCard4(mode){
   if(mode==='empty'){rows=`<tr><td colspan="6" class="mut" style="text-align:center;padding:18px">Aucun jalon renseigné.</td></tr>`;total='0 €';}
   else if(mode==='fin'){rows=schedRow4('a','Acompte','Acompte 50 %','02/11/2026','9 300,00',ST('reg','Réglée'))+schedRow4('s','Solde','Solde 50 %','18/12/2026','9 300,00',ST('prep','À préparer'));}
   else {rows=schedRow4('a','Acompte','Acompte 50 %','02/11/2026','9 300,00',ST('av','À venir'))+schedRow4('s','Solde','Solde 50 %','18/12/2026','9 300,00',ST('av','À venir'));
-    if(mode==='prop') extra=`<div class="okb" id="ctrl" style="margin-top:14px">${I('okc','s3')}<span>Total 18 600 € = montant du devis PSE-2026-041 = montant du chantier</span></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px" id="schedBtns"><span class="bt ol sm">Modifier</span><span class="bt pr sm">${I('check','s3')}Valider l'échéancier</span></div>`;}
+    if(mode==='prop') extra=`<div class="okb" id="ctrl" style="margin-top:14px">${I('okc','s3')}<span>Total 18 600 € = montant du devis PSE-2026-041 = montant du chantier</span></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px" id="schedBtns"><span class="bt ol sm">Modifier</span><span class="bt pr sm">${I('check','s3')}Valider les informations et l'échéancier</span></div>`;}
   return `<div class="card" id="sched"><div class="card-h"><div class="t">Échéancier</div><div class="d">${mode==='prop'?'Proposé d\'après le devis : la moitié au lancement, la moitié à la fin prévue.':'Les échéances de facturation du chantier.'}</div></div>
 <div class="card-b"><div class="tw"><table class="t"><thead><tr><th style="width:110px">Type</th><th>Libellé</th><th style="width:140px">Date</th><th class="r" style="width:140px">Montant HT</th><th style="width:150px">Statut</th><th style="width:210px"></th></tr></thead><tbody>${rows}
 <tr class="tot"><td colspan="3" class="xs mut" style="text-transform:uppercase;font-weight:500">Total</td><td class="r num" style="font-weight:600">${total}</td><td colspan="2"></td></tr></tbody></table></div>${extra}</div></div>`;
@@ -1084,7 +1084,7 @@ function factureTab(){
   <div class="step-v" style="margin-top:16px" id="fil">
    ${SV4(I('check','s3'),'ok','Préparée par Alphonse','02/11/2026 · à la date de l\'échéance')}
    ${SV4('2','cur','Vérifiée par la cheffe de projet','Claire Morel · montant, libellé, commande',`<div style="display:flex;gap:6px;margin-top:8px" class="act"><span class="bt pr xs">${I('check','s3')}C'est bon</span><span class="bt ol xs">À corriger</span></div>`)}
-   ${SV4(I('lock','s3'),'','Émise par la finance','Stive · numéro définitif')}
+   ${SV4(I('lock','s3'),'','Émise par Stive','facturation · numéro définitif, Fabrice en relais')}
    ${SV4(I('send','s3'),'','Déposée sur le portail','Stive · portail fournisseurs Varenne')}
   </div></div>
 </div></div></div>`);
@@ -1175,8 +1175,8 @@ function cloture4(){
 </div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" id="amts">
  <div class="amt"><div class="l">Facturé en novembre</div><div class="v">27 900 €</div><div class="h">4 factures émises dans le mois</div></div>
- <div class="amt"><div class="l">Travail réalisé non facturé</div><div class="v">7 200 €</div><div class="h">fait, pas encore facturé (FAE)</div></div>
- <div class="amt"><div class="l">Facturé d'avance</div><div class="v">9 016 €</div><div class="h">facturé, travail à venir (PCA) · dont VARENNE 1 116 €</div></div>
+ <div class="amt"><div class="l">Travail réalisé non facturé</div><div class="v">7 200 €</div><div class="h">à fin novembre : fait, pas encore facturé (FAE)</div></div>
+ <div class="amt"><div class="l">Facturé d'avance</div><div class="v">9 016 €</div><div class="h">à fin novembre : facturé, travail à venir (PCA) · dont VARENNE 1 116 €</div></div>
 </div>
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" id="pack"><span class="bt ol sm" id="packBtn">${I('dl','s3')}3 fichiers pour le comptable</span>
  <span class="file" style="display:none">${I('sheet','s3')}Registre des factures (format du facturier)</span><span class="file" style="display:none">${I('sheet','s3')}État figé : réalisé et facturé</span><span class="file" style="display:none">${I('file','s3')}Écritures pour votre outil comptable</span></div>`,{count:6,bell:2});
@@ -1203,7 +1203,7 @@ function todaySplit(){
 function fitSplit(){$$('.split .frame').forEach(f=>{const c=f.firstElementChild;const s=f.clientWidth/1360;c.style.transform=`scale(${s})`;});}
 
 // --- Section Finance : aujourd'hui → demain ---
-const CMP=[['Revue mensuelle','Par chantier','Plus de tournée : chaque facture a son statut. Sert au point mensuel avec chaque chef de projet.'],['À préparer','À faire','Devient trois statuts : à préparer, chez le chef de projet, à émettre.'],['Impayés','À faire','Devient « À encaisser » et « Contestée ». L\'export Excel reste.'],['Facturier','Registre','Même contenu, au format du facturier de Stive.'],['Clôture › Checklist','Vérifications','Trois lignes : temps saisis, factures émises, brouillons traités.'],['Ajustements FAE/PCA','Travail réalisé et facturé','Figé à la clôture, au lieu d\'être recalculé à chaque affichage.'],['Valorisation production','Mois clos','Même public, une entrée de menu en moins.']];
+const CMP=[['Revue mensuelle','Par chantier','Plus de tournée : un écart ou un solde en attente ressort tout seul.'],['À préparer','À faire','Devient trois statuts : à préparer, chez le chef de projet, à émettre.'],['Impayés','À faire','Devient « À encaisser » et « Contestée ». L\'export Excel reste.'],['Facturier','Registre','Même contenu, au format du facturier de Stive.'],['Clôture › Checklist','Vérifications','Trois lignes : temps saisis, factures émises, brouillons traités.'],['Ajustements FAE/PCA','Travail réalisé et facturé','Figé à la clôture, au lieu d\'être recalculé à chaque affichage.'],['Valorisation production','Mois clos','Même public, une entrée de menu en moins.']];
 const cmpScreen=()=>`<div class="cmp"><h2>La section Finance, aujourd'hui et demain</h2><div class="sub">Organisée autour de ce que chacun a à faire, pas autour des tableaux.</div>
 <div class="rows"><div class="hd">Aujourd'hui</div><div></div><div class="hd">Demain</div><div class="hd">Pourquoi</div>
 ${CMP.map(([a,b,w])=>`<div class="o rw">${a}</div><div class="ar rw">→</div><div class="n rw">${b}</div><div class="w rw">${w}</div>`).join('')}</div></div>`;
@@ -1267,10 +1267,7 @@ const STEPS=[
    const cf=$('#infos [data-f="contact"]',ax); await scrollTopOf($('#infos',ax),70); await sleep(300);
    const inp=$('.inp',cf); inp.className='inp ed focus'; await type(inp,'Nadia Lemoine, comptabilité fournisseurs',30);
    inp.className='inp ed ai'; const ch=$('.src',cf); ch.className='src'; ch.innerHTML=`${I('file','s2')}Mail du client, signature`; flash(cf);
-   reveal(btns); await sleep(900);
-   await click(btn(btns,'Valider ces informations'));
-   const sc=scroller().scrollTop; app.innerHTML=ficheTab({docs:'mail',infos:'saved',sched:'empty'}); current='fiche'; scroller().scrollTop=sc; flash($('#infos',app));
-   await sleep(1800);
+   reveal(btns); await sleep(2400);
  }},
  {name:'4. Échéancier proposé',async run(){
    const ax=await show('fiche',ficheTab({docs:'mail',infos:'saved',sched:'prop'}));
@@ -1281,7 +1278,7 @@ const STEPS=[
    await scrollTopOf($('#sched',ax),70); await sleep(500);
    for(const r of rows){rowIn(r);await sleep(850);}
    popIn(ctrl); await sleep(2200); reveal(b); await sleep(400);
-   const v=btn(b,'Valider l\'échéancier'); await click(v); v.classList.add('done'); v.innerHTML=`${I('check','s3')}Échéancier validé`;
+   const v=btn(b,'Valider les informations'); await click(v); v.classList.add('done'); v.innerHTML=`${I('check','s3')}Informations et échéancier validés`;
    await sleep(2000);
  }},
  {name:'5. Claire vérifie la facture',async run(){
@@ -1317,7 +1314,7 @@ const STEPS=[
      fr('O','ORLAN_EnqHar','Sophie Martin','F2026-00006','16 000',ST('env','À envoyer'),'Émise le 30/10',`<span class="bt ol xs">Envoyer</span>`)+
      fr('H','HALIOS_EnqSig','Julien Petit','F2026-00004','12 000',ST('enc','À encaisser')+' <span class="late">En retard de 16 j</span>','Échéance du 20/10',`<span class="bt ol xs rap">${I('mail','s3')}Préparer le rappel</span>`)+
      fr('M','MERIDIA_EnqRPS','Sophie Martin','F2026-00005','10 500',ST('con','Contestée'),'Montant contesté, relances suspendues','');
-   const alert=`<div class="alertb" id="al">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande manquant, chantier créé il y a 7 jours. La facture reste « À préparer ».</span></div>`;
+   const alert=`<div class="alertb" id="al">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande toujours absent, chantier démarré le 06/10. La facture reste « À préparer ».</span></div>`;
    const ax=await show('afaire-s',aFaire('steve','05/11/2026',rows,{alert,cnt:[['À préparer',1],['Chez le chef de projet',1],['À émettre',0],['À envoyer',3],['À encaisser',1],['Contestée',1]]})); scroller().scrollTop=0;
    crumb(ST_,['Facturation','À faire']); where(5);
    await caption(N(7),'Stive n\'a plus d\'Excel à remplir : il voit quoi déposer, quoi relancer et qui appeler.');

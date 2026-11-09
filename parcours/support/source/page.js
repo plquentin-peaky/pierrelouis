@@ -37,7 +37,7 @@ qs('#life').insertAdjacentHTML('afterend',`<div class="life-side">${LIFE_SIDE.ma
 // ---------- Matrice des droits ----------
 function renderMatrix(){
   const C={edit:'Agit',read:'Lecture',no:'Non'};
-  const cell=([k,d])=>`<span class="cell ${k}">${C[k]}</span>${d?`<span class="cell-d">${d}</span>`:''}`;
+  const cell=([k,d])=>k==='txt'?`<span class="cell-t">${d}</span>`:`<span class="cell ${k}">${C[k]}</span>${d?`<span class="cell-d">${d}</span>`:''}`;
   const rows=MATRIX(state);
   qs('#mx').innerHTML=`<thead><tr><th>Personne</th><th>Fiche chantier, onglet Facturation</th><th>Facturation : À faire, Par chantier, Registre</th><th>Clôture du mois</th><th>Messages reçus</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(c=>`<td>${cell(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   qs('#mxNote').innerHTML=MATRIX_NOTE;
@@ -45,13 +45,13 @@ function renderMatrix(){
 
 // ---------- Effort ----------
 qs('#effortSub').innerHTML=EFFORT_SUB;
-qs('#lots').innerHTML=`<thead><tr><th>Lot</th><th>Ce qu'il apporte</th><th>Effort</th></tr></thead><tbody>${LOTS.map(l=>`<tr${l.tot?' class="tot"':''}><td>${l.n}</td><td>${l.d}</td><td>${l.e}</td></tr>`).join('')}</tbody>`;
+qs('#lots').innerHTML=`<thead><tr><th>Étape</th><th>Ce qu'elle apporte</th><th>Effort</th></tr></thead><tbody>${LOTS.map(l=>`<tr${l.tot?' class="tot"':''}><td>${l.n}</td><td>${l.d}</td><td>${l.e}</td></tr>`).join('')}</tbody>`;
 qs('#hyp').innerHTML=HYP.map(h=>`<div>${h}</div>`).join('');
 
 // ---------- Arbitrages ----------
 function renderArb(){
   qs('#arb').innerHTML=ARB.map((a,i)=>`<div class="arb" id="arb-${a.k}"><div class="arb-h"><span class="n">${i+1}.</span><h3>${a.t}</h3>${a.w?`<span class="ital">${a.w}</span>`:''}</div><p class="arb-q">${a.q}</p>
-  <div class="opts${a.o.length>2?' three':''}" role="radiogroup" aria-label="${esc(a.t).replace(/"/g,'')}">${a.o.map(o=>`<button type="button" class="opt" role="radio" data-k="${a.k}" data-v="${o.v}" aria-checked="${state[a.k]===o.v}"><span class="opt-top"><span class="radio"></span><span class="opt-name">${o.n}</span>${o.rec?'<span class="tag rec">CONSEILLÉ</span>':o.cur?'<span class="tag">ACTUEL</span>':''}</span>${o.m?`<span class="opt-prev"><span class="mini-w"><span class="mini-in">${o.m}</span></span></span>`:''}<span class="opt-desc">${o.d}</span>${o.i?`<span class="opt-imp">${o.i}</span>`:''}</button>`).join('')}</div>
+  <div class="opts${a.o.length>2?' three':''}" role="radiogroup" aria-label="${esc(a.t).replace(/"/g,'')}">${a.o.map(o=>`<button type="button" class="opt" role="radio" data-k="${a.k}" data-v="${o.v}" aria-checked="${state[a.k]===o.v}"><span class="opt-top"><span class="radio"></span><span class="opt-name">${o.n}</span>${o.rec?'<span class="tag rec">CONSEILLÉ</span>':o.cur?'<span class="tag">ACTUEL</span>':o.tag?`<span class="tag">${o.tag}</span>`:''}</span>${o.m?`<span class="opt-prev"><span class="mini-w"><span class="mini-in">${o.m}</span></span></span>`:''}<span class="opt-desc">${o.d}</span>${o.i?`<span class="opt-imp">${o.i}</span>`:''}</button>`).join('')}</div>
   ${a.why?`<div class="arb-why"><b>Pourquoi nous conseillons cette option.</b> ${a.why}</div>`:''}${a.screen?`<div class="arb-link"><a href="#ecrans" data-go="${a.screen}">Voir l'écran concerné dans le parcours</a></div>`:''}</div>`).join('');
   qsa('#arb .opt').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.k]=b.dataset.v;save();sync();}));
   qsa('#arb [data-go]').forEach(l=>l.addEventListener('click',()=>{go(SCREENS.findIndex(s=>s.id===l.dataset.go),'prop');}));
@@ -59,7 +59,7 @@ function renderArb(){
   requestAnimationFrame(fitMini);
 }
 function fitMini(){
-  qsa('.mini-w').forEach(w=>{const inr=w.firstElementChild;const W=w.closest('.opts.three')&&!w.closest('#arb-a2')?460:640;inr.style.width=W+'px';const s=Math.min(1,w.clientWidth/W);inr.style.transform=`scale(${s})`;w.style.height=Math.ceil(inr.offsetHeight*s)+'px';});
+  qsa('.mini-w').forEach(w=>{const inr=w.firstElementChild;const W=w.closest('#arb-a2')?400:w.closest('.opts.three')?460:640;inr.style.width=W+'px';const s=Math.min(1,w.clientWidth/W);inr.style.transform=`scale(${s})`;w.style.height=Math.ceil(inr.offsetHeight*s)+'px';});
 }
 addEventListener('resize',()=>fitMini());
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitMini());
@@ -106,7 +106,7 @@ function render(){
   if(v==='today'){const t=document.createElement('div');t.className='today-tag';t.textContent='Aujourd\'hui · '+(s.todayLabel||'ce qui existe');root.style.position='relative';root.appendChild(t);}
   // aucun tiret cadratin dans les écrans
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode())){if(n.nodeValue.includes('—'))n.nodeValue=n.nodeValue.replace(/\s?—\s?/g,(m)=>m.trim()===m?'Non renseigné':', ').replace(/^, |, $/g,'');}
-  qs('#scrWho').textContent=s.who; qs('#scrTitle').textContent=s.title;
+  qs('#scrWho').innerHTML=esc(s.who)+(s.lot?` <span class="lot">Étape ${s.lot}</span>`:''); qs('#scrTitle').textContent=s.title;
   qsa('#scrNav button').forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
   qs('#btnToday').disabled=!s.today; qs('#segVer').hidden=!s.today;
   qsa('#segVer button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v));
