@@ -1072,7 +1072,7 @@ const pdf4=(num,date)=>`<div class="pdf big" id="pdf"><div style="display:flex;j
  <div style="margin-top:18px">Commande BC-VS-2026-0187</div><div style="text-align:right">Paris, ${date}</div>
  <div style="margin-top:12px;font-size:13px">FACTURE D'ACOMPTE N° <b id="pdfNum">${num}</b></div><div style="margin-top:8px">Enquête interne suite à signalement · acompte de 50 % du devis PSE-2026-041</div>
  <div style="margin:14px 0 0 auto;width:250px"><div style="text-align:right;font-weight:700;margin-bottom:2px">EUROS</div><div style="display:flex;justify-content:space-between"><span>Montant HT :</span><span>9 300,00</span></div><div style="display:flex;justify-content:space-between"><span>TVA 20 %</span><span>1 860,00</span></div><div style="display:flex;justify-content:space-between;font-weight:700;border-top:1px solid #000"><span>Montant TTC :</span><span>11 160,00</span></div></div>
- <div style="margin-top:12px">Échéance : 45 jours après émission · Nature des opérations : prestations de services</div><div style="margin-top:4px;font-size:10px;color:#444">Pénalités de retard : 3 fois le taux d'intérêt légal · Indemnité forfaitaire pour frais de recouvrement : 40 €</div>
+ <div style="margin-top:12px">Échéance : 30 jours après émission · Nature des opérations : prestations de services</div><div style="margin-top:4px;font-size:10px;color:#444">Pénalités de retard : 3 fois le taux d'intérêt légal · Indemnité forfaitaire pour frais de recouvrement : 40 €</div>
  <div style="margin-top:12px;border-top:1px solid #DDD;padding-top:6px;font-size:9px;color:#555;text-align:center">Plein Sens Ethique · mentions légales et IBAN reprises de vos factures actuelles</div></div>`;
 const SV4=(c,cls,t,d,extra='')=>`<div class="sv"><span class="c ${cls}">${c}</span><div><div class="tt">${t}</div><div class="dd">${d}</div>${extra}</div></div>`;
 function factureTab(){
@@ -1141,7 +1141,7 @@ function parChantier(){
   return shell('Facturation','steve',`
 <div class="ph"><div><h1>Facturation</h1><div class="st">Au 20/11/2026 · groupé par chef de projet</div></div></div>
 <div class="tabs"><span>À faire (6)</span><span class="on">Par chantier</span><span>Registre</span></div>
-<div class="tw"><table class="t"><thead><tr><th>Chantier</th><th class="r">Montant</th><th class="r">Production à fin octobre</th><th class="r">Déjà facturé</th><th>Écart</th><th>Prochaine échéance</th></tr></thead><tbody>
+<div class="tw"><table class="t"><thead><tr><th>Chantier</th><th class="r">Montant vendu</th><th class="r">Production à fin octobre</th><th class="r">Déjà facturé</th><th>Écart</th><th>Prochaine échéance</th></tr></thead><tbody>
 ${g('Claire Morel','2 chantiers')}${r('VARENNE','VARENNE_EnqSig','18 600','1 860','9 300','<span class="sbd info sm">facturé d\'avance 7 440</span>')}${r('BRENNE','BRENNE_Enq','15 000','6 000','7 500','<span class="sbd info sm">facturé d\'avance 1 500</span>')}
 ${g('Julien Petit','2 chantiers')}${r('HALIOS','HALIOS_EnqSig','24 000','16 800','12 000','<span class="sbd warn sm">produit non facturé 4 800</span>')}${r('CAPELLE','CAPELLE_Enq','12 400','12 400','6 200','<span class="sbd warn sm">produit non facturé 6 200</span>',ST('cp','Solde chez le chef de projet depuis le 04/11'))}
 ${g('Sophie Martin','3 chantiers')}${r('ORLAN','ORLAN_EnqHar','32 000','9 600','16 000','<span class="sbd info sm">facturé d\'avance 6 400</span>')}${r('MERIDIA','MERIDIA_EnqRPS','21 000','10 500','10 500','<span class="sbd neu sm">aligné</span>')}${r('TALMONT','TALMONT_Enq','9 800','9 800','9 800','<span class="sbd neu sm">aligné</span>')}
@@ -1169,7 +1169,7 @@ function cloture4(){
 <div class="tabs"><span class="on">Vérifications</span><span>Travail réalisé et facturé</span><span>Mois clos</span></div>
 <div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start">
  <div class="box"><div style="font-weight:600;font-size:15px;margin-bottom:6px">Avant de clore novembre</div>
-  ${['Temps saisis 14/14','Factures dues émises','Brouillons traités'].map(c=>`<div class="chk3"><span class="sbd neu sm ck" style="width:22px;justify-content:center;padding:0">·</span>${c}</div>`).join('')}</div>
+  ${['Temps saisis 3/3','Factures dues émises','Brouillons traités'].map(c=>`<div class="chk3"><span class="sbd neu sm ck" style="width:22px;justify-content:center;padding:0">·</span>${c}</div>`).join('')}</div>
  <div class="box"><div style="font-weight:600;font-size:15px">Clore le mois</div><div class="xs mut" style="margin-top:4px">Les temps de novembre passent en lecture seule et les montants ci-dessous sont figés. Un paiement reçu plus tard garde sa date réelle.</div>
   <div style="margin-top:14px"><span class="bt pr sm" id="closeBtn">${I('lock','s3')}Clore novembre</span></div></div>
 </div>
@@ -1179,7 +1179,7 @@ function cloture4(){
  <div class="amt"><div class="l">Facturé d'avance</div><div class="v">9 016 €</div><div class="h">facturé, travail à venir (PCA) · dont VARENNE 1 116 €</div></div>
 </div>
 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" id="pack"><span class="bt ol sm" id="packBtn">${I('dl','s3')}3 fichiers pour le comptable</span>
- <span class="file" style="display:none">${I('sheet','s3')}Registre des factures (format du facturier)</span><span class="file" style="display:none">${I('sheet','s3')}État figé : réalisé et facturé</span><span class="file" style="display:none">${I('file','s3')}Écritures de ventes (FEC)</span></div>`,{count:6,bell:2});
+ <span class="file" style="display:none">${I('sheet','s3')}Registre des factures (format du facturier)</span><span class="file" style="display:none">${I('sheet','s3')}État figé : réalisé et facturé</span><span class="file" style="display:none">${I('file','s3')}Écritures pour votre outil comptable</span></div>`,{count:6,bell:2});
 }
 
 // --- Aujourd'hui : l'onglet vide et l'Excel ---
