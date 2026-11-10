@@ -22,7 +22,7 @@ const v4Css=cut(gab,'/* ===== écrans v2 =====','/* commandes */');
 const mp4=join(parcours,'Parcours_Facturation_PSE.mp4');
 const small=join(here,'video_720.mp4');
 if(!existsSync(small)||statSync(small).mtimeMs<statSync(mp4).mtimeMs){
-  execFileSync('ffmpeg',['-y','-loglevel','error','-i',mp4,'-vf','scale=1280:720:flags=lanczos,fps=24','-c:v','libx264','-preset','slow','-tune','stillimage','-crf','30','-pix_fmt','yuv420p','-an','-movflags','+faststart',small],{stdio:'inherit'});
+  execFileSync('ffmpeg',['-y','-loglevel','error','-i',mp4,'-vf','scale=1280:720:flags=lanczos,fps=15','-c:v','libx264','-preset','slow','-tune','stillimage','-crf','31','-pix_fmt','yuv420p','-an','-movflags','+faststart',small],{stdio:'inherit'});
 }
 const vb64=readFileSync(small).toString('base64');
 
@@ -48,6 +48,8 @@ don=don.replace('/*@@ARB_DROITS@@*/',arbDroits).replace('/*@@DROITS_EFFORT@@*/',
 page=page.replace('/*@@DONNEES@@*/',don);
 put('/*@@PAGE_JS@@*/',page);
 put('@@CHAPITRES@@',chap);
+// Schéma du parcours (capture du tableau Miro, mis à jour le 10 novembre)
+put('@@SCHEMA@@','data:image/webp;base64,'+readFileSync(join(parcours,'source','schema_miro_v5.webp')).toString('base64'));
 // La vidéo est rangée dans un bloc de données et convertie en adresse locale au chargement (lecture et recherche fiables).
 const poster=join(here,'poster.jpg');
 execFileSync('ffmpeg',['-y','-loglevel','error','-ss','1.2','-i',small,'-frames:v','1','-vf','scale=960:-2','-q:v','6',poster]);

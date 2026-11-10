@@ -64,7 +64,7 @@ kbd{font:600 10.5px var(--f-ui);border:1px solid var(--pg-line);border-bottom-wi
 .chap li button.on .t{color:#C9CDD2}
 
 /* vie d'une facture */
-.life{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:24px;position:relative}
+.life{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:24px;position:relative}
 .lf{background:var(--pg-paper);border:1px solid var(--pg-line);border-radius:12px;padding:14px 12px 14px;min-width:0;position:relative;display:flex;flex-direction:column;gap:6px}
 .lf .pill{align-self:flex-start;font-size:11.5px;font-weight:600;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .lf .who{font-weight:700;font-size:13.5px}
@@ -72,7 +72,7 @@ kbd{font:600 10.5px var(--f-ui);border:1px solid var(--pg-line);border-bottom-wi
 .lf .lfo{font-size:12px;line-height:1.4;border-top:1px dashed var(--pg-line);padding-top:6px;margin-top:auto}
 .lf .lfo b{font-weight:600}
 .lf:not(:last-child)::after{content:"";position:absolute;right:-8px;top:24px;width:8px;height:2px;background:#B8BEC5}
-.life-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.life-side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
 .life-side .lf{flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}
 .life-side .lf::after{display:none}
 .cases{margin-top:22px;background:var(--pg-paper);border:1px solid var(--pg-line);border-radius:12px;padding:18px 20px}
@@ -221,3 +221,29 @@ section{scroll-margin-top:50px}
 
 .cell-t{font-size:12.5px;color:#2E343B}
 .lot{display:inline-block;margin-left:8px;font-size:10px;letter-spacing:.08em;background:var(--pg-vi-soft);color:#4A1AB8;border-radius:999px;padding:2px 8px}
+/* ===== V2 : schéma, statuts, rôles, mails ===== */
+.parcours-img{margin:22px 0 0;background:var(--pg-paper);border:1px solid var(--pg-line);border-radius:14px;padding:14px;overflow:hidden}
+.parcours-img img{display:block;width:100%;height:auto;border-radius:8px}
+.parcours-img figcaption{display:flex;justify-content:flex-end;margin-top:10px}
+.zoom{position:fixed;inset:0;z-index:200;background:rgba(10,12,15,.86);display:flex;flex-direction:column}
+.zoom .zbar{color:#fff;font-size:13px;padding:12px 18px;text-align:center}
+.zoom .zscroll{flex:1;min-height:0;overflow:auto;padding:0 18px 18px}
+.zoom .zimg{display:block;width:2400px;max-width:none;height:auto;border-radius:8px;margin:0 auto;background:#fff}
+.lf .how{align-self:flex-start;font-size:10.5px;font-weight:600;letter-spacing:.02em;border-radius:999px;padding:1px 8px;border:1px dashed var(--pg-line);color:var(--pg-mute)}
+.lf .how.note{border-style:solid;border-color:#F1DFAE;background:#FFFBF0;color:#7A5410}
+.trois{margin-top:22px;background:var(--pg-paper);border:1px solid var(--pg-line);border-radius:12px;padding:18px 20px}
+.trois-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 22px;margin-top:10px;font-size:13.5px}
+.trois-g b{display:block;font-size:14.5px;margin-bottom:2px}
+.trois-g span{color:#2E343B}
+.roles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 6px}
+.roles>div{background:var(--pg-bg);border:1px solid var(--pg-line);border-radius:12px;padding:14px 16px;font-size:13.5px}
+.roles b{display:block;margin-bottom:2px}
+.roles span{color:#2E343B}
+.mailbox{margin:18px 0 6px;background:var(--pg-paper);border:1px solid var(--pg-line);border-left:3px solid var(--pg-vi);border-radius:10px;padding:16px 20px}
+.mail-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:12px 24px;margin-top:8px;font-size:13.5px}
+.mail-g b{display:block}
+.mail-g span{color:#2E343B}
+.arb-g{margin:40px 0 -8px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-vi);border-bottom:1px solid var(--pg-line);padding-bottom:8px}
+.arb-g:first-child{margin-top:18px}
+@media (max-width:1000px){.life{grid-template-columns:repeat(3,minmax(0,1fr))}.life-side{grid-template-columns:minmax(0,1fr)}.trois-g{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){.roles,.mail-g{grid-template-columns:minmax(0,1fr)}.life{grid-template-columns:repeat(2,minmax(0,1fr))}.lf::after{display:none}}

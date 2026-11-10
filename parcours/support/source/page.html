@@ -21,7 +21,7 @@
 
 <nav class="toc" aria-label="Sommaire"><div class="wrap toc-in">
   <span class="toc-brand">Facturation PSE · point du 12/11</span>
-  <a href="#minute">L'essentiel</a><a href="#video">Vidéo</a><a href="#ecrans">Les écrans</a><a href="#processus">Où en est une facture</a><a href="#droits">Qui voit quoi</a><a href="#ia">L'IA</a><a href="#effort">Planning</a><a href="#arbitrages" class="hot">Arbitrages</a>
+  <a href="#schema">Le parcours</a><a href="#minute">L'essentiel</a><a href="#video">Vidéo</a><a href="#ecrans">Les écrans</a><a href="#processus">Statuts</a><a href="#droits">Qui voit quoi</a><a href="#ia">L'IA</a><a href="#arbitrages" class="hot">Arbitrages</a>
 </div></nav>
 
 <header class="band white" id="top">
@@ -29,7 +29,7 @@
     <div class="eyebrow">Plein Sens Ethique · Alphonse · Facturation des enquêtes</div>
     <h1>Facturer une enquête depuis la fiche chantier, sans Excel ni ressaisie</h1>
     <div class="rule" aria-hidden="true"></div>
-    <p class="lead">Le 4 novembre, Pierre-Guillaume nous a demandé de repartir d'une page blanche plutôt que d'automatiser le processus actuel. Il faut sortir une facture d'acompte et une facture de solde, être rappelé quand on aurait dû facturer, suivre les encaissements et donner au comptable un état simple, avec le moins de saisie possible et un contrôle humain, chef de projet puis facturation, avant chaque facture. Ce document montre ce que nous proposons pour Plein Sens Ethique, écran par écran, et liste les choix à trancher ensemble jeudi.</p>
+    <p class="lead">Le 4 novembre, Pierre-Guillaume nous a demandé de repartir d'une page blanche plutôt que d'automatiser le processus actuel. Il faut facturer chaque échéance prévue au devis, être rappelé quand on aurait dû facturer, suivre les encaissements et donner au comptable un état simple, avec le moins de saisie possible et un contrôle humain, chef de projet puis finance, avant chaque facture. Ce document montre ce que nous proposons pour Plein Sens Ethique, écran par écran, en s'appuyant sur les rôles qui existent déjà dans Alphonse, et liste les choix à trancher ensemble jeudi.</p>
     <div class="src">
       <span><b>Pour</b> Pierre-Guillaume Ferré et Fabrice Ducellier</span>
       <span><b>Séance</b> jeudi 12 novembre 2026, 14 h</span>
@@ -39,7 +39,7 @@
     <div class="howto">
       <div class="eyebrow">Comment lire ce document (15 minutes)</div>
       <ol>
-        <li><b>L'essentiel</b> en une minute, puis la <b>vidéo</b> de trois minutes qui déroule une enquête du devis au comptable.</li>
+        <li>Le <b>parcours</b> en un schéma, <b>l'essentiel</b> en une minute, puis la <b>vidéo</b> qui déroule une enquête du devis au comptable, étape par étape.</li>
         <li>Les <b>écrans</b> un par un, avec ce qui change par rapport à aujourd'hui. Les touches <kbd>←</kbd> <kbd>→</kbd> font défiler.</li>
         <li>Les <b>arbitrages</b> en fin de page : cochez votre préférence. « Copier mes réponses » les met dans le presse-papiers si vous voulez nous les envoyer avant jeudi.</li>
       </ol>
@@ -47,29 +47,37 @@
   </div>
 </header>
 
-<section class="band soft" id="minute">
+<section class="band soft" id="schema">
+  <div class="wrap">
+    <h2>Le parcours en un schéma : qui fait quoi, et quand</h2>
+    <p class="sub">Cinq moments, de l'ouverture du chantier à la clôture du mois. Chaque ligne est un acteur ; chaque case dit si la brique existe déjà dans Alphonse, est à adapter ou à créer. C'est le tableau Miro du projet, mis à jour le 10 novembre.</p>
+    <figure class="parcours-img"><img src="@@SCHEMA@@" alt="Schéma du parcours de facturation d'une enquête : chef de projet, Alphonse, finance, client, comptable et plateforme agréée, sur cinq moments." width="2400" height="1173"><figcaption><button type="button" class="btn" id="schemaZoom">Voir le schéma en grand</button></figcaption></figure>
+  </div>
+</section>
+
+<section class="band white" id="minute">
   <div class="wrap">
     <h2>L'essentiel : Alphonse prépare chaque facture à partir du devis, deux personnes la contrôlent avant qu'elle parte</h2>
     <div class="five">
-      <div><span class="num-b">1</span><p><b>Le devis devient la source.</b> La cheffe de projet le dépose dans la fiche du chantier ; Alphonse préremplit les informations de facturation et l'échéancier 50/50, en citant ses sources. Elle valide.</p></div>
-      <div><span class="num-b">2</span><p><b>Deux validations humaines.</b> À la date prévue, la facture est prête. La cheffe de projet la vérifie ; Stive l'émet, l'envoie et suit le paiement.</p></div>
-      <div><span class="num-b">3</span><p><b>Un statut calculé, jamais coché.</b> « Émise », « envoyée », « réglée » se déduisent de ce qui s'est passé. Chacun voit ce qui l'attend dans une liste « Chez moi ».</p></div>
-      <div><span class="num-b">4</span><p><b>Peu de messages, au bon moment.</b> Pour une enquête, la cheffe de projet reçoit au plus trois messages : l'acompte à vérifier, la fin prévue de la mission, le solde à vérifier. On répond en un clic ou en une phrase.</p></div>
-      <div><span class="num-b">5</span><p><b>Le comptable reçoit un état figé.</b> Chaque mois, le facturé et le travail réalisé non facturé sont calculés par formules puis figés ; Fabrice les transmet en un clic.</p></div>
+      <div><span class="num-b">1</span><p><b>Le devis devient la source.</b> Le chef de projet, ou le référent facturation, dépose le devis signé. Alphonse en reprend l'échéancier tel qu'il est écrit et préremplit les informations de facturation, en citant ses sources. Un clic valide le tout.</p></div>
+      <div><span class="num-b">2</span><p><b>Deux validations humaines.</b> À la date prévue, la facture est prête dans l'échéancier. Le chef de projet la vérifie ; la finance l'émet.</p></div>
+      <div><span class="num-b">3</span><p><b>Des statuts, plus de tableau à tenir.</b> Les étapes internes se mettent à jour seules. L'envoi, le dépôt et le paiement, faits hors d'Alphonse comme aujourd'hui, sont notés par la finance en un clic.</p></div>
+      <div><span class="num-b">4</span><p><b>Peu de messages, la décision dans Alphonse.</b> Au plus trois messages par enquête pour le chef de projet. Chaque lien ouvre Alphonse, où se prend la décision.</p></div>
+      <div><span class="num-b">5</span><p><b>Le comptable reçoit un état figé.</b> Chaque mois, le facturé et le travail réalisé non facturé sont calculés par formules puis figés ; la finance les transmet en un clic.</p></div>
     </div>
-    <p class="gest"><b>Pour une enquête, la cheffe de projet fait quatre choses en tout :</b> déposer le devis et valider ce qu'Alphonse a préparé, vérifier l'acompte, répondre au mail de fin de mission, vérifier le solde. Le reste est fait par Alphonse ou par Stive.</p>
+    <p class="gest"><b>Pour une enquête, le chef de projet fait quatre choses en tout :</b> déposer le devis et valider l'échéancier et les informations, vérifier l'acompte, répondre à la fin de mission dans Alphonse, vérifier le solde. Le reste est fait par Alphonse ou par la finance.</p>
     <div class="trio">
-      <div class="gone"><div class="eyebrow">Ce qui disparaît</div><ul><li>Le facturier Excel tenu à la main</li><li>La ressaisie de ce qui est déjà dans le devis</li><li>La case « facturé » cochée par quelqu'un</li><li>La tournée de tous les chantiers pour savoir quoi facturer</li><li>Les relances faites de mémoire</li></ul></div>
-      <div class="ai"><div class="eyebrow">Ce que fait Alphonse</div><ul><li>Lire le devis, le bon de commande et les mails</li><li>Retrouver l'entité facturée déjà connue</li><li>Préparer la facture à la date prévue</li><li>Signaler un oubli, un écart, un doublon</li><li>Rédiger la relance ou le mail d'accompagnement</li></ul></div>
-      <div class="hum"><div class="eyebrow">Ce qui reste humain</div><ul><li>Valider les informations et l'échéancier</li><li>Vérifier puis émettre chaque facture</li><li>Décider d'un report ou d'un complément</li><li>Appeler le client quand ça bloque</li><li>Clore le mois</li></ul></div>
+      <div class="gone"><div class="eyebrow">Ce qui disparaît</div><ul><li>Le facturier Excel tenu à la main</li><li>La ressaisie de ce qui est déjà dans le devis</li><li>La tournée de tous les chantiers pour savoir quoi facturer</li><li>Les relances faites de mémoire</li></ul></div>
+      <div class="ai"><div class="eyebrow">Ce que fait Alphonse</div><ul><li>Lire le devis, le bon de commande et les mails, sans les garder</li><li>Reprendre l'échéancier écrit au devis</li><li>Préparer la facture à la date prévue</li><li>Signaler un retard, un oubli, un doublon</li><li>Rédiger le texte de relance</li></ul></div>
+      <div class="hum"><div class="eyebrow">Ce qui reste humain</div><ul><li>Valider l'échéancier et les informations</li><li>Vérifier puis émettre chaque facture</li><li>Envoyer ou déposer la facture, noter le paiement</li><li>Décider d'un report ou d'un complément</li><li>Clore le mois</li></ul></div>
     </div>
   </div>
 </section>
 
-<section class="band white" id="video">
+<section class="band soft" id="video">
   <div class="wrap">
-    <h2>La vidéo : une enquête suivie du devis au comptable, en trois minutes</h2>
-    <p class="sub">Une enquête fictive pour Varenne Services, chantier VARENNE_EnqSig de 18 600 € HT. Claire Morel en est la cheffe de projet, Lucas Bernard le consultant. La vidéo montre les options que nous conseillons ; cliquez sur un chapitre pour y aller.</p>
+    <h2>La vidéo : une enquête suivie du devis au comptable, étape par étape</h2>
+    <p class="sub">Une enquête fictive pour Varenne Services, chantier VARENNE_EnqSig de 18 600 € HT. Claire Morel en est la cheffe de projet, Stive le référent facturation, Lucas Bernard le consultant. Avant chaque étape, un carton dit qui agit et ce qui va suivre. La vidéo montre les options que nous conseillons ; cliquez sur un chapitre pour y aller.</p>
     <div class="vid">
       <div class="vid-player"><video id="vid" controls playsinline preload="metadata" src="@@VIDEO@@"></video></div>
       <ol class="chap" id="chap">@@CHAPITRES@@</ol>
@@ -77,7 +85,7 @@
   </div>
 </section>
 
-<section class="band soft" id="ecrans">
+<section class="band white" id="ecrans">
   <div class="wrap">
     <h2>Les écrans, un par un</h2>
     <p class="sub">Reproduction d'Alphonse avec ses libellés, ses couleurs et ses composants. Pour certains écrans, le bouton « Aujourd'hui » montre ce qui existe à la place. <span class="swipe-i">Sur téléphone, utilisez « Plein écran ».</span></p>
@@ -95,55 +103,66 @@
   </div>
 </section>
 
-<section class="band white" id="processus">
+<section class="band soft" id="processus">
   <div class="wrap">
-    <h2>Où en est chaque facture : Alphonse le déduit des faits, personne ne coche rien</h2>
-    <p class="sub">Personne ne coche un statut : Alphonse le déduit de ce qui s'est passé (vérifiée, émise, déposée, payée). À chaque instant, une seule personne doit agir sur une facture, et elle la trouve dans sa liste « Chez moi ». C'est ce qui permet de supprimer le facturier.</p>
+    <h2>Où en est chaque facture : une ligne par échéance, un statut à chaque étape</h2>
+    <p class="sub">Les étapes qui se passent dans Alphonse mettent le statut à jour seules. Ce qui se passe hors d'Alphonse, l'envoi, le dépôt sur le portail du client et le paiement, est noté par la finance en un clic. À chaque instant, une seule personne doit agir sur une facture, et elle la trouve dans sa liste « Chez moi ».</p>
     <div class="life" id="life"></div>
+    <div class="trois">
+      <div class="eyebrow">Échéance, facture, avoir : pourquoi trois mots</div>
+      <div class="trois-g">
+        <div><b>L'échéance</b><span>Ce qui est prévu au devis : une date et un montant. Elle se modifie librement tant qu'elle n'est pas facturée.</span></div>
+        <div><b>La facture</b><span>Le document légal, préparé à partir de l'échéance. Une fois émise, elle a un numéro définitif et ne se modifie plus. Dans la fiche du chantier, elle apparaît dans la ligne de son échéance : on ne voit qu'un tableau.</span></div>
+        <div><b>L'avoir</b><span>La seule façon légale d'annuler ou de corriger une facture émise. Il reste rare, il est réservé au rôle Finance et ne se voit que dans la section Finance.</span></div>
+      </div>
+    </div>
     <div class="cases">
       <div class="eyebrow">Les cas particuliers</div>
       <div class="cases-g">
-        <div><b>Bon de commande reçu tard.</b> La facture reste « À préparer » chez Stive, qui voit pourquoi.</div>
-        <div><b>Facture contestée.</b> Stive note le motif ; les relances s'arrêtent. Retour à « À encaisser », ou avoir.</div>
-        <div><b>Avoir.</b> Seul Fabrice le crée. La facture apparaît barrée dans la fiche et l'échéance revient « À préparer ».</div>
+        <div><b>Bon de commande reçu tard.</b> La facture reste « À préparer » chez le référent facturation, qui voit pourquoi.</div>
+        <div><b>Facture contestée.</b> La finance note le motif ; les relances s'arrêtent. Retour à « Envoyée », ou avoir.</div>
+        <div><b>Avoir.</b> Seul le rôle Finance le crée. La facture apparaît barrée dans la ligne de son échéance, qui revient « À vérifier ».</div>
         <div><b>Complément.</b> Une facture séparée, avec l'accord du client joint ; le montant du chantier est augmenté et la modification tracée.</div>
-        <div><b>Chantier sans devis.</b> « Remplir à la main » : le 50/50 s'applique au montant saisi à la création.</div>
-        <div><b>Informations manquantes une semaine après la création.</b> Stive est alerté dans sa liste et dans son récapitulatif de la semaine.</div>
+        <div><b>Devis sans échéancier, ou pas de devis.</b> « Remplir à la main » : le chef de projet saisit l'échéancier, comme aujourd'hui.</div>
+        <div><b>Informations manquantes une semaine après la création.</b> Le référent facturation est alerté dans sa liste et dans son récapitulatif de la semaine.</div>
         <div><b>Mois déjà clos.</b> Une facture porte toujours la date de son émission, sans antidater. Un paiement garde sa date réelle ; si son mois est clos, il est compté dans le mois ouvert.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="band soft" id="droits">
+<section class="band white" id="droits">
   <div class="wrap">
-    <h2>Qui voit quoi : la facturation reste visible de toute l'équipe du chantier</h2>
-    <p class="sub">Chacun voit la facturation des chantiers sur lesquels il travaille. Seules les personnes qui ont une étape à faire ont des boutons.</p>
+    <h2>Qui voit quoi : toute l'équipe voit la facturation, seuls ceux qui ont une étape agissent</h2>
+    <p class="sub">Nous nous appuyons sur les rôles qui existent déjà dans Alphonse, et sur les personnes désignées sur chaque chantier. Les droits de chaque rôle se règlent dans l'écran des droits, sans développement : le même modèle vaudra pour Plein Sens, avec plus de chantiers et plus de personnes.</p>
+    <div class="roles" id="roles"></div>
     <div class="tbl-wrap"><table class="mx" id="mx"></table></div><p class="swipe">Faites glisser le tableau vers la gauche pour voir toutes les colonnes →</p>
     <p class="note" id="mxNote"></p>
   </div>
 </section>
 
-<section class="band white" id="ia">
+<section class="band soft" id="ia">
   <div class="wrap">
     <h2>Où l'IA aide, et comment tout fonctionne sans elle</h2>
     <p class="sub">L'IA lit et propose ; elle ne valide rien et ne calcule aucun montant comptable. Chaque proposition affiche sa source et attend une validation. Si la lecture échoue, le parcours continue à la main. Les modèles de mails, les mentions obligatoires et les destinataires se modifient dans Paramètres, sans passer par nous.</p>
+    <div class="mailbox"><div class="eyebrow">Ce qui se fait dans un mail, et ce qui se fait dans Alphonse</div>
+      <div class="mail-g"><div><b>Dans le mail</b><span>Une information et un lien. Alphonse envoie déjà des mails : un lien qui ouvre la bonne fiche, au bon endroit, est simple à faire.</span></div>
+      <div><b>Dans Alphonse</b><span>Toutes les décisions : valider, vérifier, reporter, noter un statut. Une décision prise d'un clic dans le mail n'est pas retenue : les messageries d'entreprise ouvrent les liens pour les analyser, ce qui pourrait décider à votre place. Alphonse ne lit pas non plus les réponses aux mails.</span></div></div></div>
     <div class="tbl-wrap"><table class="std">
       <thead><tr><th>Étape</th><th>Ce que fait l'IA</th><th>Sans IA</th></tr></thead>
       <tbody>
-        <tr><td>Dépôt du devis, du bon de commande, d'un mail</td><td>Lit les documents, préremplit le formulaire existant et indique la source de chaque champ (« Devis, p. 3 », « signature du mail »)</td><td>« Remplir à la main » ; la source affichée est « saisi par Claire »</td></tr>
+        <tr><td>Dépôt du devis, du bon de commande, d'un mail</td><td>Lit les documents, reprend l'échéancier écrit au devis, préremplit le formulaire existant et indique la source de chaque champ (« Devis, p. 2 »). Les fichiers sont effacés après lecture.</td><td>« Remplir à la main » ; la source affichée est « saisi par Claire »</td></tr>
         <tr><td>Entité facturée</td><td>Reconnaît les variantes d'écriture (« Varenne Services S.A.S. »)</td><td>Recherche sur le nom et le SIREN</td></tr>
-        <tr><td>Échéancier</td><td>Signale un écart entre le devis et le montant du chantier</td><td>Règle 50/50 et contrôle « couvre le montant », qui existe déjà</td></tr>
-        <tr><td>Facture en brouillon</td><td>Prépare le mail d'accompagnement et rappelle les consignes de dépôt (« portail, bon de commande obligatoire »)</td><td>Modèle fixe</td></tr>
-        <tr><td>Vérification et émission</td><td>Signale un écart avec le devis ou un doublon possible</td><td>Relecture</td></tr>
-        <tr><td>Fin de mission</td><td>Comprend une réponse en une phrase (« pas encore, restitution le 8 janvier ») et propose la nouvelle date, que Claire confirme</td><td>Trois boutons et un champ date</td></tr>
-        <tr><td>Relance</td><td>Rédige le rappel, que Stive envoie depuis sa messagerie</td><td>Modèle fixe</td></tr>
+        <tr><td>Échéancier</td><td>Comprend les échéances, quelle que soit leur forme (« 30 % à la commande, 40 % à la fin des entretiens… ») et signale un écart avec le montant du chantier</td><td>Saisie de l'échéancier et contrôle « couvre le montant », qui existe déjà</td></tr>
+        <tr><td>Vérification et émission</td><td>Contrôle le montant, le bon de commande et les doublons possibles</td><td>Relecture</td></tr>
+        <tr><td>Relance</td><td>Rédige le rappel, que la finance envoie depuis sa messagerie</td><td>Modèle fixe</td></tr>
+        <tr><td>Fin de mission</td><td>Aucune : trois choix et une date, dans Alphonse</td><td>Identique</td></tr>
         <tr><td>Clôture du mois</td><td>Aucune : jours saisis, travail réalisé et montants figés sont des calculs</td><td>Identique</td></tr>
       </tbody></table></div><p class="swipe">Faites glisser le tableau vers la gauche pour voir toutes les colonnes →</p>
   </div>
 </section>
 
-<section class="band soft" id="efacture">
+<section class="band white" id="efacture">
   <div class="wrap">
     <h2>La facture électronique de 2027 est préparée dès la première facture</h2>
     <p class="sub">Pour une PME comme Plein Sens Ethique, la réception des factures électroniques est obligatoire depuis le 1er septembre 2026 et l'émission le sera au 1er septembre 2027, par une plateforme agréée. Calendrier à confirmer avec votre expert-comptable.</p>
@@ -152,24 +171,15 @@
       <div><span class="num-b">2</span><p><b>Type d'échéance.</b> Acompte, solde ou complément : c'est le type exigé par la facture électronique ; la facture de solde cite l'acompte déduit.</p></div>
       <div><span class="num-b">3</span><p><b>Numérotation.</b> Une séquence continue par année, propre à Plein Sens Ethique.</p></div>
       <div><span class="num-b">4</span><p><b>Statuts.</b> Ceux de la plateforme agréée (déposée, rejetée, refusée, encaissée) alimentent les nôtres : une facture refusée passe en « Contestée ».</p></div>
-      <div><span class="num-b">5</span><p><b>Transmission.</b> Alphonse envoie la facture à la plateforme, par connexion directe si elle le permet, sinon par fichier. La plateforme reste à choisir avec Fabrice ; si Plein Sens Ethique reçoit déjà ses factures par une plateforme (Dext a été cité le 4 novembre, à confirmer), nous vérifierons qu'elle permet aussi l'émission.</p></div>
+      <div><span class="num-b">5</span><p><b>Transmission.</b> À partir de 2027, Alphonse transmettra la facture à la plateforme, par connexion directe si elle le permet, sinon par fichier ; d'ici là, la finance envoie ou dépose comme aujourd'hui. La plateforme reste à choisir avec Fabrice ; si Plein Sens Ethique reçoit déjà ses factures par une plateforme (Dext a été cité le 4 novembre, à confirmer), nous vérifierons qu'elle permet aussi l'émission.</p></div>
     </div>
-  </div>
-</section>
-
-<section class="band white" id="effort">
-  <div class="wrap">
-    <h2>Planning : une vraie facture d'acompte d'abord, puis la suite étape par étape</h2>
-    <p class="sub" id="effortSub"></p>
-    <div class="tbl-wrap"><table class="std lots" id="lots"></table></div><p class="swipe">Faites glisser le tableau vers la gauche pour voir l'effort →</p>
-    <div class="hyp" id="hyp"></div>
   </div>
 </section>
 
 <section class="band soft" id="arbitrages">
   <div class="wrap">
     <h2>Les arbitrages à trancher jeudi</h2>
-    <p class="sub">Pour chacun, l'option que nous conseillons est marquée. Cochez la vôtre : les écrans concernés suivent votre choix, et vos réponses restent dans ce navigateur.</p>
+    <p class="sub">Douze choix, dans l'ordre du parcours. Pour chacun, l'option que nous conseillons est marquée et chaque option montre ce qu'elle donne dans Alphonse. Cochez la vôtre : les écrans concernés suivent votre choix, et vos réponses restent dans ce navigateur.</p>
     <div id="arb"></div>
     <div class="infos">
       <h3>Les informations dont nous avons besoin</h3>
@@ -182,9 +192,9 @@
         <div class="actions"><button type="button" class="btn" id="btnReset">Revenir aux options conseillées</button><button type="button" class="btn dark" id="btnCopy">Copier mes réponses</button><span class="toast" id="toast" aria-live="polite"></span></div>
       </div>
       <div><h3>Et après jeudi</h3>
-        <div class="phase"><span class="p">12 NOV.</span><div><b>Arbitrages et périmètre de l'étape 1</b>Nous tranchons ensemble les points ci-dessus et le périmètre de départ.</div></div>
-        <div class="phase"><span class="p">SEMAINE SUIVANTE</span><div><b>Proposition ajustée et feuille de route</b>Nous mettons à jour les écrans, l'effort et le calendrier selon vos choix.</div></div>
-        <div class="phase"><span class="p">EN PARALLÈLE</span><div><b>Avec Stive et Alice</b>Un échange avec Stive sur sa liste et ses relances, et la confirmation du schéma 50/50 avec Alice.</div></div>
+        <div class="phase"><span class="p">12 NOV.</span><div><b>Arbitrages et périmètre de départ</b>Nous tranchons ensemble les points ci-dessus.</div></div>
+        <div class="phase"><span class="p">SEMAINE SUIVANTE</span><div><b>Proposition ajustée</b>Nous mettons à jour les écrans, l'effort et le calendrier selon vos choix.</div></div>
+        <div class="phase"><span class="p">EN PARALLÈLE</span><div><b>Avec Stive et Alice</b>Un échange avec Stive sur sa liste, ses statuts et ses relances, et quelques devis réels avec Alice pour tester la lecture des échéanciers.</div></div>
         <div class="phase"><span class="p">AVEC FABRICE</span><div><b>La chaîne comptable</b>Outil comptable, plateforme agréée, premier numéro de facture, mentions légales, délai de paiement, IBAN et logo de Plein Sens Ethique.</div></div>
       </div>
     </div>
@@ -199,11 +209,14 @@
       <div><b>Pas de journal des échanges avec le client.</b> Ils restent dans la messagerie, où ils sont déjà.</div>
       <div><b>Pas de rentabilité ni de reprévision ici.</b> Ce sont des sujets de pilotage, traités à part.</div>
       <div><b>Pas de sous-traitance vers Plein Sens</b> dans ce premier temps, ni de changement pour Plein Sens.</div>
-      <div><b>Pas d'émission ni de dépôt automatiques.</b> Chaque facture passe par deux personnes.</div>
+      <div><b>Pas d'envoi ni de dépôt par Alphonse.</b> La finance envoie ou dépose comme aujourd'hui et note le statut ; la plateforme agréée changera l'envoi en 2027. Chaque facture passe par deux personnes.</div>
+      <div><b>Pas de conservation des documents.</b> Le devis et le bon de commande sont lus puis effacés, sauf choix contraire.</div>
+      <div><b>Pas de décision dans un mail.</b> Un mail informe et ouvre Alphonse ; on décide dans Alphonse.</div>
     </div>
   </div>
 </section>
 
+<div class="zoom" id="zoomOvl" hidden><div class="zbar">Le parcours cible · cliquez en dehors du schéma ou appuyez sur Échap pour fermer</div><div class="zscroll"><img class="zimg" src="@@SCHEMA@@" alt="Schéma du parcours de facturation, en grand"></div></div>
 <footer><div class="wrap">AI Origin pour Plein Sens Ethique · Facturation des enquêtes dans Alphonse · document de préparation du point du 12 novembre 2026 · maquettes et données fictives</div></footer>
 
 <script>

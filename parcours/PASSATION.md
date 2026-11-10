@@ -225,3 +225,16 @@ Fichiers à relire dans Lovable :
 - Support déposé sur adopt.aiorigin.io (Custom decks, type « Commercial proposal ») : « [Plein Sens] Facturation des enquêtes · point du 12 novembre ».
 - Lien : https://adopt.aiorigin.io/c/plein-sens-facturation-des-enqu-tes-poin-6wlqya (accessible par le lien, sans mot de passe, sans demande d'email, sauvegarde automatique désactivée).
 - Correctif fait au passage : les liens internes (menu, « Voir l'écran concerné ») rechargeaient l'application hôte dans le cadre d'adopt ; ils font désormais défiler la page (page.js). Vérifié en ligne : liens, vidéo (2 min 45, lisible).
+
+## 9. Mise à jour du 10 novembre au soir : V2 du support après les retours de Pierre-Louis
+
+**Retours intégrés (message du 10 novembre, 18 h)**
+- Échéancier repris du devis (plus de 50/50 imposé) ; exemple VARENNE gardé à 50 % commande / 50 % remise du rapport, avec la source « Devis, p. 2 ».
+- Envoi et dépôt sur le portail : jamais faits par Alphonse. La finance les fait comme aujourd'hui et note le statut (« Noter l'envoi »). Statuts : À venir, À vérifier, À émettre, À envoyer (automatiques), Envoyée, Réglée, Contestée (notés par la finance), En retard (calculé).
+- Vidéo refaite (3 min 28) : un carton plein écran avant chacune des 5 étapes (qui agit, ce qui suit, barre des 5 étapes) ; échéancier avant les informations ; champs remplis sans trou (l'ancien « écran frais » venait des champs masqués pendant l'animation) ; vérification dans un panneau ouvert depuis l'échéancier ; plus de bloc « Factures et avoirs » ; fin de mission : le mail n'a qu'un bouton « Répondre dans Alphonse », la décision se prend dans une fenêtre d'Alphonse (facturer, reporter avec date et motif, complément).
+- Faisabilité vérifiée dans le code (lecture seule) : Alphonse envoie déjà des mails (Resend, `email-layout.ts`, journal `notification_log`) ; aucune lecture des réponses ; pas de stockage de documents de chantier (seuls les justificatifs de frais). Une décision d'un clic dans un mail est écartée (les messageries d'entreprise ouvrent les liens pour les analyser).
+- Rôles réels (`app_role` : admin, associate, manager, finance, employee) ; chef de projet, associé de référence et référent facturation (à ajouter) sont désignés par chantier. Tout le monde voit tout en lecture. Stive et Fabrice : même rôle Finance.
+- Planning supprimé du support ; plus aucune mention d'étapes de livraison ni de jours.
+- Schéma Miro mis à jour : nouveau cadre « 1 bis. Le parcours cible au 10 novembre » sur https://miro.com/app/board/uXjVERrplck=/ (cadres 1, 2 et 4 renommés « v3 »). Capture propre dans `source/schema_miro_v5.webp` (rendu par `miro/render.py` à partir de `miro/gen.py`), placée en tête du support.
+- 12 arbitrages, regroupés : ouverture du chantier (qui dépose, échéancier, documents, ordre de l'onglet), rôles et droits (qui émet, consultant, associé), émission et messages (envoi, complément, messages), suivi et clôture (point mensuel, comptable). Réponses enregistrées sous la clé `pse-facturation-12-11-v2`.
+- Vidéo du support réencodée en 720p, 15 images par seconde, CRF 31, pour rester sous 5 Mo.
