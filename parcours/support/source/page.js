@@ -141,5 +141,16 @@ if(vid) vid.addEventListener('timeupdate',()=>{const t=vid.currentTime;let k=0;C
 const secs=qsa('.toc a').map(a=>qs(a.getAttribute('href'))).filter(Boolean);
 addEventListener('scroll',()=>{let k=-1;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<120)k=i;});qsa('.toc a').forEach((a,i)=>a.classList.toggle('on',i===k));},{passive:true});
 
+// Liens internes : la page est servie dans un cadre (srcdoc) sur adopt.aiorigin.io ;
+// un lien « #ancre » y rechargerait l'application hôte. On fait défiler la page nous-mêmes.
+document.addEventListener('click',e=>{
+  const a=e.target.closest&&e.target.closest('a[href^="#"]');
+  if(!a)return;
+  e.preventDefault();
+  const id=a.getAttribute('href');
+  const t=id.length>1&&qs(id);
+  if(t)t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
+});
+
 renderArb(); sync(); render();
 })();
