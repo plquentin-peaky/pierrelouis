@@ -220,3 +220,8 @@ Fichiers à relire dans Lovable :
   - planning en **4 étapes** : 22 à 36 j, 18 à 28 j, 12 à 21 j, 9 à 12 j, soit 61 à 97 j ; prix en euros à présenter par Pierre-Louis.
 - **Relectures « PG et Fabrice » :** `travaux_internes/V1` à `V4` ; brief des réunions `A4_brief_relecteur_PG_Fabrice.md` ; droits dans le code `A5_droits_facturation_09-11.md`.
 - **À vérifier avant ou pendant jeudi :** l'écran des droits (matrice `role_permissions`) de Plein Sens Ethique pour le rôle Consultant (budget visible ? modification des chantiers ?).
+
+### Mise en ligne (10 novembre, 12 h 40)
+- Support déposé sur adopt.aiorigin.io (Custom decks, type « Commercial proposal ») : « [Plein Sens] Facturation des enquêtes · point du 12 novembre ».
+- Lien : https://adopt.aiorigin.io/c/plein-sens-facturation-des-enqu-tes-poin-6wlqya (accessible par le lien, sans mot de passe, sans demande d'email, sauvegarde automatique désactivée).
+- Correctif fait au passage : les liens internes (menu, « Voir l'écran concerné ») rechargeaient l'application hôte dans le cadre d'adopt ; ils font désormais défiler la page (page.js). Vérifié en ligne : liens, vidéo (2 min 45, lisible).
