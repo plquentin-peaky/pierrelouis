@@ -20,11 +20,11 @@
       m:MX(`<div class="box" style="padding:14px 16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b style="font-size:13.5px">Acompte 50 % · 9 300 € HT</b>${pv('À vérifier','cp')}</div><div class="infob" style="margin-top:10px">${I('users','s3')}<span>Peuvent vérifier : Claire Morel (cheffe de projet) ou l'associé de référence.</span></div><div style="display:flex;gap:6px;margin-top:10px"><span class="bt pr xs">${I('check','s3')}C'est bon</span><span class="bt ol xs">À corriger</span></div></div>`)},
      {v:'lecture',n:'Il lit seulement',d:'Comme un consultant : il suit la facturation de ses chantiers sans pouvoir agir.',
       m:MX(`<div class="infob">${I('eye','s3')}<span><b>Lecture seule.</b> Associé de référence : ses 3 chantiers.</span></div>`)}],
-  why:'Il remplace le chef de projet quand il est absent, sans circuit particulier : aucune facture n\'attend.'},
+  why:'Il remplace le chef de projet quand il est absent, sans circuit particulier : la facture à vérifier est aussi dans sa liste « Chez moi ».'},
 /*@@FIN_ARB@@*/
 // ---------- Qui voit quoi ----------
 const ROLES=[
- ['Rôles qui existent dans Alphonse','Consultant · Associé · Finance · Administrateur. Leurs droits se règlent dans l\'écran des droits, sans développement.'],
+ ['Rôles qui existent dans Alphonse','Consultant · Associé · Finance · Administrateur. Leurs droits se règlent dans l\'écran des droits.'],
  ['Désignés sur chaque chantier','Chef de projet · associé de référence · référent facturation (à ajouter, choisi parmi le rôle Finance). Ils changent d\'un chantier à l\'autre.']
 ];
 const MATRIX=(st)=>{
@@ -32,7 +32,7 @@ const MATRIX=(st)=>{
   const cons={tous:['read','Tous les chantiers : échéancier, montants, factures et statuts'],siens:['read','Ses chantiers : échéancier, montants, factures et statuts'],sans:['read','Tous les chantiers, sans les montants']}[st.r2];
   const cp=st.o1==='fin'?['edit','Vérifie chaque facture, répond à la fin de mission ; transmet le devis à la finance']:['edit','Dépose le devis, valide l\'échéancier et les informations, vérifie chaque facture, répond à la fin de mission'];
   const ass={cp:['edit','Comme le chef de projet, sur ses chantiers'],lecture:['read','Ses chantiers, en lecture']}[st.r3];
-  const msgCp={recap:'3 messages par enquête, chacun ouvre Alphonse',liste:'Le mail de fin de mission',tout:'Une dizaine de messages par enquête'}[st.e3];
+  const msgCp={recap:'Un par facture à vérifier et un en fin de mission (3 pour une enquête en 50/50), chacun ouvre Alphonse',liste:'Le mail de fin de mission',tout:'Une dizaine de messages par enquête'}[st.e3];
   const msgSt={recap:'Un récapitulatif par semaine ; copie du mail de fin de mission',liste:'Copie du mail de fin de mission',tout:'Un mail à chaque étape'}[st.e3];
   const msgFa={recap:'Un message par mois, quand le mois est prêt à être clos',liste:'Aucun',tout:'Un mail à chaque étape'}[st.e3];
   const stFiche=st.o1==='cp'?['edit','Complète ce qui manque']:['edit','Peut déposer le devis et valider ; complète ce qui manque'];
@@ -41,11 +41,11 @@ const MATRIX=(st)=>{
   return [
    ['Consultant<span>rôle Consultant</span>',cons,['no','Pas d\'entrée Finance dans le menu'],['no',''],T('Aucun')],
    ['Claire, cheffe de projet<span>désignée sur le chantier</span>',cp,['read','« Chez moi » pour ce qu\'elle doit vérifier, « Par chantier » pour ses chantiers'],['no',''],T(msgCp)],
-   ['Associé de référence<span>désigné sur le chantier · rôle Associé</span>',ass,['read','« Par chantier », pour ses chantiers'],['no',''],T('Aucun')],
+   ['Associé de référence<span>désigné sur le chantier · rôle Associé</span>',ass,st.r3==='cp'?['read','« Chez moi » pour ce qu\'il peut vérifier, « Par chantier » pour ses chantiers']:['read','« Par chantier », pour ses chantiers'],['no',''],T('Aucun')],
    ['Stive<span>'+(st.r1==='nouveau'?'rôle Facturation':'rôle Finance')+' · référent facturation du chantier</span>',stFiche,stFac,stClo,T(msgSt)],
    ['Fabrice<span>rôle Finance</span>',['edit','Tout'],['edit',st.r1==='nouveau'?'Tout, dont les avoirs':'Tout ; prend le relais sur n\'importe quelle enquête'],['edit','Clôt le mois'],T(msgFa)],
-   ['Pierre-Guillaume et les administrateurs<span>rôle Administrateur</span>',['edit','Tous les droits, comme la finance'],['edit','Tout'],['edit','Tout'],T('Aucun')],
+   ['Pierre-Guillaume et les administrateurs<span>rôle Administrateur</span>',['can','Tous les droits, comme la finance'],['can','Tout'],['can','Tout'],T('Aucun')],
    ['Le comptable',['no',st.s2==='acces'?'':'Pas de compte'],['no',''],st.s2==='acces'?['read','Mois clos seulement']:['no',''],T(st.s2==='acces'?'Lecture des mois clos dans Alphonse':'Les trois fichiers du mois, envoyés par la finance')]
   ];
 };
-const MATRIX_NOTE='Le tableau suit vos réponses aux arbitrages. « Agit » : la personne a une étape à faire ; « Lecture » : elle voit sans pouvoir modifier. Aucun mail n\'est envoyé au consultant ni à l\'associé.';
+const MATRIX_NOTE='Le tableau suit vos réponses aux arbitrages. « Agit » : la personne a une étape à faire ; « Peut agir » : tous les droits, sans étape attendue ; « Lecture » : elle voit sans pouvoir modifier. Aucun mail n\'est envoyé au consultant ni à l\'associé.';

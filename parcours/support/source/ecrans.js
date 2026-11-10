@@ -72,7 +72,7 @@ const SCREENS=[
  {id:'finA',etape:10,who:'Claire Morel · cheffe de projet',title:'Dans Alphonse, Claire choisit : facturer le solde, reporter ou prévoir un complément',
   html:()=>ficheTab({docs:'mail',sched:'fin',infos:'saved'}),
   after:(r)=>{addTo(r,finDialog());const o=r.querySelector('.fopt[data-o="rep"]');if(o){o.classList.add('sel');o.querySelector('i').classList.add('on');}const f=r.querySelector('#repF');if(f)f.style.display='';const d=r.querySelector('#repD');if(d)d.textContent='08/01/2027';const m=r.querySelector('#repM');if(m)m.textContent='Restitution décalée par le client';},
-  today:()=>S.solde.today().replace('03/11/2026','04/11/2026').replace('<span class="sbd ok"><span class="d"></span>Réglé</span>','<span class="sbd info"><span class="d"></span>Facturé</span>'),todayLabel:'Aujourd\'hui',
+  today:()=>S.solde.today().replace('03/11/2026','04/11/2026').replace('<span class="sbd ok"><span class="d"></span>Réglé</span>','<span class="sbd info"><span class="d"></span>Facturé</span>'),todayLabel:'Pas de rappel',
   caps:[['Ce que montre l\'écran',['La fiche du chantier, ouverte depuis le mail, avec la question posée en fenêtre : facturer le solde maintenant, le reporter à une date, ou prévoir un complément.','Claire reporte au 8 janvier, avec un motif.']],
         ['Ce qui change',['Personne n\'a à se souvenir de facturer le solde.','Le report est tracé dans l\'échéancier ; le référent facturation le voit dans sa liste. Le 8 janvier, la facture suit le même circuit que l\'acompte.','Un complément se déclare au même endroit, avec l\'accord du client (arbitrage n° 9).']]]},
  {id:'cloture',etape:11,who:'Fabrice Ducellier · rôle Finance',title:'La finance clôt le mois : les chiffres sont figés et le comptable reçoit trois fichiers',

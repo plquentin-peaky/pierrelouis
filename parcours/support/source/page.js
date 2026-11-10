@@ -6,6 +6,7 @@ const esc=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 // ---------- Données ----------
 const LIFE=[
  ['À venir','av','Personne','attend la date prévue',''],
+ ['À préparer','prep','Référent facturation','une information manque (bon de commande, contact) : il la complète','auto'],
  ['À vérifier','cp','Chef de projet','vérifie la facture préparée','auto'],
  ['À émettre','em','Finance','émet : numéro définitif','auto'],
  ['À envoyer','env','Finance','envoie ou dépose, comme aujourd\'hui','auto'],
@@ -38,7 +39,7 @@ qs('#life').insertAdjacentHTML('afterend',`<div class="life-side">${LIFE_SIDE.ma
 
 // ---------- Matrice des droits ----------
 function renderMatrix(){
-  const C={edit:'Agit',read:'Lecture',no:'Non'};
+  const C={edit:'Agit',can:'Peut agir',read:'Lecture',no:'Non'};
   const cell=([k,d])=>k==='txt'?`<span class="cell-t">${d}</span>`:`<span class="cell ${k}">${C[k]}</span>${d?`<span class="cell-d">${d}</span>`:''}`;
   const rows=MATRIX(state);
   qs('#mx').innerHTML=`<thead><tr><th>Personne</th><th>Fiche chantier, onglet Facturation</th><th>Facturation : À faire, Par chantier, Registre</th><th>Clôture du mois</th><th>Messages reçus</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(c=>`<td>${cell(c)}</td>`).join('')}</tr>`).join('')}</tbody>`;

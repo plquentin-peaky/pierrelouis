@@ -64,7 +64,7 @@ kbd{font:600 10.5px var(--f-ui);border:1px solid var(--pg-line);border-bottom-wi
 .chap li button.on .t{color:#C9CDD2}
 
 /* vie d'une facture */
-.life{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:24px;position:relative}
+.life{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:24px;position:relative}
 .lf{background:var(--pg-paper);border:1px solid var(--pg-line);border-radius:12px;padding:14px 12px 14px;min-width:0;position:relative;display:flex;flex-direction:column;gap:6px}
 .lf .pill{align-self:flex-start;font-size:11.5px;font-weight:600;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .lf .who{font-weight:700;font-size:13.5px}
@@ -247,3 +247,5 @@ section{scroll-margin-top:50px}
 .arb-g:first-child{margin-top:18px}
 @media (max-width:1000px){.life{grid-template-columns:repeat(3,minmax(0,1fr))}.life-side{grid-template-columns:minmax(0,1fr)}.trois-g{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){.roles,.mail-g{grid-template-columns:minmax(0,1fr)}.life{grid-template-columns:repeat(2,minmax(0,1fr))}.lf::after{display:none}}
+
+.cell.can{background:#F1F5F9;color:#334155}

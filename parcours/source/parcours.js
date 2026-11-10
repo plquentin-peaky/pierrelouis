@@ -279,7 +279,7 @@ function schedCard4(mode,o={}){
   else if(mode==='verif'){rows=schedRow4('a',ST('cp','À vérifier'),{act:`<span class="bt pr xs" id="verifBtn">${I('eye','s3')}Vérifier</span>`,note:'Préparée par Alphonse le 02/11, à la date prévue'})+schedRow4('s',ST('av','À venir'));}
   else if(mode==='verified'){rows=schedRow4('a',ST('em','À émettre'),{note:'Vérifiée par Claire Morel le 03/11 · chez Stive'})+schedRow4('s',ST('av','À venir'));}
   else if(mode==='suivi'){rows=schedRow4('a',ST('env','Envoyée'),{fac:'<b>F2026-00007</b>',note:'Déposée sur le portail le 05/11 par Stive · échéance de paiement le 04/12',ro})+schedRow4('s',ST('av','À venir'),{ro});}
-  else if(mode==='fin'){rows=schedRow4('a',ST('reg','Réglée'),{fac:'<b>F2026-00007</b>',note:'Réglée le 01/12'})+schedRow4('s',ST('prep','Fin prévue aujourd\'hui'));}
+  else if(mode==='fin'){rows=schedRow4('a',ST('reg','Réglée'),{fac:'<b>F2026-00007</b>',note:'Réglée le 01/12'})+schedRow4('s',ST('av','À venir'),{note:'Fin prévue au devis : aujourd\'hui'});}
   else if(mode==='report'){rows=schedRow4('a',ST('reg','Réglée'),{fac:'<b>F2026-00007</b>',note:'Réglée le 01/12'})+schedRow4('s',ST('av','À venir'),{date:'08/01/2027',note:'Reportée par Claire Morel le 18/12 : restitution décalée par le client'});}
   return `<div class="card" id="sched"><div class="card-h"><div class="t">Échéancier</div><div class="d">${sub}</div></div>
 <div class="card-b"><div class="tw"><table class="t"><thead><tr><th style="width:96px">Type</th><th>Libellé</th><th style="width:116px">Date</th><th class="r" style="width:120px">Montant HT</th><th style="width:128px">Facture</th><th style="width:130px">Statut</th><th style="width:${ro?20:120}px"></th></tr></thead><tbody>${rows}
@@ -318,10 +318,10 @@ function consultantFacturation(mode){
 <div class="tabs">${tabs.map(t=>`<span class="${t===on?'on':''}">${t}</span>`).join('')}</div>`;
   if(mode==='masque'){
     return shell('Chantiers','lucas',head+`<div class="box"><div style="font-weight:600;font-size:15px;margin-bottom:12px">Équipe</div><div class="g2"><div><div class="lbl">Cheffe de projet</div><div class="val">Claire Morel</div></div><div><div class="lbl">Associé de référence</div><div class="val">Pierre-Guillaume Ferré</div></div><div><div class="lbl">Consultants</div><div class="val">Lucas Bernard, Sophie Martin</div></div><div><div class="lbl">Fin prévue</div><div class="val">18/12/2026</div></div></div></div>
-<div class="infob" id="consLine" style="font-size:14px;padding:14px 16px">${I('receipt','s3')}<span>La facturation de ce chantier est suivie par Claire Morel (cheffe de projet) et Stive (référent facturation, rôle Finance).</span></div>`);
+<div class="infob" id="consLine" style="font-size:14px;padding:14px 16px">${I('receipt','s3')}<span>La facturation de ce chantier est suivie par Claire Morel (cheffe de projet), l'associé de référence et Stive (référent facturation, rôle Finance).</span></div>`);
   }
   const m=(v)=>mode==='complet'?v:'<span class="mut">masqué</span>';
-  const ro=`<div class="infob" id="consLine" style="font-size:13.5px;padding:12px 16px">${I('eye','s3')}<span><b>Lecture seule.</b> La facturation de ce chantier est suivie par Claire Morel (cheffe de projet) et Stive (référent facturation, rôle Finance).</span></div>`;
+  const ro=`<div class="infob" id="consLine" style="font-size:13.5px;padding:12px 16px">${I('eye','s3')}<span><b>Lecture seule.</b> La facturation de ce chantier est suivie par Claire Morel (cheffe de projet), l'associé de référence et Stive (référent facturation, rôle Finance).</span></div>`;
   let sched=schedCard4('suivi',{ro:true}).replace(/<span class="mut" style="margin-left:8px;display:inline-flex;vertical-align:middle">[\s\S]*?<\/span>/g,'');
   if(mode!=='complet') sched=sched.replace(/<td class="r num">9 300,00<\/td>/g,`<td class="r num">${m('')}</td>`).replace('18 600 €',m(''));
   const infos=`<div class="box"><div style="font-weight:600;font-size:15px">Informations de facturation</div><div class="xs mut" style="margin-top:2px">Entité facturée, bon de commande et mode d'envoi, repris sur chaque facture.</div>
@@ -334,7 +334,7 @@ function consultantView(){return consultantFacturation('complet');}
 
 // --- Facturation › À faire ---
 function aFaire(who,date,rowsHtml,o={}){
-  const cnt=o.cnt||[['À préparer',1],['À vérifier',1],['À émettre',2],['À envoyer',1],['Envoyée',1],['Contestée',1]];
+  const cnt=o.cnt||[['À préparer',1],['À vérifier',1],['À émettre',2],['À envoyer',1],['Envoyée',1],['Contestée',1],['En retard',1]];
   return shell('Facturation',who,`
 <div class="ph"><div><h1>Facturation</h1><div class="st">Au ${date} · chaque facture, son statut, son responsable</div></div></div>
 <div class="tabs"><span class="on">À faire (${o.n||7})</span><span>Par chantier</span><span>Registre</span></div>
@@ -354,7 +354,7 @@ function suiviRows(){
      fr('M','MERIDIA_EnqRPS','Sophie Martin','F2026-00005','10 500',ST('con','Contestée'),'Montant contesté, relances suspendues','');
 }
 const SUIVI_ALERT=`<div class="alertb" id="al">${I('alert','s3')}<span><b>BRENNE_Enq</b> : bon de commande toujours absent, chantier démarré le 06/10. La facture reste « À préparer ».</span></div>`;
-const SUIVI_CNT=[['À préparer',1],['À vérifier',1],['À émettre',0],['À envoyer',3],['Envoyée',1],['Contestée',1]];
+const SUIVI_CNT=[['À préparer',1],['À vérifier',1],['À émettre',0],['À envoyer',3],['Envoyée',1],['Contestée',1],['En retard',1]];
 const rappelDraft=()=>`<div class="lbl" style="margin-bottom:8px">Rappel préparé pour HALIOS, à envoyer depuis votre messagerie</div>Bonjour, sauf erreur de notre part, la facture F2026-00004 du 20/09/2026 (12 000 € HT, 14 400 € TTC) est arrivée à échéance le 20/10. Pourriez-vous nous indiquer sa date de règlement ? Merci beaucoup.<div style="display:flex;justify-content:flex-end;margin-top:10px"><span class="bt pr xs">Copier</span></div>`;
 
 // --- Facturation › Par chantier ---
@@ -435,7 +435,7 @@ const cmpScreen=()=>`<div class="cmp"><h2>La section Finance, aujourd'hui et dem
 ${CMP.map(([a,b,w])=>`<div class="o rw">${a}</div><div class="ar rw">→</div><div class="n rw">${b}</div><div class="w rw">${w}</div>`).join('')}</div></div>`;
 
 // --- Synthèse ---
-const SYN=[['Claire Morel','cheffe de projet','Dépose le devis, valide l\'échéancier, vérifie chaque facture, répond à la fin de mission dans Alphonse.'],['Stive','rôle Finance · référent facturation','Émet ce qui est vérifié, note l\'envoi et le paiement, relance : une liste au lieu d\'un Excel.'],['Fabrice Ducellier','rôle Finance','Émet en relais, crée les avoirs, clôt le mois après trois vérifications.'],['Lucas Bernard','consultant','Voit la facturation des chantiers, en lecture seule.'],['Associé de référence','','Mêmes droits que le chef de projet sur ses chantiers.'],['Le comptable','','Reçoit 3 fichiers par mois, aux chiffres figés.']];
+const SYN=[['Claire Morel','cheffe de projet','Dépose le devis, valide l\'échéancier, vérifie chaque facture, répond à la fin de mission dans Alphonse.'],['Stive','rôle Finance · référent facturation','Référent facturation : émet ce qui est vérifié, note l\'envoi et le paiement, relance. Une liste au lieu d\'un Excel.'],['Fabrice Ducellier','rôle Finance','Rôle Finance, comme Stive : émet, crée les avoirs, clôt le mois. Le partage entre eux est libre.'],['Lucas Bernard','consultant','Voit la facturation des chantiers, en lecture seule.'],['Associé de référence','','Mêmes droits que le chef de projet sur ses chantiers.'],['Le comptable','','Reçoit 3 fichiers par mois, aux chiffres figés.']];
 const synScreen=()=>`<div class="cards6"><h2>Ce qui change pour chacun</h2><div class="g">${SYN.map(([p,r,d])=>`<div class="c"><div class="bar"></div><div class="p">${p}</div><div class="r">${r||'&nbsp;'}</div><div class="d">${d}</div></div>`).join('')}</div></div>`;
 
 // --- Cartons de phase : où en est-on, qui agit, ce qu'on va voir ---
@@ -624,7 +624,7 @@ const STEPS=[
    await sleep(600); await click($('#finOk',root),false); $('#finOvl',root).remove();
    const row=$('#sched tr[data-r="s"]',ax);
    $('.dcell',row).textContent='08/01/2027'; $('.scell',row).innerHTML=ST('av','À venir');
-   const td=row.children[1]; td.insertAdjacentHTML('beforeend','<div class="xxs mut rnote">Reportée par Claire Morel le 18/12 : restitution décalée par le client</div>'); flash(row,'pflash');
+   const rn=$('.rnote',row); if(rn) rn.textContent='Reportée par Claire Morel le 18/12 : restitution décalée par le client'; flash(row,'pflash');
    await caption(N(11),'Le solde est reporté au 8 janvier ; Stive le voit dans sa liste. Le 8 janvier, la facture suit le même circuit.');
    await sleep(3800);
  }},
@@ -657,7 +657,7 @@ const STEPS=[
  }},
  {name:'Fin',async run(){
    cur.classList.remove('on'); capEl.classList.add('off'); ver.hidden=true; crumbEl.classList.add('off'); where(-1);
-   showCard(`${LOGO}<div class="t">Maquette : données fictives, rien n'est développé à&nbsp;ce stade</div><div class="bar"></div><div class="s">Écrans conçus à partir du code d'Alphonse, novembre 2026</div>`);
+   showCard(`${LOGO}<div class="t">Maquette : données fictives. Ce parcours n'est pas encore développé ; il s'appuie sur des briques qui existent dans Alphonse</div><div class="bar"></div><div class="s">Écrans conçus à partir du code d'Alphonse, novembre 2026</div>`);
    await sleep(4500);
  }}
 ];
