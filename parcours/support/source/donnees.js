@@ -62,7 +62,7 @@ const ARB=[
       m:echM(er('Acompte','50 % à la commande','02/11/2026','9 300,00',pv('Réglée','reg'))+er('Solde','Solde + restitution CSE supplémentaire','18/12/2026','12 150,00',pv('À venir','av')),'21 450 €')}],
   why:'Une règle unique, simple à expliquer, qui ne retarde jamais le solde.'},
  {g:'Émission, envoi et messages',k:'e3',t:'Combien de messages chacun reçoit-il ?',w:'le 4 novembre, Pierre-Guillaume a écarté les rafales de mails',screen:'fin',
-  q:'L\'aperçu compte les messages que reçoit la cheffe de projet sur une enquête de dix semaines. Chaque mail ne fait qu\'ouvrir Alphonse : la décision se prend dans Alphonse, jamais d\'un clic dans le mail.',
+  q:'L\'aperçu compte les messages que reçoit la cheffe de projet sur une enquête de dix semaines. Une réponse simple (« oui, préparer le solde ») se donne depuis le mail ; tout ce qui demande un détail se fait dans Alphonse.',
   o:[{v:'recap',n:'Seulement quand une décision lui revient',d:'Un message par facture à vérifier, plus un à la fin prévue de la mission : trois pour une enquête en deux échéances. Le référent facturation reçoit un récapitulatif par semaine ; la finance, un message par mois quand le mois est prêt à être clos.',rec:true,
       m:mailL([['02/11','Acompte à vérifier','VARENNE_EnqSig'],['18/12','La mission se termine','le solde peut-il partir ?'],['08/01','Solde à vérifier (reporté au 08/01)','VARENNE_EnqSig']])},
      {v:'liste',n:'Le mail de fin de mission seulement',d:'Le reste se voit dans la liste « Chez moi » d\'Alphonse.',i:'Le risque est qu\'une facture attende sans que personne le voie.',

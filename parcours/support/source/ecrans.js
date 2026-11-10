@@ -17,7 +17,7 @@ ${Array.from({length:7},(_,k)=>`<tr><td class="rn">${10+k}</td>${'<td></td>'.rep
 }
 
 // --- Liste des écrans ---
-const ETAPES=['Aujourd\'hui','Dépôt du devis','Échéancier','Informations','Vérification','Émission','Envoi et suivi','L\'équipe','Par chantier','Mail de fin','Réponse','Clôture','Section Finance'];
+const ETAPES=['Aujourd\'hui','Dépôt du devis','Échéancier','Informations','Vérification','Émission','Envoi et suivi','L\'équipe','Par chantier','Mail de fin','« Oui » par mail','Réponse dans Alphonse','Ce que voit Stive','Clôture','Section Finance'];
 const addTo=(r,html)=>{r.style.position='relative';r.insertAdjacentHTML('beforeend',html);};
 
 const SCREENS=[
@@ -44,13 +44,14 @@ const SCREENS=[
   today:()=>S.acompte.today(),todayLabel:'Le modèle de facture Excel',
   caps:[['Ce que montre l\'écran',['L\'échéancier du chantier : l\'acompte est « À vérifier » depuis le 2 novembre, date prévue au devis.','Le bouton « Vérifier » ouvre la facture préparée à côté de l\'échéancier, avec trois contrôles faits par Alphonse.']],
         ['Ce qui change',['Personne ne recopie la facture : elle reprend l\'échéancier et les informations validées.','Il n\'y a qu\'un endroit à regarder : la facture apparaît dans la ligne de son échéance, avec son numéro et son statut.','Le numéro définitif n\'est attribué qu\'à l\'émission, par la finance.']]]},
- {id:'emettre',etape:5,who:'Stive · rôle Finance, référent facturation',title:'La finance émet ce que la cheffe de projet a vérifié',
+ {id:'emettre',etape:5,who:'Stive · rôle Finance, référent facturation',title:'La finance relit la facture vérifiée par la cheffe de projet, puis l\'émet',
   html:()=>aFaire('steve','04/11/2026',
-     fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt pr xs">${I('send','s3')}Émettre</span>`)+
+     fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt ol xs">${I('eye','s3')}Voir</span> <span class="bt pr xs">${I('send','s3')}Émettre</span>`)+
      fr('T','TALMONT_Enq','Sophie Martin','Solde','4 900',ST('em','À émettre'),'Vérifiée le 03/11 par Sophie Martin',`<span class="bt pr xs">${I('send','s3')}Émettre</span>`),
      {side:`<div class="box" style="padding:14px 16px"><div class="lbl" style="margin-bottom:8px">Contrôles avant émission</div><div style="display:flex;gap:8px;align-items:center;font-size:13px">${I('okc','s3')}Aucun doublon détecté</div><div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:6px">${I('okc','s3')}Montants conformes aux devis</div></div>`}),
-  caps:[['Ce que montre l\'écran',['La liste « À faire » de Stive, filtrée sur « Chez moi » : les factures des enquêtes dont il est le référent, vérifiées et prêtes à émettre.','Les compteurs du haut montrent où en sont toutes les factures, étape par étape.']],
-        ['Ce qui change',['Chaque facture est validée par deux personnes avant de partir.','« Émettre » attribue le numéro définitif et la date du jour : la facture ne se modifie plus, elle s\'annule par un avoir.','Toute personne du rôle Finance, Fabrice compris, peut prendre le relais (arbitrage n° 5).']]]},
+  after:(r)=>addTo(r,verifDrawer('fin')),
+  caps:[['Ce que montre l\'écran',['La liste « À faire » de Stive, filtrée sur « Chez moi » : les factures des enquêtes dont il est le référent, vérifiées et prêtes à émettre.','Stive a ouvert l\'acompte : il relit la facture dans le même panneau que Claire, avec les contrôles d\'Alphonse, avant de l\'émettre ou de la renvoyer à Claire.']],
+        ['Ce qui change',['Chaque facture est relue par deux personnes avant de partir : la cheffe de projet, puis la finance.','« Émettre » attribue le numéro définitif et la date du jour : la facture ne se modifie plus, elle s\'annule par un avoir.','Toute personne du rôle Finance, Fabrice compris, peut prendre le relais (arbitrage n° 5).']]]},
  {id:'suivi',etape:6,who:'Stive · rôle Finance, référent facturation',title:'Envoi, dépôt, paiement : Stive les fait comme aujourd\'hui, et note le statut',
   html:()=>aFaire('steve','05/11/2026',suiviRows(),{alert:SUIVI_ALERT,cnt:SUIVI_CNT}),
   after:(r)=>{const c=r.querySelector('tr[data-c="V"] .acell');if(c)c.insertAdjacentHTML('beforeend',notePop());},
@@ -64,24 +65,36 @@ const SCREENS=[
  {id:'parchantier',etape:8,who:'Finance, chefs de projet, associés',title:'Par chantier : production, déjà facturé et écart, l\'état de la facturation tenu à jour chaque jour',
   html:()=>parChantier(),
   caps:[['Ce que montre l\'écran',['Chaque chantier, groupé par chef de projet : montant, production à fin octobre, déjà facturé, écart et prochaine facture.','Un solde qui attend la vérification depuis le 4 novembre ressort.']],
-        ['Ce qui change',['C\'est l\'état de la facturation de Fabrice, sans retraitement Excel : production, déjà facturé et écart, exportables à tout moment.','Le facturé vient des factures émises, et seulement d\'elles. La production reprend le calcul de la valorisation qui existe déjà dans Alphonse, figé à la fin de chaque mois. Aucune IA n\'intervient.','Stive part de cette vue pour appeler le chef de projet d\'un chantier qui ressort (arbitrage n° 11).']]]},
+        ['Ce qui change',['C\'est l\'état de la facturation de Fabrice, sans retraitement Excel : production, déjà facturé et écart, exportables à tout moment.','Comment c\'est calculé : production = jours saisis ÷ jours prévus × montant vendu, figée à la fin de chaque mois ; déjà facturé = total des factures émises ; écart = production − déjà facturé. Aucune IA n\'intervient.','Écart positif : « produit non facturé » (travail fait, pas encore facturé). Écart négatif : « facturé d\'avance » (facturé avant d\'être fait, comme un acompte en début d\'enquête). VARENNE : 9 300 facturés − 2 170 produits = 7 130 facturés d\'avance.','Stive part de cette vue pour appeler le chef de projet d\'un chantier qui ressort (arbitrage n° 11).']]]},
  {id:'fin',etape:9,who:'Claire Morel · cheffe de projet',title:'À la fin prévue au devis, un mail : son lien ouvre Alphonse',
   html:()=>mail4(),solo:true,
-  caps:[['Ce que montre l\'écran',['Le mail reçu le jour de la fin prévue au devis, le référent facturation en copie, avec les jours saisis et prévus.','Un seul bouton : « Répondre dans Alphonse ».']],
-        ['Ce qui est réaliste',['Alphonse envoie déjà des mails ; un lien qui ouvre la bonne fiche est simple à faire.','Une réponse donnée d\'un clic dans le mail, ou en répondant au mail, n\'est pas retenue : les messageries d\'entreprise ouvrent les liens pour les analyser, ce qui pourrait déclencher une décision à votre insu.']]]},
- {id:'finA',etape:10,who:'Claire Morel · cheffe de projet',title:'Dans Alphonse, Claire choisit : facturer le solde, reporter ou prévoir un complément',
+  caps:[['Ce que montre l\'écran',['Le mail reçu le jour de la fin prévue au devis, le référent facturation en copie, avec les jours saisis et prévus.','Deux boutons : « Oui, préparer le solde » et « Reporter ou compléter dans Alphonse ».']],
+        ['Ce qui est réaliste',['Alphonse envoie déjà des mails ; un lien qui ouvre la bonne fiche est simple à faire.','« Oui » passe par une page de confirmation (écran suivant) : les messageries d\'entreprise ouvrent les liens pour les analyser, et une réponse en un seul clic pourrait partir à votre insu.','Alphonse ne lit pas les réponses écrites aux mails.']]]},
+ {id:'finOui',etape:10,who:'Claire Morel · cheffe de projet',title:'« Oui » depuis le mail : une page de confirmation, sans connexion',
+  html:()=>ouiPage(),solo:true,
+  caps:[['Ce que montre l\'écran',['La page ouverte par « Oui, préparer le solde » : une question, un bouton « Confirmer ».','Lien personnel envoyé à Claire, utilisable une fois, valable 7 jours.']],
+        ['Ce qui change',['Le cas le plus fréquent se règle en deux clics, sans ouvrir Alphonse.','Le référent facturation est prévenu dès la confirmation ; la facture de solde suit ensuite le même circuit que l\'acompte. Page à créer.']]]},
+ {id:'finA',etape:11,who:'Claire Morel · cheffe de projet',title:'Dans Alphonse, Claire choisit : facturer le solde, reporter ou prévoir un complément',
   html:()=>ficheTab({docs:'mail',sched:'fin',infos:'saved'}),
   after:(r)=>{addTo(r,finDialog());const o=r.querySelector('.fopt[data-o="rep"]');if(o){o.classList.add('sel');o.querySelector('i').classList.add('on');}const f=r.querySelector('#repF');if(f)f.style.display='';const d=r.querySelector('#repD');if(d)d.textContent='08/01/2027';const m=r.querySelector('#repM');if(m)m.textContent='Restitution décalée par le client';},
   today:()=>S.solde.today().replace('03/11/2026','04/11/2026').replace('<span class="sbd ok"><span class="d"></span>Réglé</span>','<span class="sbd info"><span class="d"></span>Facturé</span>'),todayLabel:'Pas de rappel',
   caps:[['Ce que montre l\'écran',['La fiche du chantier, ouverte depuis le mail, avec la question posée en fenêtre : facturer le solde maintenant, le reporter à une date, ou prévoir un complément.','Claire reporte au 8 janvier, avec un motif.']],
         ['Ce qui change',['Personne n\'a à se souvenir de facturer le solde.','Le report est tracé dans l\'échéancier ; le référent facturation le voit dans sa liste. Le 8 janvier, la facture suit le même circuit que l\'acompte.','Un complément se déclare au même endroit, avec l\'accord du client (arbitrage n° 9).']]]},
- {id:'cloture',etape:11,who:'Fabrice Ducellier · rôle Finance',title:'La finance clôt le mois : les chiffres sont figés et le comptable reçoit trois fichiers',
+ {id:'reponse',etape:12,who:'Stive · rôle Finance, référent facturation',title:'Stive voit aussitôt la réponse de Claire, dans sa liste et dans son récapitulatif',
+  html:()=>aFaire('steve','18/12/2026',
+     fr('V','VARENNE_EnqSig','Claire Morel','Solde','9 300',ST('av','À venir'),'Reporté au 08/01/2027 par Claire Morel : restitution décalée par le client','<span class="sbd info sm">Nouveau</span>')+
+     fr('C','CAPELLE_Enq','Julien Petit','Solde','6 200',ST('cp','À vérifier'),'Chez Julien Petit depuis le 04/11','')+
+     fr('H','HALIOS_EnqSig','Julien Petit','F2026-00004','12 000',ST('enc','Envoyée')+' <span class="late">En retard</span>','Rappel envoyé le 06/11',''),
+     {n:3,alert:`<div class="alertb" style="background:#EEF4FF;border-color:#C7D7FE;color:#1E3A8A">${I('mail','s3')}<span><b>Récapitulatif de la semaine, envoyé à Stive</b> : 1 report, 1 facture à vérifier chez un chef de projet, 1 retard.</span></div>`,cnt:[['À préparer',0],['À vérifier',1],['À émettre',0],['À envoyer',0],['Envoyée',1],['Contestée',0],['En retard',1]]}),
+  caps:[['Ce que montre l\'écran',['La liste « Chez moi » de Stive le 18 décembre : le report décidé par Claire apparaît aussitôt, avec la nouvelle date et le motif.','Le récapitulatif de la semaine le reprend, sans mail supplémentaire.']],
+        ['Ce qui change',['Stive n\'a plus à demander où en est un solde : la réponse du chef de projet arrive chez lui, qu\'elle soit donnée depuis le mail ou dans Alphonse.']]]},
+ {id:'cloture',etape:13,who:'Fabrice Ducellier · rôle Finance',title:'La finance clôt le mois : les chiffres sont figés et le comptable reçoit trois fichiers',
   html:()=>cloture4(),
   after:(r)=>{r.querySelectorAll('.ck').forEach(k=>{k.className='sbd ok sm ck';k.textContent='✓';});r.querySelectorAll('#pack .file').forEach(f=>f.style.display='');},
   today:()=>faeToday(),todayLabel:'L\'onglet FAE de l\'Excel, fin octobre',
   caps:[['Ce que montre l\'écran',['Trois vérifications au vert : temps saisis, factures dues émises, brouillons traités.','Les trois montants du mois : facturé, travail réalisé non facturé, facturé d\'avance. Puis les trois fichiers pour le comptable.']],
-        ['Ce qui change',['Les montants sont calculés par des formules et figés à la clôture : ils ne bougent plus.','Le comptable n\'a pas de compte : la finance lui transmet les trois fichiers (arbitrage n° 12).']]]},
- {id:'finance',etape:12,who:'Pour Fabrice',title:'Pour Fabrice : où retrouver les pages Finance d\'aujourd\'hui',
+        ['Ce qui change',['Les montants sont calculés par des formules et figés à la clôture : ils ne bougent plus. Travail réalisé non facturé (FAE) = somme des écarts positifs de « Par chantier » ; facturé d\'avance (PCA) = somme des écarts négatifs.','Le comptable n\'a pas de compte : la finance lui transmet les trois fichiers (arbitrage n° 12).']]]},
+ {id:'finance',etape:14,who:'Pour Fabrice',title:'Pour Fabrice : où retrouver les pages Finance d\'aujourd\'hui',
   html:()=>cmpScreen(),solo:true,
   caps:[['Ce que montre l\'écran',['À gauche, les pages Finance d\'aujourd\'hui ; à droite, ce qu\'elles deviennent, et pourquoi.']],
         ['Ce qui change',['Deux entrées : Facturation (À faire, Par chantier, Registre) et Clôture du mois (Vérifications, Travail réalisé et facturé, Mois clos).','Ces changements ne concernent que Plein Sens Ethique : Plein Sens ne change pas.']]]}

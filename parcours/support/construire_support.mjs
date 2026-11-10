@@ -22,7 +22,7 @@ const v4Css=cut(gab,'/* ===== écrans v2 =====','/* commandes */');
 const mp4=join(parcours,'Parcours_Facturation_PSE.mp4');
 const small=join(here,'video_720.mp4');
 if(!existsSync(small)||statSync(small).mtimeMs<statSync(mp4).mtimeMs){
-  execFileSync('ffmpeg',['-y','-loglevel','error','-i',mp4,'-vf','scale=1280:720:flags=lanczos,fps=15','-c:v','libx264','-preset','slow','-tune','stillimage','-crf','31','-pix_fmt','yuv420p','-an','-movflags','+faststart',small],{stdio:'inherit'});
+  execFileSync('ffmpeg',['-y','-loglevel','error','-i',mp4,'-vf','scale=1280:720:flags=lanczos,fps=12','-c:v','libx264','-preset','slow','-tune','stillimage','-crf','32','-pix_fmt','yuv420p','-an','-movflags','+faststart',small],{stdio:'inherit'});
 }
 const vb64=readFileSync(small).toString('base64');
 

@@ -27,7 +27,9 @@ const KEY='pse-facturation-12-11-v2';
 const REC={}; ARB.forEach(a=>{REC[a.k]=a.o.find(o=>o.rec).v;});
 let state={...REC}, notes='';
 try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.state){state={...state,...s.state};notes=s.notes||'';}}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify({state,notes}));}catch(e){}};
+let SUBS=[];
+const store=()=>{try{localStorage.setItem(KEY,JSON.stringify({state,notes}));}catch(e){}};
+const save=()=>{store();SUBS.forEach(f=>{try{f();}catch(e){}});};
 const consMode=()=>state.r2==='sans'?'sans':'complet';
 window.__consMode=consMode();
 
@@ -80,6 +82,22 @@ qs('#btnCopy').addEventListener('click',()=>{
   const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;ta.style.cssText='position:fixed;left:-9999px';document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand('copy');}catch(e){}document.body.removeChild(ta);toast(ok?'Réponses copiées : collez-les dans un mail':'Copie impossible : sélectionnez le tableau à la main');};
   try{navigator.clipboard.writeText(txt).then(()=>toast('Réponses copiées : collez-les dans un mail'),fb);}catch(e){fb();}
 });
+
+// ---------- Réponses enregistrées par adopt.aiorigin.io (mode adaptateur) ----------
+// Ouvert seul, le fichier garde ses réponses dans le navigateur. Sur adopt, chaque lecteur
+// identifié par son email voit ses réponses enregistrées en ligne, consultables par AI Origin.
+if(window.AIOriginSave&&typeof window.AIOriginSave.register==='function'){
+  window.AIOriginSave.register({
+    schemaVersion:1,
+    getState(){return {v:1,choix:{...state},reponses:ARB.map((a,i)=>`${i+1}. ${a.t} : ${a.o.find(x=>x.v===state[a.k]).n}`),remarques:notes};},
+    applyState(s){
+      if(!s||s.v!==1||typeof s.choix!=='object'||!s.choix)return;
+      const n={...REC}; ARB.forEach(a=>{const v=s.choix[a.k]; if(a.o.some(o=>o.v===v)) n[a.k]=v;});
+      state=n; notes=typeof s.remarques==='string'?s.remarques:''; qs('#remarques').value=notes; store(); sync();
+    },
+    subscribe(cb){SUBS.push(cb);return()=>{SUBS=SUBS.filter(f=>f!==cb);};}
+  });
+}
 
 // ---------- Écrans ----------
 const scaler=qs('#scaler'), stage=qs('#stage'), inner=qs('#stageInner');

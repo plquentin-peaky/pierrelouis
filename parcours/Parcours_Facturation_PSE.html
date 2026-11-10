@@ -1111,14 +1111,28 @@ const pdf4=(num,date)=>`<div class="pdf big" id="pdf"><div style="display:flex;j
  <div style="margin-top:12px">Échéance : 30 jours après émission · Nature des opérations : prestations de services</div><div style="margin-top:4px;font-size:10px;color:#444">Pénalités de retard : 3 fois le taux d'intérêt légal · Indemnité forfaitaire pour frais de recouvrement : 40 €</div>
  <div style="margin-top:12px;border-top:1px solid #DDD;padding-top:6px;font-size:9px;color:#555;text-align:center">Plein Sens Ethique · mentions légales et IBAN reprises de vos factures actuelles</div></div>`;
 const SV4=(c,cls,t,d,extra='')=>`<div class="sv"><span class="c ${cls}">${c}</span><div><div class="tt">${t}</div><div class="dd">${d}</div>${extra}</div></div>`;
-function verifDrawer(){
-  return `<div class="dimm" id="dimm"></div><div class="drawer" id="drawer"><div class="dwh"><div><div class="xs mut">VARENNE_EnqSig · échéance du 02/11/2026</div><div style="font-weight:600;font-size:17px;margin-top:2px">Acompte à la commande · 9 300 € HT</div></div><span id="fStat">${ST('cp','À vérifier')}</span></div>
-<div class="dwf"><span class="xs mut" style="margin-right:auto">Votre avis sur cette facture :</span><span class="bt ol sm">À corriger</span><span class="bt pr sm" id="okBtn">${I('check','s3')}C'est bon</span></div>
+function verifDrawer(mode='cp'){
+  const fin=mode==='fin';
+  const stat=fin?ST('em','À émettre'):ST('cp','À vérifier');
+  const act=fin?`<span class="xs mut" style="margin-right:auto">Stive relit avant d'émettre :</span><span class="bt ol sm">Renvoyer à Claire</span><span class="bt pr sm" id="emBtn">${I('send','s3')}Émettre</span>`
+               :`<span class="xs mut" style="margin-right:auto">Votre avis sur cette facture :</span><span class="bt ol sm">À corriger</span><span class="bt pr sm" id="okBtn">${I('check','s3')}C'est bon</span>`;
+  const checks=fin?['Montant conforme au devis et à l\'échéancier','Bon de commande cité','Aucun doublon détecté']:['Montant conforme au devis et à l\'échéancier','Bon de commande cité','Entité et contact repris des informations validées'];
+  const fil=fin?SV4(I('check','s3'),'ok','Préparée par Alphonse','02/11/2026, à la date de l\'échéance')+SV4(I('check','s3'),'ok','Vérifiée par la cheffe de projet','Claire Morel, le 03/11/2026')+SV4('3','cur','Émise par la finance','Stive · le numéro définitif est attribué à l\'émission')
+               :SV4(I('check','s3'),'ok','Préparée par Alphonse','02/11/2026, à la date de l\'échéance')+SV4('2','cur','Vérifiée par la cheffe de projet','Claire Morel · montant, libellé, commande')+SV4(I('lock','s3'),'','Émise par la finance','Stive, référent facturation de l\'enquête');
+  return `<div class="dimm" id="dimm"></div><div class="drawer" id="drawer"><div class="dwh"><div><div class="xs mut">VARENNE_EnqSig · échéance du 02/11/2026</div><div style="font-weight:600;font-size:17px;margin-top:2px">Acompte à la commande · 9 300 € HT</div></div><span id="fStat">${stat}</span></div>
+<div class="dwf">${act}</div>
 <div class="dwb"><div class="pdfz">${pdf4('attribué à l\'émission','à la date d\'émission')}</div>
-<div class="box" style="padding:12px 14px"><div class="lbl" style="margin-bottom:6px">Contrôles d'Alphonse</div>${['Montant conforme au devis et à l\'échéancier','Bon de commande cité','Entité et contact repris des informations validées'].map(t=>`<div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:4px">${I('okc','s3')}${t}</div>`).join('')}</div>
-<div class="step-v" id="fil">${SV4(I('check','s3'),'ok','Préparée par Alphonse','02/11/2026, à la date de l\'échéance')}${SV4('2','cur','Vérifiée par la cheffe de projet','Claire Morel · montant, libellé, commande')}${SV4(I('lock','s3'),'','Émise par la finance','Stive, référent facturation de l\'enquête')}</div></div>
+<div class="box" style="padding:12px 14px"><div class="lbl" style="margin-bottom:6px">Contrôles d'Alphonse</div>${checks.map(t=>`<div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:4px">${I('okc','s3')}${t}</div>`).join('')}</div>
+<div class="step-v" id="fil">${fil}</div></div>
 </div>`;
 }
+// Page de confirmation ouverte par le bouton « Oui » du mail (lien personnel, à usage unique)
+const ouiPage=()=>`<div class="ax mailv" style="display:grid;place-items:center;background:#F4F4F6"><div class="box" style="width:520px;padding:30px 34px;text-align:center">
+ <div style="font:700 18px 'Barlow Condensed',sans-serif;letter-spacing:.06em">PLEIN SENS ETHIQUE · ALPHONSE</div>
+ <div style="font-weight:600;font-size:19px;margin:18px 0 8px">Préparer la facture de solde de VARENNE_EnqSig ?</div>
+ <div class="xs mut" style="font-size:13.5px">Solde à la remise du rapport · 9 300 € HT. Alphonse la prépare ; vous la vérifierez ensuite, comme l'acompte.</div>
+ <div style="display:flex;justify-content:center;gap:10px;margin-top:20px"><span class="bt ol sm">Ouvrir Alphonse</span><span class="bt pr sm">${I('check','s3')}Confirmer</span></div>
+ <div class="xxs mut" style="margin-top:16px">Lien personnel envoyé à Claire Morel, utilisable une fois, valable 7 jours. Stive est prévenu dès la confirmation.</div></div></div>`;
 function factureTab(){
   return ficheTab({docs:'mail',sched:'verif',infos:'saved'});
 }
@@ -1192,8 +1206,8 @@ const mail4=()=>`<div class="ax mailv"><div class="mtb">${I('mail')}Messagerie �
  <div style="text-align:center;font:700 20px 'Barlow Condensed',sans-serif;letter-spacing:.06em">PLEIN SENS ETHIQUE</div>
  <h1 style="font-size:19px;color:#1f2430;margin:16px 0 10px">VARENNE_EnqSig se termine aujourd'hui</h1>
  <p style="font-size:15px;margin:0 0 12px">Bonjour Claire, la fin prévue au devis est aujourd'hui. Peut-on préparer la facture de solde de 9 300 € HT ? 21 jours saisis sur 25 prévus.</p>
- <div style="display:flex;justify-content:center;margin-top:16px"><span class="mbtn" id="openA" style="background:#1d4ed8;color:#fff">Répondre dans Alphonse</span></div>
- <p style="font-size:12.5px;color:#5b6472;margin:14px 0 0;text-align:center">Le lien ouvre la fiche du chantier. Vous y choisissez : facturer le solde, reporter ou prévoir un complément.</p>
+ <div style="display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap"><span class="mbtn" id="ouiA" style="background:#1d4ed8;color:#fff">Oui, préparer le solde</span><span class="mbtn" id="openA" style="background:#fff;color:#1d4ed8;border:1.5px solid #1d4ed8">Reporter ou compléter dans Alphonse</span></div>
+ <p style="font-size:12.5px;color:#5b6472;margin:14px 0 0;text-align:center">« Oui » se confirme d'un clic sur une page dédiée, sans connexion. Pour reporter ou ajouter un complément, le lien ouvre la fiche du chantier.</p>
 </div></div></div>`;
 function finDialog(){
   const opt=(k,t,d,on)=>`<div class="fopt${on?' sel':''}" data-o="${k}"><i class="${on?'on':''}"></i><div><div style="font-weight:600">${t}</div><div class="xs mut">${d}</div></div></div>`;
@@ -1249,7 +1263,7 @@ const cmpScreen=()=>`<div class="cmp"><h2>La section Finance, aujourd'hui et dem
 ${CMP.map(([a,b,w])=>`<div class="o rw">${a}</div><div class="ar rw">→</div><div class="n rw">${b}</div><div class="w rw">${w}</div>`).join('')}</div></div>`;
 
 // --- Synthèse ---
-const SYN=[['Claire Morel','cheffe de projet','Dépose le devis, valide l\'échéancier, vérifie chaque facture, répond à la fin de mission dans Alphonse.'],['Stive','rôle Finance · référent facturation','Référent facturation : émet ce qui est vérifié, note l\'envoi et le paiement, relance. Une liste au lieu d\'un Excel.'],['Fabrice Ducellier','rôle Finance','Rôle Finance, comme Stive : émet, crée les avoirs, clôt le mois. Le partage entre eux est libre.'],['Lucas Bernard','consultant','Voit la facturation des chantiers, en lecture seule.'],['Associé de référence','','Mêmes droits que le chef de projet sur ses chantiers.'],['Le comptable','','Reçoit 3 fichiers par mois, aux chiffres figés.']];
+const SYN=[['Claire Morel','cheffe de projet','Dépose le devis, valide l\'échéancier, vérifie chaque facture, répond à la fin de mission : « oui » depuis le mail, le reste dans Alphonse.'],['Stive','rôle Finance · référent facturation','Référent facturation : relit puis émet, note l\'envoi et le paiement, relance. Une liste au lieu d\'un Excel.'],['Fabrice Ducellier','rôle Finance','Rôle Finance, comme Stive : émet, crée les avoirs, clôt le mois. Le partage entre eux est libre.'],['Lucas Bernard','consultant','Voit la facturation des chantiers, en lecture seule.'],['Associé de référence','','Mêmes droits que le chef de projet sur ses chantiers.'],['Le comptable','','Reçoit 3 fichiers par mois, aux chiffres figés.']];
 const synScreen=()=>`<div class="cards6"><h2>Ce qui change pour chacun</h2><div class="g">${SYN.map(([p,r,d])=>`<div class="c"><div class="bar"></div><div class="p">${p}</div><div class="r">${r||'&nbsp;'}</div><div class="d">${d}</div></div>`).join('')}</div></div>`;
 
 // --- Cartons de phase : où en est-on, qui agit, ce qu'on va voir ---
@@ -1257,7 +1271,7 @@ const PHASES=[
  ['Ouvrir le chantier','Claire Morel · cheffe de projet','Claire dépose le devis signé. Alphonse en tire l\'échéancier et les informations de facturation ; elle relit et valide d\'un clic. Stive, référent facturation de l\'enquête, peut aussi le faire à sa place.'],
  ['Vérifier la facture','Claire Morel · cheffe de projet','Le 2 novembre, date prévue de l\'acompte, Alphonse prépare la facture. Claire la vérifie depuis l\'échéancier du chantier, sans changer d\'écran.'],
  ['Émettre et suivre','Stive · rôle Finance, référent facturation','Stive émet la facture. Il l\'envoie ou la dépose sur le portail du client comme aujourd\'hui, puis note le statut dans Alphonse. Toute l\'équipe voit où en est la facture.'],
- ['Fin de mission','Le 18 décembre, fin prévue au devis','Alphonse écrit à Claire, Stive en copie. Le lien ouvre Alphonse, où elle choisit : facturer le solde, reporter ou prévoir un complément.'],
+ ['Fin de mission','Le 18 décembre, fin prévue au devis','Alphonse écrit à Claire, Stive en copie. Si le solde peut partir, « oui » se donne depuis le mail ; pour reporter ou ajouter un complément, le lien ouvre Alphonse. Stive voit la réponse dans sa liste.'],
  ['Clôturer le mois','Fabrice Ducellier · rôle Finance','Une fois par mois, la finance vérifie puis clôt le mois. Les chiffres sont figés et le comptable reçoit trois fichiers.']
 ];
 const phaseCard=(i)=>`<div class="k">Étape ${i+1} sur ${PHASES.length}</div><div class="t">${PHASES[i][0]}</div><div class="bar"></div><div class="who">${PHASES[i][1]}</div><div class="s">${PHASES[i][2]}</div><div class="ph">${PHASES.map((p,k)=>`<span class="${k<i?'done':k===i?'on':''}">${k+1}. ${p[0]}</span>`).join('')}</div>`;
@@ -1267,7 +1281,7 @@ const phaseCard=(i)=>`<div class="k">Étape ${i+1} sur ${PHASES.length}</div><di
 // ===================================================================
 const CL='Claire Morel · cheffe de projet', ST_='Stive · rôle Finance, référent facturation', FD='Fabrice Ducellier · rôle Finance';
 const fichePath=(x)=>['Chantiers','VARENNE_EnqSig','Facturation'].concat(x?[x]:[]);
-const N=(k)=>`${k} / 13`;
+const N=(k)=>`${k} / 14`;
 navTarget();
 
 // Carton de phase : la page suivante se prépare derrière, puis le carton s'efface.
@@ -1367,20 +1381,27 @@ const STEPS=[
    await caption(N(5),'Dans l\'échéancier, l\'acompte passe « À émettre » : c\'est maintenant à Stive.');
    await sleep(3000);
  }},
- {name:'6. Stive émet',card:true,async run(){
-   const rows=fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt pr xs em">${I('send','s3')}Émettre</span>`)+
-              fr('T','TALMONT_Enq','Sophie Martin','Solde','4 900',ST('em','À émettre'),'Vérifiée le 03/11 par Sophie Martin',`<span class="bt pr xs em">${I('send','s3')}Émettre</span>`);
+ {name:'6. Stive relit et émet',card:true,async run(){
+   const rows=fr('V','VARENNE_EnqSig','Claire Morel','Acompte','9 300',ST('em','À émettre'),'Vérifiée le 03/11 par Claire Morel',`<span class="bt ol xs voir">${I('eye','s3')}Voir</span> <span class="bt pr xs em">${I('send','s3')}Émettre</span>`)+
+              fr('T','TALMONT_Enq','Sophie Martin','Solde','4 900',ST('em','À émettre'),'Vérifiée le 03/11 par Sophie Martin',`<span class="bt ol xs">${I('eye','s3')}Voir</span> <span class="bt pr xs em">${I('send','s3')}Émettre</span>`);
    const side=`<div class="box" style="padding:14px 16px"><div class="lbl" style="margin-bottom:8px">Contrôles avant émission</div><div style="display:flex;gap:8px;align-items:center;font-size:13px">${I('okc','s3')}Aucun doublon détecté</div><div style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:6px">${I('okc','s3')}Montants conformes aux devis</div></div>`;
    const ax=await phase(2,'afaire-f',aFaire('steve','04/11/2026',rows,{side}));
    crumb(ST_,['Facturation','À faire']); where(2);
-   await caption(N(6),'Stive émet ce que Claire a vérifié : chaque facture est validée par deux personnes.');
-   await sleep(1600);
-   const nums={V:'F2026-00007',T:'F2026-00008'};
-   for(const id of ['V','T']){const r=$(`tr[data-c="${id}"]`,ax); await click($('.em',r),false);
-     $('.fcell',r).innerHTML=`${r.querySelector('.fcell').textContent} <b>${nums[id]}</b>`; $('.scell',r).innerHTML=ST('env','À envoyer'); $('.icell',r).textContent='Émise le 04/11, numéro définitif attribué'; $('.em',r).remove(); flash(r,'pflash');
-     { const cs=$$('.cnt b',ax); cs[2].textContent=String(+cs[2].textContent-1); cs[3].textContent=String(+cs[3].textContent+1); flash(cs[2].parentElement,'pflash'); }
-     await sleep(900);}
-   await sleep(2400);
+   await caption(N(6),'Stive ouvre la facture que Claire a vérifiée : il la relit dans le même panneau avant de l\'émettre.');
+   await sleep(1300);
+   const r=$('tr[data-c="V"]',ax); await click($('.voir',r),false);
+   const root=app.firstElementChild; root.style.position='relative'; root.insertAdjacentHTML('beforeend',verifDrawer('fin'));
+   await sleep(2200); await moveTo($('#pdf',root),false); await sleep(1500);
+   await caption(N(6),'Il émet : le numéro définitif est attribué, la facture ne se modifie plus.');
+   await click($('#emBtn',root),false);
+   const pn=$('#pdfNum',root); pn.textContent='F2026-00007'; flash(pn.parentElement,'pflash');
+   $('#fStat',root).innerHTML=ST('env','À envoyer');
+   const sv=$$('#fil .sv',root); $('.c',sv[2]).className='c ok'; $('.c',sv[2]).innerHTML=I('check','s3'); $('.dd',sv[2]).textContent='Stive, le 04/11/2026 · F2026-00007'; flash(sv[2]);
+   await sleep(1900); $('#drawer',root).remove(); $('#dimm',root).remove();
+   $('.fcell',r).innerHTML='Acompte <b>F2026-00007</b>'; $('.scell',r).innerHTML=ST('env','À envoyer'); $('.icell',r).textContent='Émise le 04/11, numéro définitif attribué'; $('.acell',r).innerHTML=''; flash(r,'pflash');
+   { const cs=$$('.cnt b',ax); cs[2].textContent=String(+cs[2].textContent-1); cs[3].textContent=String(+cs[3].textContent+1); flash(cs[2].parentElement,'pflash'); }
+   await caption(N(6),'Chaque facture est relue par deux personnes : la cheffe de projet, puis la finance.');
+   await sleep(3000);
  }},
  {name:'7. Envoi et suivi : des statuts',async run(){
    const ax=await show('afaire-s',aFaire('steve','05/11/2026',suiviRows(),{alert:SUIVI_ALERT,cnt:SUIVI_CNT})); scroller().scrollTop=0;
@@ -1417,13 +1438,18 @@ const STEPS=[
    const rows=$$('tbody tr',ax); rows.forEach(r=>r.style.display='none'); await sleep(400);
    for(const r of rows){rowIn(r);await sleep(140);}
    await sleep(1200); const c=$('tr[data-c="CAPELLE"]',ax); flash(c,'pflash'); await moveTo($('.st',c),false);
-   await sleep(5200);
+   await sleep(2600);
+   await caption(N(9),'Production = jours saisis ÷ jours prévus × montant vendu, figée chaque fin de mois. Écart = production − déjà facturé.');
+   const v=$('tr[data-c="VARENNE"]',ax); flash(v,'pflash'); await moveTo($$('td',v)[4],false);
+   await sleep(4800);
  }},
  {name:'10. Fin de mission : le mail',card:true,async run(){
    const ax=await phase(3,'mail',mail4(),5200);
    crumb(CL,['Messagerie','Mail d\'Alphonse, Stive en copie']); where(3);
-   await caption(N(10),'Le jour de la fin prévue au devis, un seul mail. Il ne fait qu\'ouvrir Alphonse.');
-   await sleep(2600); await moveTo($('#openA',ax),false); await sleep(800);
+   await caption(N(10),'Le jour de la fin prévue au devis, un seul mail. Si le solde peut partir, « Oui » suffit, confirmé d\'un clic.');
+   await sleep(2400); await moveTo($('#ouiA',ax),false); await sleep(1400);
+   await caption(N(10),'Ici, la restitution est décalée : Claire ouvre Alphonse pour reporter.');
+   await sleep(1200); await moveTo($('#openA',ax),false); await sleep(700);
    await click($('#openA',ax),false); await sleep(600);
  }},
  {name:'11. La réponse dans Alphonse',async run(){
@@ -1439,13 +1465,26 @@ const STEPS=[
    const row=$('#sched tr[data-r="s"]',ax);
    $('.dcell',row).textContent='08/01/2027'; $('.scell',row).innerHTML=ST('av','À venir');
    const rn=$('.rnote',row); if(rn) rn.textContent='Reportée par Claire Morel le 18/12 : restitution décalée par le client'; flash(row,'pflash');
-   await caption(N(11),'Le solde est reporté au 8 janvier ; Stive le voit dans sa liste. Le 8 janvier, la facture suit le même circuit.');
+   await caption(N(11),'Le solde est reporté au 8 janvier, avec le motif. Le 8 janvier, la facture suivra le même circuit que l\'acompte.');
    await sleep(3800);
  }},
- {name:'12. Clôture du mois',card:true,async run(){
+ {name:'12. Stive voit la réponse',async run(){
+   const rows=fr('V','VARENNE_EnqSig','Claire Morel','Solde','9 300',ST('av','À venir'),'Reporté au 08/01/2027 par Claire Morel : restitution décalée par le client','<span class="sbd info sm">Nouveau</span>')+
+              fr('C','CAPELLE_Enq','Julien Petit','Solde','6 200',ST('cp','À vérifier'),'Chez Julien Petit depuis le 04/11','')+
+              fr('H','HALIOS_EnqSig','Julien Petit','F2026-00004','12 000',ST('enc','Envoyée')+' <span class="late">En retard</span>','Rappel envoyé le 06/11','');
+   const alert=`<div class="alertb" id="al" style="background:#EEF4FF;border-color:#C7D7FE;color:#1E3A8A">${I('mail','s3')}<span><b>Récapitulatif de la semaine, envoyé à Stive</b> : 1 report, 1 facture à vérifier chez un chef de projet, 1 retard.</span></div>`;
+   const ax=await show('afaire-r',aFaire('steve','18/12/2026',rows,{alert,n:3,cnt:[['À préparer',0],['À vérifier',1],['À émettre',0],['À envoyer',0],['Envoyée',1],['Contestée',0],['En retard',1]]})); scroller().scrollTop=0;
+   crumb(ST_,['Facturation','À faire','Chez moi']); where(3);
+   await caption(N(12),'Stive voit la réponse de Claire aussitôt, dans sa liste : le solde est reporté au 8 janvier, avec le motif.');
+   const v=$('tr[data-c="V"]',ax); await sleep(900); flash(v,'pflash'); await moveTo($('.icell',v),false);
+   await sleep(3000);
+   await caption(N(12),'Il la retrouve aussi dans son récapitulatif de la semaine : pas de mail de plus.');
+   flash($('#al',ax),'pflash'); await sleep(3400);
+ }},
+ {name:'13. Clôture du mois',card:true,async run(){
    const ax=await phase(4,'cloture',cloture4());
    crumb(FD,['Clôture du mois','Vérifications']); where(4);
-   await caption(N(12),'Novembre est clos : ses chiffres ne bougent plus, et le comptable reçoit trois fichiers.');
+   await caption(N(13),'Novembre est clos : ses chiffres ne bougent plus, et le comptable reçoit trois fichiers.');
    hide($$('#amts .amt',ax)); await sleep(500);
    for(const k of $$('.ck',ax)){k.className='sbd ok sm ck';k.textContent='✓';flash(k.parentElement);await sleep(550);}
    await click($('#closeBtn',ax)); const s=$('#cutS',ax); s.className='sbd ok'; s.innerHTML='<span class="d"></span>Clos'; flash(s,'pflash'); $('#closeBtn',ax).outerHTML='<span class="sbd ok">'+I('lock','s3')+'Novembre clos le 30/11</span>';
@@ -1453,10 +1492,10 @@ const STEPS=[
    await sleep(1600); await click($('#packBtn',ax)); $$('#pack .file',ax).forEach((f,i)=>setTimeout(()=>popIn(f),i*300));
    await sleep(3200);
  }},
- {name:'13. La section Finance demain',async run(){
+ {name:'14. La section Finance demain',async run(){
    cur.classList.remove('on'); crumbEl.classList.add('off'); where(-1);
    const ax=await show('cmp',cmpScreen());
-   await caption(N(13),'Sept pages deviennent six, organisées autour de ce que chacun a à faire.');
+   await caption(N(14),'Sept pages deviennent six, organisées autour de ce que chacun a à faire.');
    const rw=$$('.rw',ax); rw.forEach(e=>e.style.opacity=0); await sleep(400);
    for(let i=0;i<rw.length;i+=4){for(let k=0;k<4;k++){const e=rw[i+k];e.style.transition='opacity .4s';e.style.opacity=1;} if(rw[i]) rw[i].style.textDecoration='line-through'; await sleep(1100);}
    await sleep(5500);
