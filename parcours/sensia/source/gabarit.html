@@ -24,7 +24,7 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 #who .n{font:700 30px/1 "Barlow Condensed",sans-serif;letter-spacing:.01em}
 #who .r{font:400 16px/1.2 "Poppins";color:rgba(255,255,255,.7)}
 #who .cas{font:600 13px "Poppins";letter-spacing:.14em;text-transform:uppercase;color:#CDBDFF;border:1px solid rgba(205,189,255,.4);border-radius:999px;padding:6px 12px;margin-right:6px}
-#tag{font:500 14px "Poppins";color:rgba(255,255,255,.62);border:1px dashed rgba(255,255,255,.28);border-radius:999px;padding:7px 14px}
+#tag{font:500 14px "Poppins";color:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:7px 14px}
 
 /* fenêtres */
 .win{position:absolute;top:92px;height:828px;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 30px 70px -30px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08);transition:left .9s cubic-bezier(.5,.05,.2,1),width .9s cubic-bezier(.5,.05,.2,1),box-shadow .5s ease,opacity .5s ease}
@@ -52,7 +52,7 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 #mcp.r .pill,#mcp.l .pill{background:#6213FF;transform:scale(1.1);box-shadow:0 0 0 8px rgba(138,77,255,.22),0 0 40px rgba(138,77,255,.7)}
 #mcp.r .pill svg,#mcp.l .pill svg{stroke:#fff}
 #mcp .sub{position:absolute;left:50%;top:calc(50% + 50px);transform:translateX(-50%);font:500 12px "Poppins";color:rgba(255,255,255,.6);white-space:nowrap}
-#mcp .dir{position:absolute;left:50%;top:calc(50% - 96px);transform:translateX(-50%);white-space:nowrap;font:600 14px "Poppins";color:#fff;background:#6213FF;border-radius:999px;padding:8px 14px;box-shadow:0 10px 24px -8px rgba(0,0,0,.6);opacity:0;transition:opacity .3s ease;display:flex;align-items:center;gap:8px}
+#mcp .dir{position:absolute;left:50%;top:calc(50% - 118px);transform:translateX(-50%);white-space:nowrap;font:600 15px/1.2 "Poppins";color:#fff;background:#6213FF;border-radius:14px;padding:8px 13px;flex-direction:column;text-align:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.6);opacity:0;transition:opacity .3s ease;display:flex;align-items:center;gap:2px}
 #mcp .dir.on{opacity:1}
 #mcp .dir small{font:400 12px "Poppins";opacity:.85}
 
@@ -145,7 +145,7 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 .sia .tl .r1{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mfg);font-weight:500}
 .sia .tl .r1 small{font-size:12px;font-weight:400;opacity:.6}
 .sia .tl .r1 em{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--primary);background:var(--p10);border-radius:4px;padding:1px 6px}
-.sia .tl .r2{margin:2px 0 0 22px;font:11px ui-monospace,"DejaVu Sans Mono",monospace;color:hsl(240 4% 46% / .8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sia .tl .r2{margin:2px 0 0 22px;font-size:13.5px;color:hsl(240 5% 34%);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sia .tl .ok{font-size:12px;color:hsl(240 4% 46% / .7);display:flex;align-items:center;gap:6px;padding-top:6px}
 .sia .sp{width:14px;height:14px;border:2px solid hsl(243 75% 59% / .25);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;flex:none}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -204,6 +204,9 @@ body{font-family:"Poppins",system-ui,sans-serif;-webkit-font-smoothing:antialias
 .flashg{animation:flashg 2s ease}
 @keyframes flashg{0%{background-color:rgba(0,184,90,.3)}100%{background-color:transparent}}
 
+.sia .notyet{margin-left:auto;font-size:12.5px;font-weight:600;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:999px;padding:3px 11px;white-space:nowrap}
+.sia table.pt td.fer{vertical-align:middle;font-weight:500;font-size:12px;color:var(--mfg);background:repeating-linear-gradient(135deg,hsl(240 5% 96%) 0 6px,hsl(240 5% 93%) 6px 12px)}
+.win .ax .rnote{font-size:12.5px!important;color:#3B3B3B!important}
 body.fast *{transition:none!important}
 /* ===== Alphonse dans la fenêtre ===== */
 .win .ax{width:1280px;height:100%;overflow:hidden}
@@ -249,11 +252,11 @@ body.fast *{transition:none!important}
 .ax .cc.off svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
 .ax .cc.pop{transform:scale(1.22)}
 .ax .tok{color:#008A43;font-weight:600}
-.atoast{position:absolute;right:26px;bottom:26px;z-index:8;display:flex;align-items:center;gap:10px;background:#111;color:#fff;border-radius:10px;padding:13px 18px;font:500 15px "Poppins";box-shadow:0 14px 34px -12px rgba(0,0,0,.6);opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease}
+.atoast{position:absolute;right:14px;top:50px;padding:9px 16px!important;z-index:8;display:flex;align-items:center;gap:10px;background:#111;color:#fff;border-radius:10px;padding:13px 18px;font:500 15px "Poppins";box-shadow:0 14px 34px -12px rgba(0,0,0,.6);opacity:0;transform:translateY(-12px);transition:opacity .4s ease,transform .4s ease}
 .atoast.on{opacity:1;transform:none}
 .atoast svg{width:18px;height:18px;stroke:#34D399;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .atoast small{font-weight:400;color:rgba(255,255,255,.7)}
-.viasia{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#4338CA;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.viasia{display:inline-flex;align-items:center;gap:5px;font-size:13px;vertical-align:2px;font-weight:600;color:#4338CA;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:999px;padding:2px 9px;white-space:nowrap}
 </style>
 </head>
 <body>

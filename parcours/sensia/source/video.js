@@ -187,6 +187,7 @@ ECH.a[2]='16/11/2026'; ECH.s[2]='29/01/2027';
 const VIA=`<span class="viasia">${L('sparkles','s2')}via Sens IA</span>`;
 function ficheEmpty(user='cp'){return ficheTab({user,docs:'none',sched:'empty',infos:'empty'});}
 function swap(sel,html){const old=$(sel,alpIn);const d=document.createElement('div');d.innerHTML=html;const n=d.firstElementChild;old.replaceWith(n);return n;}
+async function mainTo(el){const m=$('main',alpIn);const k=m.getBoundingClientRect().height/m.offsetHeight;await mainScroll(m.scrollTop+(el.getBoundingClientRect().top-m.getBoundingClientRect().top)/k-18);}
 async function mainScroll(y){const m=$('main',alpIn);m.scrollTo({top:y,behavior:SPEED<1?'auto':'smooth'});await sleep(700);}
 
 // ---------- cartons ----------
@@ -240,9 +241,9 @@ async function scLea(){
     await tool(g,'mail','Outlook · Mails','14 échanges · Halios, Brenne Habitat',{ms:800,t:'1,1 s'});
     await tool(g,'msgs','Sens IA · Conversations de la semaine','« Grille d\'analyse Brenne », « Synthèse des entretiens Halios »',{ms:800,t:'0,6 s'});
     await tool(g,'plug','Alphonse · Mes chantiers et ma feuille de temps','HALIOS_EnqSig · BRENNE_Enq · PSE_Interne · semaine non saisie',{mcp:true,t:'0,9 s',during:async(d)=>{
-      mcpDir('l','← lecture <small>mes chantiers</small>');
+      mcpDir('l','← lecture<small>mes chantiers</small>');
       const dst=$('.r1',d);
-      await Promise.all(['hal','bre','int'].map(async(k,i)=>{await sleep(i*330);await fly($(`[data-row="${k}"] td.l`,alpIn),dst,CRA.find(r=>r.k===k).n,{read:true,dur:1500});}));
+      await Promise.all(['hal','bre','int'].map(async(k,i)=>{await sleep(i*330);await fly($(`[data-row="${k}"] td.l`,alpIn),dst,CRA.find(r=>r.k===k).n,{read:true,dur:2100});}));
       mcpDir(null);
     }});
     toolsDone(g,4);
@@ -256,9 +257,9 @@ async function scLea(){
     toolsFold(g);
     add(`<div class="a"><p>Voici ce que je propose pour la semaine du 9 au 13 novembre. Le mercredi 11 est férié.</p></div>`);
     await sleep(500);
-    const row=(k,ch,det,src,vals)=>`<tr data-p="${k}"><td><b style="font-weight:600">${ch}</b><div class="sub">${det}</div><div style="margin-top:3px">${src.map(s=>`<span class="srcc">${s}</span>`).join(' ')}</div></td>${vals.map((v,i)=>`<td class="c" data-pv="${k}-${[9,10,12,13][i]}">${v}</td>`).join('')}</tr>`;
-    prop=add(`<div class="kd" id="prop"><div class="kh"><span class="ic">${L('cal','s4')}</span><div><b>Proposition de feuille de temps</b><small>Semaine du 9 au 13 novembre · rien n'est enregistré pour l'instant</small></div></div>
-     <div class="kb" style="padding-top:6px"><table class="pt"><thead><tr><th>Chantier</th><th class="c">Lun 9</th><th class="c">Mar 10</th><th class="c">Jeu 12</th><th class="c">Ven 13</th></tr></thead><tbody>
+    const row=(k,ch,det,src,vals)=>`<tr data-p="${k}"><td><b style="font-weight:600">${ch}</b><div class="sub">${det}</div><div style="margin-top:3px">${src.map(s=>`<span class="srcc">${s}</span>`).join(' ')}</div></td>${vals.map((v,i)=>`<td class="c" data-pv="${k}-${[9,10,12,13][i]}">${v}</td>`+(i===1?(k==='hal'?'<td class="c fer" rowspan="3">férié</td>':''):'')).join('')}</tr>`;
+    prop=add(`<div class="kd" id="prop"><div class="kh"><span class="ic">${L('cal','s4')}</span><div><b>Proposition de feuille de temps</b><small>Semaine du 9 au 13 novembre</small></div><span class="notyet">Rien n'est enregistré pour l'instant</span></div>
+     <div class="kb" style="padding-top:6px"><table class="pt"><thead><tr><th>Chantier</th><th class="c">Lun 9</th><th class="c">Mar 10</th><th class="c" style="opacity:.55">Mer 11</th><th class="c">Jeu 12</th><th class="c">Ven 13</th></tr></thead><tbody>
       ${row('hal','HALIOS_EnqSig','5 entretiens, atelier de restitution',[L('cal','s2')+'Agenda',L('mail','s2')+'Mails'],['1','0,5','0,5','<span class="warnc" id="q13">?</span>'])}
       ${row('bre','BRENNE_Enq','Réunion de lancement, analyse documentaire',[L('cal','s2')+'Agenda',L('msgs','s2')+'Conversation Sens IA'],['','0,5','0,5',''])}
       ${row('int','PSE_Interne','Séminaire d\'équipe, vendredi matin',[L('cal','s2')+'Agenda'],['','','','0,5'])}
@@ -280,12 +281,12 @@ async function scLea(){
     await click($('#o1')); $('#o1').classList.add('on'); $('#qsend').style.opacity='1'; await sleep(250);
     await click($('#qsend')); q.remove(); $('.cbox').style.display='';
     const c13=$('[data-pv="hal-13"]'); c13.innerHTML='0,5'; c13.classList.add('flashp');
-    const kf=document.createElement('div'); kf.className='kf pin'; kf.innerHTML=`<span><b style="color:var(--fg)">4 jours</b> sur 4 jours ouvrés · 7 saisies</span><span style="display:flex;gap:8px"><span class="btn o">${L('pen','s3')}Modifier</span><span class="btn p" id="okBtn">${L('check','s3')}Enregistrer dans Alphonse</span></span>`;
+    const kf=document.createElement('div'); kf.className='kf pin'; kf.innerHTML=`<span style="font-size:14px;color:var(--fg)"><b>4 jours</b> sur 4 jours ouvrés · 7 saisies</span><span style="display:flex;gap:8px"><span class="btn o">${L('pen','s3')}Modifier</span><span class="btn p" id="okBtn">${L('check','s3')}Enregistrer dans Alphonse</span></span>`;
     prop.appendChild(kf); down(); await sleep(550);
     await click($('#okBtn')); $('#okBtn').innerHTML=`<span class="sp" style="border-color:rgba(255,255,255,.35);border-top-color:#fff"></span>Enregistrement…`; hideCur();
     await snap('06-lea-validation');
     await focusTo('R');
-    mcpDir('r','écriture → <small>7 saisies</small>');
+    mcpDir('r','écriture →<small>7 saisies</small>');
     const W=[['hal',9,1],['hal',10,.5],['bre',10,.5],['hal',12,.5],['bre',12,.5],['hal',13,.5],['int',13,.5]];
     await Promise.all(W.map(async([k,d,v],i)=>{await sleep(i*400);await fly($(`[data-pv="${k}-${d}"]`),$(`[data-c="${k}-${d}"]`,alpIn),fmtD(v)+' j',{dur:1500});setCell(k,d,v);}));
     mcpDir(null);
@@ -293,7 +294,8 @@ async function scLea(){
     toast('7 saisies enregistrées <small>· par Léa Martin, via Sens IA</small>');
     add(`<div class="a"><p>C'est enregistré : 4 jours sur la semaine du 9 au 13 novembre. Votre mois est complet à ce jour.</p></div>`);
     await snap('07-lea-alphonse');
-  },3000);
+    await sleep(3200);
+  },0);
 }
 
 // ----- Cas 2 : Claire, facturation -----
@@ -309,14 +311,14 @@ async function scClaire(){
   let g;
   await say('s08',async()=>{
     await sleep(300);
-    await ask('Le devis Varenne est signé. Retrouve le mail du client et la proposition, puis prépare la facturation dans Alphonse.',15);
+    await ask('Le devis Varenne est signé. Retrouve le mail du client avec le bon de commande, et notre proposition, puis prépare la facturation dans Alphonse.',13);
     g=toolGroup(4);
     await tool(g,'mail','Outlook · Mails','« Bon pour accord » · N. Lemoine, Varenne Services · 12/11 · 2 pièces jointes',{ms:800,t:'1,3 s'});
     await tool(g,'file','Pièces jointes','Devis PSE-2026-041 signé.pdf · BC-VS-2026-0187.pdf',{ms:750,t:'2,1 s'});
-    await tool(g,'folder','SharePoint · Documents','Varenne / Proposition d\'intervention v3.docx',{ms:750,t:'0,9 s'});
+    await tool(g,'folder','SharePoint · Documents','Varenne / Proposition d\'intervention v3.docx · calendrier p. 6',{ms:750,t:'0,9 s'});
     await tool(g,'plug','Alphonse · Fiche du chantier','VARENNE_EnqSig · 18 600 € · facturation à préparer',{mcp:true,t:'0,8 s',during:async(d)=>{
-      mcpDir('l','← lecture <small>la fiche du chantier</small>');
-      await fly($('.ph h1',alpIn),$('.r1',d),'VARENNE_EnqSig · 18 600 €',{read:true,dur:1600});
+      mcpDir('l','← lecture<small>la fiche</small>');
+      await fly($('.ph h1',alpIn),$('.r1',d),'VARENNE_EnqSig · 18 600 €',{read:true,dur:2100});
       mcpDir(null);
     }});
     toolsDone(g,4);
@@ -327,24 +329,26 @@ async function scClaire(){
   let prop;
   await say('s09',async()=>{
     toolsFold(g);
-    add(`<div class="a"><p>J'ai lu le devis signé, le bon de commande et le mail de Nadia Lemoine. Voici ce que je propose d'enregistrer dans la fiche du chantier.</p></div>`);
+    add(`<div class="a"><p>J'ai lu le devis signé, le bon de commande, le mail de Nadia Lemoine et la proposition. Voici ce que je propose d'enregistrer dans la fiche du chantier.</p></div>`);
     await sleep(450);
     const sc=(t)=>`<span class="srcc">${L('file','s2')}${t}</span>`;
-    prop=add(`<div class="kd" id="prop"><div class="kh"><span class="ic">${L('receipt','s4')}</span><div><b>Facturation de VARENNE_EnqSig</b><small>Proposition · rien n'est enregistré pour l'instant</small></div></div>
+    prop=add(`<div class="kd" id="prop"><div class="kh"><span class="ic">${L('receipt','s4')}</span><div><b>Facturation de VARENNE_EnqSig</b><small>Proposition à valider</small></div><span class="notyet">Rien n'est enregistré pour l'instant</span></div>
      <div class="kb" style="padding-top:8px">
       <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mfg);margin-bottom:2px">Échéancier</div>
       <table class="pt"><tbody>
-       <tr id="pe1"><td><b style="font-weight:600">Acompte</b> à la commande (50 %)</td><td>16/11/2026</td><td class="c" style="text-align:right">9 300,00 €</td><td style="text-align:right">${sc('Devis, p. 2')}</td></tr>
-       <tr id="pe2"><td><b style="font-weight:600">Solde</b> à la remise du rapport (50 %)</td><td>29/01/2027</td><td class="c" style="text-align:right">9 300,00 €</td><td style="text-align:right">${sc('Devis, p. 2')}</td></tr>
+       <tr id="pe1"><td><b style="font-weight:600">Acompte</b> à la commande (50 %)</td><td>16/11/2026</td><td class="c" style="text-align:right">9 300,00 € HT</td><td style="text-align:right">${sc('Devis, p. 2')}</td></tr>
+       <tr id="pe2"><td><b style="font-weight:600">Solde</b> à la remise du rapport (50 %)</td><td>29/01/2027</td><td class="c" style="text-align:right">9 300,00 € HT</td><td style="text-align:right">${sc('Devis, p. 2')} ${sc('Proposition, p. 6')}</td></tr>
       </tbody></table>
       <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--mfg);margin:12px 0 2px">Informations de facturation</div>
       <table class="pt"><tbody>
-       <tr id="pi1"><td class="sub" style="width:170px">Entité facturée</td><td><b style="font-weight:600">Varenne Services SAS</b></td><td style="text-align:right">${sc('Devis, p. 1')}</td></tr>
+       <tr id="pi1"><td class="sub" style="width:170px">Entité facturée</td><td><b style="font-weight:600">Varenne Services SAS</b> · SIREN 999 999 998</td><td style="text-align:right">${sc('Devis, p. 1')}</td></tr>
+       <tr id="pi5"><td class="sub">Adresse</td><td><b style="font-weight:600">18 rue des Tanneurs, 69007 Lyon</b></td><td style="text-align:right">${sc('Devis, p. 1')}</td></tr>
        <tr id="pi2"><td class="sub">Bon de commande</td><td><b style="font-weight:600">BC-VS-2026-0187</b></td><td style="text-align:right">${sc('Bon de commande, p. 1')}</td></tr>
        <tr id="pi3"><td class="sub">Contact facturation</td><td><b style="font-weight:600">Nadia Lemoine</b>, comptabilité fournisseurs</td><td style="text-align:right"><span class="srcc">${L('mail','s2')}Mail du 12/11, signature</span></td></tr>
-       <tr id="pi4"><td class="sub">Mode d'envoi</td><td><b style="font-weight:600">Dépôt sur le portail fournisseurs</b></td><td style="text-align:right">${sc('Devis, p. 3')}</td></tr>
+       <tr id="pi4"><td class="sub">Mode d'envoi</td><td><b style="font-weight:600">Portail (dépôt en ligne)</b> · Portail fournisseurs Varenne</td><td style="text-align:right">${sc('Devis, p. 3')}</td></tr>
+       <tr id="pi6"><td class="sub">Frais de mission</td><td><b style="font-weight:600">Inclus dans le prix</b></td><td style="text-align:right">${sc('Devis, p. 2')}</td></tr>
       </tbody></table>
-      <div class="okl">${L('check','s3')}Total 18 600 € = montant du devis = montant du chantier dans Alphonse</div>
+      <div class="okl">${L('check','s3')}Total 18 600 € HT = montant du devis = montant du chantier dans Alphonse</div>
      </div>
      <div class="kf"><span>Vous pouvez corriger avant de valider.</span><span style="display:flex;gap:8px"><span class="btn o">${L('pen','s3')}Modifier</span><span class="btn p" id="okBtn">${L('check','s3')}Valider et enregistrer dans Alphonse</span></span></div></div>`);
     await sleep(700);
@@ -356,46 +360,46 @@ async function scClaire(){
     await sleep(500);
     await click($('#okBtn')); $('#okBtn').innerHTML=`<span class="sp" style="border-color:rgba(255,255,255,.35);border-top-color:#fff"></span>Enregistrement…`; hideCur();
     await focusTo('R');
-    mcpDir('r','écriture → <small>échéancier et informations</small>');
+    mcpDir('r','écriture →<small>la fiche</small>');
     const tgtS=$('#sched tbody',alpIn);
-    await Promise.all([['#pe1','Acompte · 9 300 €'],['#pe2','Solde · 9 300 €']].map(async([s,l],i)=>{await sleep(i*450);await fly($(s),tgtS,l,{dur:1500});}));
+    await Promise.all([['#pe1','Acompte · 9 300 € HT'],['#pe2','Solde · 9 300 € HT']].map(async([s,l],i)=>{await sleep(i*380);await fly($(s),tgtS,l,{dur:1400});}));
     const sch=swap('#sched',schedCard4('prop')); $('.card-h .t',sch).insertAdjacentHTML('beforeend',' '+VIA);
     $$('tbody tr[data-r]',sch).forEach(tr=>tr.classList.add('flashg'));
     swap('#docs',docsCard('ok'));
     await sleep(500);
-    await mainScroll(330);
+    await mainTo($('#sched',alpIn));
     const tgtI=$('#infos',alpIn);
-    await Promise.all([['#pi1','Varenne Services SAS'],['#pi2','BC-VS-2026-0187'],['#pi3','Nadia Lemoine'],['#pi4','Dépôt sur le portail']].map(async([s,l],i)=>{await sleep(i*380);await fly($(s),tgtI,l,{dur:1500});}));
+    await Promise.all([['#pi1','Varenne Services SAS'],['#pi5','18 rue des Tanneurs'],['#pi2','BC-VS-2026-0187'],['#pi3','Nadia Lemoine'],['#pi4','Portail (dépôt en ligne)'],['#pi6','Frais inclus']].map(async([s,l],i)=>{await sleep(i*300);await fly($(s),tgtI,l,{dur:1400});}));
     const inf=swap('#infos',infosCard4('saved')); $$('.val',inf).forEach(v=>v.classList.add('flashg'));
     mcpDir(null);
     $('#okBtn').classList.add('done'); $('#okBtn').innerHTML=`${L('check','s3')}Enregistré dans Alphonse`;
     toast('Échéancier et informations validés <small>· par Claire Morel, via Sens IA</small>');
     add(`<div class="a"><p>C'est enregistré. Alphonse préparera la facture d'acompte le 16 novembre : il vous restera à la vérifier.</p></div>`);
     await snap('11-claire-alphonse');
-  },3200);
+    await sleep(3800);
+  },0);
 }
 
 // ----- Côté finance : Stive -----
 async function scStive(){
   chapter('Et côté finance');
-  showCard(persona('stive','Et côté finance','Lundi 16 novembre : que faut-il émettre cette semaine ?'));
+  showCard(persona('stive','Et côté finance','Lundi 16 novembre : l\'acompte Varenne, vérifié par Claire, est à émettre.'));
   setWho('stive','Finance'); siaIn.innerHTML=siaShell('stive');
   alpIn.innerHTML=ficheTab({user:'steve',docs:'ok',sched:'verified',infos:'saved'}).replace('le 03/11','le 16/11');
   noAnim(()=>focus('L')); toastOff(); mcpDir(null); cap('');
   $('#sched .card-h .t',alpIn).insertAdjacentHTML('beforeend',' '+VIA);
-  $('main',alpIn).scrollTop=230;
   await snap('12-carton-stive');
   await say('s11',null,1200);
   await hideCard();
 
   cap('Stive relit la facture dans <b>Sens IA</b> et confirme : elle est émise dans <b>Alphonse</b>.');
+  await sleep(300);
+  await ask('Qu\'est-ce que je dois émettre cette semaine ?',22);
   await say('s12',async()=>{
-    await sleep(200);
-    await ask('Qu\'est-ce que je dois émettre cette semaine ?',22);
     const g=toolGroup(1); $('.lbl',g).textContent='Utilise 1 outil';
     await tool(g,'plug','Alphonse · Factures à émettre','1 facture · VARENNE_EnqSig, acompte, vérifiée par Claire Morel',{mcp:true,t:'0,7 s',during:async(d)=>{
-      mcpDir('l','← lecture <small>les factures à émettre</small>');
-      await fly($('#sched tr[data-r="a"]',alpIn),$('.r1',d),'Acompte Varenne · à émettre',{read:true,dur:1600});
+      mcpDir('l','← lecture<small>à émettre</small>');
+      await fly($('#sched tr[data-r="a"]',alpIn),$('.r1',d),'Acompte Varenne · à émettre',{read:true,dur:2100});
       mcpDir(null);
     }});
     $('.lbl',g).textContent='Utilisé 1 outil';
@@ -409,21 +413,23 @@ async function scStive(){
        <div class="ir"><span>Vérifiée par</span><b>Claire Morel, le 16/11</b></div></div>
       <div class="okl">${L('check','s3')}Aucun doublon détecté · informations de facturation complètes</div></div>
      <div class="kf"><span>Émettre attribue le numéro définitif.</span><span style="display:flex;gap:8px"><span class="btn o">${L('ext','s3')}Ouvrir dans Alphonse</span><span class="btn p" id="emBtn">${L('check','s3')}Émettre la facture</span></span></div></div>`);
-    await sleep(3000);
+    await sleep(1500);
     await snap('13-stive-facture');
     await click($('#emBtn')); $('#emBtn').innerHTML=`<span class="sp" style="border-color:rgba(255,255,255,.35);border-top-color:#fff"></span>Émission…`; hideCur();
     await focusTo('R');
-    mcpDir('r','écriture → <small>émission de la facture</small>');
+    await mainTo($('#sched',alpIn));
+    mcpDir('r','écriture →<small>la facture</small>');
     const tr=$('#sched tr[data-r="a"]',alpIn);
-    await fly($('#emBtn'),tr,'Émettre · acompte Varenne',{dur:1700});
-    const d=document.createElement('tbody'); d.innerHTML=schedRow4('a',ST('env','À envoyer'),{fac:'<b>F2026-00007</b>',note:'Émise par Stive le 16/11, via Sens IA · à envoyer ou à déposer sur le portail'});
+    await fly($('#emBtn'),tr,'Émettre · acompte Varenne',{dur:1400});
+    const d=document.createElement('tbody'); d.innerHTML=schedRow4('a',ST('env','À envoyer'),{fac:'<b>F2026-00007</b>',note:'Émise par Stive le 16/11 · via Sens IA'});
     const n=d.firstElementChild; tr.replaceWith(n); n.classList.add('flashg');
     mcpDir(null);
     $('#emBtn').classList.add('done'); $('#emBtn').innerHTML=`${L('check','s3')}Facture F2026-00007 émise`;
     toast('Facture F2026-00007 émise <small>· par Stive, via Sens IA</small>');
     add(`<div class="a"><p>C'est fait : la facture porte le numéro F2026-00007. Il reste à la déposer sur le portail du client.</p></div>`);
     await snap('14-stive-alphonse');
-  },3400);
+    await sleep(4200);
+  },0);
 }
 
 async function scEnd(){
