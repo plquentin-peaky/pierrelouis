@@ -247,3 +247,11 @@ Fichiers à relire dans Lovable :
 - Vidéo du support : 720p, 12 images par seconde, CRF 32 (4,42 Mo au total).
 - adopt : support protégé par un code (généré par adopt, transmis dans le brouillon de mail, non noté ici) et « Demander l'email » activé. Le support se déclare en mode adaptateur (`data-aiorigin-adapter`, `AIOriginSave.register` dans `page.js`) : chaque lecteur identifié voit ses choix et remarques enregistrés en ligne, visibles dans « Réponses » sur /dashboard/custom. Testé en simulation (cadre opaque, SDK simulé) ; le test de bout en bout avec le vrai code reste à faire par Pierre-Louis.
 - Brouillon Gmail prêt pour PG et Fabrice (Paul en copie).
+
+## Mise à jour du 12 novembre, 0 h 45 : vidéo de projection « Compléter Alphonse depuis Sens IA »
+
+- Livrable : `parcours/Projection_SensIA_Alphonse.mp4` (2 min 18, 1920 × 1080, voix off ElevenLabs). Maquettes uniquement, rien n'est développé.
+- Contenu : carton d'ouverture, principe (Sens IA, connecteur MCP, Alphonse), cas 1 Léa (feuille de temps), cas 2 Claire (facturation du chantier), côté finance Stive (émission), carton « À retenir ».
+- Fabrication : `parcours/sensia/` (`source/gabarit.html`, `source/video.js`, `audio/sNN.mp3`, `voix.md`). Construire : `node parcours/sensia/construire.mjs` ; enregistrer : `NODE_PATH=/opt/npm-tools/node_modules CHROME=/usr/bin/google-chrome node parcours/sensia/enregistrer.mjs` (`--shots` pour des captures rapides).
+- Trois relectures indépendantes : `parcours/sensia/travaux/relecture_boucle1.md` à `3.md`. Verdict final : montrable en l'état. Mineurs restants, facultatifs, listés dans le rapport 3.
+- Constat d'investigation (lecture seule) : Sens IA ne gère pas encore la connexion personnelle à un MCP, le MCP d'Alphonse est éteint et n'a pas les outils du parcours de facturation cible, les projets Sens IA et les chantiers Alphonse ne sont pas reliés.
