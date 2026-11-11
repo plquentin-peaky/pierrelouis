@@ -3,23 +3,23 @@ Projection Sens IA et Alphonse : chapitres
 00:00  Ouverture
 00:08  Le principe
 00:20  Cas 1 : la feuille de temps
-00:59  Cas 2 : la facturation d'un chantier
-01:37  Et côté finance
-01:59  À retenir
+01:00  Cas 2 : la facturation d'un chantier
+01:40  Et côté finance
+02:02  À retenir
 
 Voix off :
    0.0 s  s01
    8.4 s  s02
-  20.3 s  s03
-  27.4 s  s04
-  38.2 s  s05
-  47.7 s  s06
-  59.7 s  s07
-  66.3 s  s08
-  75.9 s  s09
-  85.3 s  s10
-  97.9 s  s11
- 107.4 s  s12
- 119.6 s  s13
+  21.0 s  s03
+  28.1 s  s04
+  38.9 s  s05
+  48.4 s  s06
+  61.4 s  s07
+  68.0 s  s08
+  77.6 s  s09
+  87.0 s  s10
+ 100.8 s  s11
+ 110.3 s  s12
+ 122.9 s  s13
 
-Durée totale : 02:15
+Durée totale : 02:18

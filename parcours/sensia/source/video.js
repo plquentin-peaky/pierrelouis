@@ -183,7 +183,7 @@ function setCell(k,d,v){
 }
 
 // ---------- Alphonse : fiche chantier, onglet Facturation ----------
-ECH.a[2]='16/11/2026'; ECH.s[2]='29/01/2027';
+FI.find(f=>f[0]==='site')[2]='fournisseurs.varenne-services.example'; ECH.a[2]='16/11/2026'; ECH.s[2]='29/01/2027';
 const VIA=`<span class="viasia">${L('sparkles','s2')}via Sens IA</span>`;
 function ficheEmpty(user='cp'){return ficheTab({user,docs:'none',sched:'empty',infos:'empty'});}
 function swap(sel,html){const old=$(sel,alpIn);const d=document.createElement('div');d.innerHTML=html;const n=d.firstElementChild;old.replaceWith(n);return n;}
@@ -225,6 +225,7 @@ async function scLea(){
   chapter('Cas 1 : la feuille de temps');
   showCard(persona('lea','Cas d\'usage 1','Vendredi soir : remplir sa feuille de temps, sans la ressaisir.'));
   // préparation des fenêtres derrière le carton
+  await sleep(750);
   setWho('lea','Cas 1'); siaIn.innerHTML=siaShell('lea'); alpIn.innerHTML=craPage(); noAnim(()=>focus('L')); toastOff(); mcpDir(null); cap('');
   await snap('03-carton-lea');
   await say('s03',null,1200);
@@ -290,7 +291,7 @@ async function scLea(){
     const W=[['hal',9,1],['hal',10,.5],['bre',10,.5],['hal',12,.5],['bre',12,.5],['hal',13,.5],['int',13,.5]];
     await Promise.all(W.map(async([k,d,v],i)=>{await sleep(i*400);await fly($(`[data-pv="${k}-${d}"]`),$(`[data-c="${k}-${d}"]`,alpIn),fmtD(v)+' j',{dur:1500});setCell(k,d,v);}));
     mcpDir(null);
-    $('#okBtn').classList.add('done'); $('#okBtn').innerHTML=`${L('check','s3')}Enregistré dans Alphonse`;
+    $('#okBtn').classList.add('done'); $('#okBtn').innerHTML=`${L('check','s3')}Enregistré dans Alphonse`; {const n=$('#prop .notyet'); n.textContent='Enregistré dans Alphonse'; n.classList.add('yes');}
     toast('7 saisies enregistrées <small>· par Léa Martin, via Sens IA</small>');
     add(`<div class="a"><p>C'est enregistré : 4 jours sur la semaine du 9 au 13 novembre. Votre mois est complet à ce jour.</p></div>`);
     await snap('07-lea-alphonse');
@@ -302,6 +303,7 @@ async function scLea(){
 async function scClaire(){
   chapter('Cas 2 : la facturation d\'un chantier');
   showCard(persona('claire','Cas d\'usage 2','Le client vient de signer : ouvrir la facturation du chantier, sans ressaisir le devis.'));
+  await sleep(750);
   setWho('claire','Cas 2'); siaIn.innerHTML=siaShell('claire'); alpIn.innerHTML=ficheEmpty('cp'); noAnim(()=>focus('L')); toastOff(); mcpDir(null); cap('');
   await snap('08-carton-claire');
   await say('s07',null,1200);
@@ -345,7 +347,7 @@ async function scClaire(){
        <tr id="pi5"><td class="sub">Adresse</td><td><b style="font-weight:600">18 rue des Tanneurs, 69007 Lyon</b></td><td style="text-align:right">${sc('Devis, p. 1')}</td></tr>
        <tr id="pi2"><td class="sub">Bon de commande</td><td><b style="font-weight:600">BC-VS-2026-0187</b></td><td style="text-align:right">${sc('Bon de commande, p. 1')}</td></tr>
        <tr id="pi3"><td class="sub">Contact facturation</td><td><b style="font-weight:600">Nadia Lemoine</b>, comptabilité fournisseurs</td><td style="text-align:right"><span class="srcc">${L('mail','s2')}Mail du 12/11, signature</span></td></tr>
-       <tr id="pi4"><td class="sub">Mode d'envoi</td><td><b style="font-weight:600">Portail (dépôt en ligne)</b> · Portail fournisseurs Varenne</td><td style="text-align:right">${sc('Devis, p. 3')}</td></tr>
+       <tr id="pi4"><td class="sub">Mode d'envoi</td><td><b style="font-weight:600">Portail (dépôt en ligne)</b> · fournisseurs.varenne-services.example</td><td style="text-align:right">${sc('Devis, p. 3')}</td></tr>
        <tr id="pi6"><td class="sub">Frais de mission</td><td><b style="font-weight:600">Inclus dans le prix</b></td><td style="text-align:right">${sc('Devis, p. 2')}</td></tr>
       </tbody></table>
       <div class="okl">${L('check','s3')}Total 18 600 € HT = montant du devis = montant du chantier dans Alphonse</div>
@@ -363,7 +365,7 @@ async function scClaire(){
     mcpDir('r','écriture →<small>la fiche</small>');
     const tgtS=$('#sched tbody',alpIn);
     await Promise.all([['#pe1','Acompte · 9 300 € HT'],['#pe2','Solde · 9 300 € HT']].map(async([s,l],i)=>{await sleep(i*380);await fly($(s),tgtS,l,{dur:1400});}));
-    const sch=swap('#sched',schedCard4('prop')); $('.card-h .t',sch).insertAdjacentHTML('beforeend',' '+VIA);
+    const sch=swap('#sched',schedCard4('prop').replace('Total 18 600 € =','Total 18 600 € HT =')); $('.card-h .t',sch).insertAdjacentHTML('beforeend',' '+VIA);
     $$('tbody tr[data-r]',sch).forEach(tr=>tr.classList.add('flashg'));
     swap('#docs',docsCard('ok'));
     await sleep(500);
@@ -372,7 +374,7 @@ async function scClaire(){
     await Promise.all([['#pi1','Varenne Services SAS'],['#pi5','18 rue des Tanneurs'],['#pi2','BC-VS-2026-0187'],['#pi3','Nadia Lemoine'],['#pi4','Portail (dépôt en ligne)'],['#pi6','Frais inclus']].map(async([s,l],i)=>{await sleep(i*300);await fly($(s),tgtI,l,{dur:1400});}));
     const inf=swap('#infos',infosCard4('saved')); $$('.val',inf).forEach(v=>v.classList.add('flashg'));
     mcpDir(null);
-    $('#okBtn').classList.add('done'); $('#okBtn').innerHTML=`${L('check','s3')}Enregistré dans Alphonse`;
+    $('#okBtn').classList.add('done'); $('#okBtn').innerHTML=`${L('check','s3')}Enregistré dans Alphonse`; {const n=$('#prop .notyet'); n.textContent='Enregistré dans Alphonse'; n.classList.add('yes');}
     toast('Échéancier et informations validés <small>· par Claire Morel, via Sens IA</small>');
     add(`<div class="a"><p>C'est enregistré. Alphonse préparera la facture d'acompte le 16 novembre : il vous restera à la vérifier.</p></div>`);
     await snap('11-claire-alphonse');
@@ -384,6 +386,7 @@ async function scClaire(){
 async function scStive(){
   chapter('Et côté finance');
   showCard(persona('stive','Et côté finance','Lundi 16 novembre : l\'acompte Varenne, vérifié par Claire, est à émettre.'));
+  await sleep(750);
   setWho('stive','Finance'); siaIn.innerHTML=siaShell('stive');
   alpIn.innerHTML=ficheTab({user:'steve',docs:'ok',sched:'verified',infos:'saved'}).replace('le 03/11','le 16/11');
   noAnim(()=>focus('L')); toastOff(); mcpDir(null); cap('');
@@ -399,7 +402,7 @@ async function scStive(){
     const g=toolGroup(1); $('.lbl',g).textContent='Utilise 1 outil';
     await tool(g,'plug','Alphonse · Factures à émettre','1 facture · VARENNE_EnqSig, acompte, vérifiée par Claire Morel',{mcp:true,t:'0,7 s',during:async(d)=>{
       mcpDir('l','← lecture<small>à émettre</small>');
-      await fly($('#sched tr[data-r="a"]',alpIn),$('.r1',d),'Acompte Varenne · à émettre',{read:true,dur:2100});
+      await fly($('#sched tr[data-r="a"]',alpIn),$('.r1',d),'Acompte Varenne · à émettre',{read:true,dur:1400});
       mcpDir(null);
     }});
     $('.lbl',g).textContent='Utilisé 1 outil';
@@ -413,7 +416,7 @@ async function scStive(){
        <div class="ir"><span>Vérifiée par</span><b>Claire Morel, le 16/11</b></div></div>
       <div class="okl">${L('check','s3')}Aucun doublon détecté · informations de facturation complètes</div></div>
      <div class="kf"><span>Émettre attribue le numéro définitif.</span><span style="display:flex;gap:8px"><span class="btn o">${L('ext','s3')}Ouvrir dans Alphonse</span><span class="btn p" id="emBtn">${L('check','s3')}Émettre la facture</span></span></div></div>`);
-    await sleep(1500);
+    await sleep(2400);
     await snap('13-stive-facture');
     await click($('#emBtn')); $('#emBtn').innerHTML=`<span class="sp" style="border-color:rgba(255,255,255,.35);border-top-color:#fff"></span>Émission…`; hideCur();
     await focusTo('R');
